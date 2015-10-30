@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#1F58B9</color>
+    <color name="colorPrimaryDark">#1F58B9</color>
+    <color name="textColorPrimary">#FFFFFF</color>
+    <color name="windowBackground">#FFFFFF</color>
+    <color name="navigationBarColor">#000000</color>
+    <color name="colorAccent">#1F58B9</color>
+    <color name="drawer_primary">#1E2C45</color>
+    <color name="drawer_Dark">#14233C</color>
+    <color name="tabcolor_dark">#F78C16</color>
+    <color name="tabcolor_light">#FFBE71</color>
+
+</resources>

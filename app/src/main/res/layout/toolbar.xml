@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimary"
+    android:minHeight="?attr/actionBarSize">
+
+    <ImageView
+        android:id="@+id/menu_drawer_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:padding="@dimen/ten"
+        android:src="@mipmap/icon_menu" />
+
+    <TextView
+        android:id="@+id/headerTxtView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:text="@string/app_name"
+        android:textColor="@color/windowBackground"
+        android:textSize="@dimen/big_font" />
+</RelativeLayout>
