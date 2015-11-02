@@ -14,6 +14,15 @@
         android:padding="@dimen/ten"
         android:src="@mipmap/icon_menu" />
 
+    <ImageView
+        android:id="@+id/menu_back_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:padding="@dimen/ten"
+        android:visibility="gone"
+        android:src="@mipmap/icon_back" />
+
     <TextView
         android:id="@+id/headerTxtView"
         android:layout_width="fill_parent"
