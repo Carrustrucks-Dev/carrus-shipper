@@ -111,12 +111,14 @@ public class MainActivity extends FragmentActivity implements FragmentDrawer.Fra
             case 2:
                 if(selectedPos!=2) {
                     selectedPos = 2;
+
                 }
                 break;
 
             case 3:
                 if(selectedPos!=3) {
                     selectedPos = 3;
+
                 }
                 break;
             case 4:
