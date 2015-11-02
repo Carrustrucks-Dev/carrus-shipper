@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:paddingTop="@dimen/ten"
+    android:paddingBottom="@dimen/ten"
+    android:orientation="horizontal"
+    android:weightSum="1">
+
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="fill_parent"
+        android:background="@drawable/circle"
+        android:padding="@dimen/three"
+        android:layout_weight="0.2">
+
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:gravity="center"
+            android:layout_centerInParent="true"
+            android:layout_height="wrap_content"
+
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="05"
+                android:textColor="@color/windowBackground"
+                android:textSize="@dimen/big_font"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="OCT"
+                android:textColor="@color/windowBackground"
+                android:textSize="@dimen/mid_fond"
+                android:textStyle="bold"
+                />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/five"
+        android:paddingRight="@dimen/five"
+        android:layout_weight="0.4">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/big_font"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Code"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="@dimen/mid_fond"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Address"
+            android:textColor="@color/tabcolor_dark"
+            android:textSize="@dimen/mid_fond"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:gravity="right"
+        android:paddingLeft="@dimen/five"
+        android:paddingRight="@dimen/five"
+        android:layout_weight="0.4">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Time"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="@dimen/big_font"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Status"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="@dimen/mid_fond"
+            />
+    </LinearLayout>
+
+</LinearLayout>

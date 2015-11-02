@@ -3,6 +3,8 @@ package com.carrus.carrusshipper.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +34,11 @@ public class MyBookingFragment  extends Fragment{
         return convertView;
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setSelectionUpcoming();
+    }
 
     private void init(View view){
         mUpComingTextView=(TextView) view.findViewById(R.id.upcomingTextView);
@@ -67,11 +74,23 @@ public class MyBookingFragment  extends Fragment{
         selectedFlag=0;
         mUpComingTextView.setBackgroundColor(getResources().getColor(R.color.tabcolor_dark));
         mPastTextView.setBackgroundColor(getResources().getColor(R.color.tabcolor_light));
+        setFragment(new UpComingFragment());
+
     }
 
     private void setSeclectionPast(){
         selectedFlag=1;
         mUpComingTextView.setBackgroundColor(getResources().getColor(R.color.tabcolor_light));
         mPastTextView.setBackgroundColor(getResources().getColor(R.color.tabcolor_dark));
+        setFragment(new PastFragment());
+    }
+
+
+    private void setFragment(Fragment fragment){
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.bookingcontainer_body, fragment);
+        fragmentTransaction.commit();
+
     }
 }
