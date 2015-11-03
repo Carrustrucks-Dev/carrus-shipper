@@ -1,6 +1,7 @@
 package com.carrus.carrusshipper.fragments;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,15 +11,33 @@ import android.widget.Toast;
 
 import com.carrus.carrusshipper.R;
 import com.carrus.carrusshipper.activity.MainActivity;
+import com.carrus.carrusshipper.retrofit.RestClient;
 import com.carrus.carrusshipper.utils.Constants;
+import com.carrus.carrusshipper.utils.GMapV2GetRouteDirection;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 
+import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * Created by Sunny on 10/29/15.
@@ -30,7 +49,9 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
 
     private ArrayList<Marker> mMarkerArray = new ArrayList<Marker>();
 
-    MainActivity mainActivity;
+    private MainActivity mainActivity;
+
+    private GMapV2GetRouteDirection v2GetRouteDirection;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -40,6 +61,12 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        v2GetRouteDirection = new GMapV2GetRouteDirection();
     }
 
     @Override
@@ -88,6 +115,12 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
             }
 
             if (googleMap != null) {
+                googleMap.getUiSettings().setZoomControlsEnabled(true);
+                googleMap.getUiSettings().setCompassEnabled(true);
+                googleMap.getUiSettings().setMyLocationButtonEnabled(true);
+//                googleMap.getUiSettings().setAllGesturesEnabled(true);
+                googleMap.setTrafficEnabled(true);
+//                googleMap.animateCamera(CameraUpdateFactory.zoomTo(14));
                 googleMap.setOnMarkerClickListener(this);
                 addmarkers();
             }
@@ -123,6 +156,7 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
                 .title(marker.getTitle())
                 .snippet(marker.getSnippet()));
         mainActivity.onStopDrawerSwip();
+        getDriectionToDestination(marker.getPosition().latitude + ", " + marker.getPosition().longitude, "11.723512, 78.466287", GMapV2GetRouteDirection.MODE_DRIVING);
 //        Toast.makeText(getActivity(), marker.getTitle()+", lat> "+marker.getPosition().latitude +"& long> "+marker.getPosition().longitude, Toast.LENGTH_SHORT).show();
         return false;
     }
@@ -130,5 +164,42 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
     public interface onSwiperListenerChange{
         void onStopDrawerSwip();
         void onStartDrawerSwipe();
+    }
+
+    private void getDriectionToDestination(String start, String end, String mode){
+        RestClient.getGoogleApiService().getDriections(start, end, "false", "metric", mode, new Callback<String>() {
+            @Override
+            public void success(String s, Response response) {
+                googleMap.clear();
+                // convert String into InputStream
+                InputStream in = new ByteArrayInputStream(s.getBytes());
+                DocumentBuilder builder = null;
+                try {
+                    builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+                    Document doc = builder.parse(in);
+                    ArrayList<LatLng> directionPoint = v2GetRouteDirection.getDirection(doc);
+                    PolylineOptions rectLine = new PolylineOptions().width(10).color(
+                            Color.RED);
+
+                    for (int i = 0; i < directionPoint.size(); i++) {
+                        rectLine.add(directionPoint.get(i));
+                    }
+                    // Adding route on the map
+                    googleMap.addPolyline(rectLine);
+                } catch (ParserConfigurationException e) {
+                    e.printStackTrace();
+                } catch (SAXException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
+            }
+        });
     }
 }
