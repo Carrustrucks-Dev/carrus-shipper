@@ -5,6 +5,8 @@ package com.carrus.carrusshipper.activity;
  */
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
@@ -19,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.carrus.carrusshipper.R;
+import com.carrus.carrusshipper.adapter.DividerItemDecoration;
 import com.carrus.carrusshipper.adapter.NavigationDrawerAdapter;
 import com.carrus.carrusshipper.model.NavDrawerItem;
 
@@ -35,6 +38,7 @@ public class FragmentDrawer extends Fragment {
     private NavigationDrawerAdapter adapter;
     private View containerView;
     private static String[] titles = null;
+    private TypedArray icons=null;
     private FragmentDrawerListener drawerListener;
 
     public FragmentDrawer() {
@@ -45,7 +49,7 @@ public class FragmentDrawer extends Fragment {
         this.drawerListener = listener;
     }
 
-    public static List<NavDrawerItem> getData() {
+    public List<NavDrawerItem> getData() {
         List<NavDrawerItem> data = new ArrayList<>();
 
 
@@ -53,6 +57,7 @@ public class FragmentDrawer extends Fragment {
         for (int i = 0; i < titles.length; i++) {
             NavDrawerItem navItem = new NavDrawerItem();
             navItem.setTitle(titles[i]);
+            navItem.setIcon(icons.getResourceId(i, 0));
             data.add(navItem);
         }
         return data;
@@ -64,6 +69,10 @@ public class FragmentDrawer extends Fragment {
 
         // drawer labels
         titles = getActivity().getResources().getStringArray(R.array.nav_drawer_labels);
+
+        // drawer icons
+        Resources res = getResources();
+        icons = res.obtainTypedArray(R.array.nav_drawer_icons);
     }
 
     @Override
@@ -72,7 +81,6 @@ public class FragmentDrawer extends Fragment {
         // Inflating view layout
         View layout = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
         recyclerView = (RecyclerView) layout.findViewById(R.id.drawerList);
-
         adapter = new NavigationDrawerAdapter(getActivity(), getData());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

@@ -7,7 +7,7 @@
     <EditText
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:drawableLeft="@android:drawable/ic_menu_search"
+        android:drawableLeft="@mipmap/icon_search"
         />
     <fragment
         android:id="@+id/map"

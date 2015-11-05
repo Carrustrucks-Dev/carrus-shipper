@@ -10,10 +10,10 @@ import com.carrus.carrusshipper.R;
 /**
  * Created by Sunny on 10/29/15.
  */
-public class SplashActivity extends Activity{
+public class SplashActivity extends BaseActivity{
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 

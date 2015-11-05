@@ -18,6 +18,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -47,6 +48,7 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
     // Google Map
     private GoogleMap googleMap;
 
+    //Markers List
     private ArrayList<Marker> mMarkerArray = new ArrayList<Marker>();
 
     private MainActivity mainActivity;
@@ -129,6 +131,7 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
         }
     }
 
+    //Add marker function on google map
     public void addmarkers() {
         googleMap.clear();
         for (int i = 0; i < Constants.name.length; i++) {
@@ -137,7 +140,9 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
 
             Marker marker = googleMap.addMarker(new MarkerOptions().position(location)
                     .title(Constants.name[i])
-                    .snippet(Constants.name[i]));
+                    .snippet(Constants.name[i])
+                    .icon(BitmapDescriptorFactory.fromResource(R.mipmap.icon_van))
+            );
 
             mMarkerArray.add(marker);
         }
@@ -154,19 +159,21 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
         googleMap.clear();
         googleMap.addMarker(new MarkerOptions().position(new LatLng(marker.getPosition().latitude, marker.getPosition().longitude))
                 .title(marker.getTitle())
-                .snippet(marker.getSnippet()));
+                .snippet(marker.getSnippet()).icon(BitmapDescriptorFactory.fromResource(R.mipmap.icon_location_blue)));
         mainActivity.onStopDrawerSwip();
-        getDriectionToDestination(marker.getPosition().latitude + ", " + marker.getPosition().longitude, "11.723512, 78.466287", GMapV2GetRouteDirection.MODE_DRIVING);
+        getDriectionToDestination(new LatLng(marker.getPosition().latitude, marker.getPosition().longitude),marker.getPosition().latitude + ", " + marker.getPosition().longitude, "11.723512, 78.466287", GMapV2GetRouteDirection.MODE_DRIVING);
 //        Toast.makeText(getActivity(), marker.getTitle()+", lat> "+marker.getPosition().latitude +"& long> "+marker.getPosition().longitude, Toast.LENGTH_SHORT).show();
         return false;
     }
 
+    //Change Drawer mode
     public interface onSwiperListenerChange{
         void onStopDrawerSwip();
         void onStartDrawerSwipe();
     }
 
-    private void getDriectionToDestination(String start, String end, String mode){
+    //Path Direction Call
+    private void getDriectionToDestination(final LatLng currentposition, String start, String end, String mode){
         RestClient.getGoogleApiService().getDriections(start, end, "false", "metric", mode, new Callback<String>() {
             @Override
             public void success(String s, Response response) {
@@ -178,14 +185,17 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
                     builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
                     Document doc = builder.parse(in);
                     ArrayList<LatLng> directionPoint = v2GetRouteDirection.getDirection(doc);
-                    PolylineOptions rectLine = new PolylineOptions().width(10).color(
-                            Color.RED);
+                    PolylineOptions rectLine = new PolylineOptions().width(6).color(Color.parseColor("#1F58B9"));
 
                     for (int i = 0; i < directionPoint.size(); i++) {
                         rectLine.add(directionPoint.get(i));
                     }
                     // Adding route on the map
                     googleMap.addPolyline(rectLine);
+                    MarkerOptions markerOptions = new MarkerOptions();
+                    markerOptions.position(currentposition);
+                    markerOptions.icon(BitmapDescriptorFactory.fromResource(R.mipmap.icon_location_blue));
+                    googleMap.addMarker(markerOptions);
                 } catch (ParserConfigurationException e) {
                     e.printStackTrace();
                 } catch (SAXException e) {

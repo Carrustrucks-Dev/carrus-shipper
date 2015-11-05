@@ -27,7 +27,7 @@ import com.carrus.carrusshipper.fragments.MyBookingFragment;
 import org.w3c.dom.Text;
 
 
-public class MainActivity extends FragmentActivity implements FragmentDrawer.FragmentDrawerListener, HomeFragment.onSwiperListenerChange {
+public class MainActivity extends BaseActivity implements FragmentDrawer.FragmentDrawerListener, HomeFragment.onSwiperListenerChange {
 
     private static String TAG = MainActivity.class.getSimpleName();
 
@@ -38,7 +38,7 @@ public class MainActivity extends FragmentActivity implements FragmentDrawer.Fra
     private int selectedPos=-1;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 

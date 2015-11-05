@@ -16,6 +16,12 @@
     <string name="upcming">Upcoming</string>
     <string name="past">Past</string>
 
+    <!-- Login Screen Text-->
+    <string name="email">E-mail</string>
+    <string name="password">Password</string>
+    <string name="submit">SUBMIT</string>
+    <string name="forgotpasswd">FORGOT PASSWORD</string>
+
 
     <!-- Signout Dialog-->
     <string name="quit">Sign Out!</string>
@@ -31,4 +37,13 @@
         <item>@string/contact</item>
         <item>@string/signout</item>
     </string-array>
+
+    <!-- naviagtion drawer icons-->
+    <array name="nav_drawer_icons">
+        <item>@drawable/home_btn_selector</item>
+        <item>@drawable/booking_btn_selector</item>
+        <item>@drawable/payment_btn_selector</item>
+        <item>@drawable/contact_btn_selector</item>
+        <item>@drawable/signout_btn_selector</item>
+    </array>
 </resources>
