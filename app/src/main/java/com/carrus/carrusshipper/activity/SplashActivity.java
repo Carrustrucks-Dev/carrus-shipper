@@ -21,7 +21,7 @@ public class SplashActivity extends BaseActivity{
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-               startActivityForResult(new Intent(SplashActivity.this, MainActivity.class), 500);
+               startActivityForResult(new Intent(SplashActivity.this, LoginActivity.class), 500);
                 finish();
             }
         }, 2000);

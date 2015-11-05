@@ -31,9 +31,14 @@
             android:background="@color/windowBackground"
             android:drawableLeft="@mipmap/icon_mail"
             android:drawablePadding="@dimen/ten"
+            android:inputType="textEmailAddress"
             android:gravity="center_vertical"
             android:hint="@string/email"
             android:padding="@dimen/ten"/>
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"/>
         <EditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -41,11 +46,14 @@
             android:drawableLeft="@mipmap/icon_password"
             android:drawablePadding="@dimen/ten"
             android:gravity="center_vertical"
+            android:inputType="textPassword"
             android:hint="@string/password"
             android:padding="@dimen/ten"/>
         <Button
+            android:id="@+id/submitBtn"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+
             android:text="@string/submit"
             style="@style/CustomTextAppearance.Bold"
             android:textColor="@color/windowBackground"
@@ -53,6 +61,7 @@
             />
 
         <TextView
+            android:id="@+id/forgotPasswdTxtView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"

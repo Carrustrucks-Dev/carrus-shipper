@@ -72,16 +72,20 @@ public class MyBookingFragment  extends Fragment{
 
     private void setSelectionUpcoming(){
         selectedFlag=0;
-        mUpComingTextView.setBackgroundColor(getResources().getColor(R.color.tabcolor_dark));
-        mPastTextView.setBackgroundColor(getResources().getColor(R.color.tabcolor_light));
+        mUpComingTextView.setBackgroundResource(R.drawable.tab_background);
+        mPastTextView.setBackgroundResource(R.drawable.tab_past_background_white);
+        mUpComingTextView.setTextColor(getResources().getColor(R.color.windowBackground));
+        mPastTextView.setTextColor(getResources().getColor(R.color.tabcolor_dark));
         setFragment(new UpComingFragment());
 
     }
 
     private void setSeclectionPast(){
         selectedFlag=1;
-        mUpComingTextView.setBackgroundColor(getResources().getColor(R.color.tabcolor_light));
-        mPastTextView.setBackgroundColor(getResources().getColor(R.color.tabcolor_dark));
+        mUpComingTextView.setBackgroundResource(R.drawable.tab_upcming_background_white);
+        mPastTextView.setBackgroundResource(R.drawable.tab_background);
+        mUpComingTextView.setTextColor(getResources().getColor(R.color.tabcolor_dark));
+        mPastTextView.setTextColor(getResources().getColor(R.color.windowBackground));
         setFragment(new PastFragment());
     }
 

@@ -60,6 +60,7 @@ public class MainActivity extends BaseActivity implements FragmentDrawer.Fragmen
     private void initializeView(){
         mHeaderTextView=(TextView) findViewById(R.id.headerTxtView);
         mMenuButton=(ImageView)findViewById(R.id.menu_drawer_btn);
+        mMenuButton.setVisibility(View.VISIBLE);
         mBackButton=(ImageView)findViewById(R.id.menu_back_btn);
     }
 

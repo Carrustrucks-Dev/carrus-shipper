@@ -8,6 +8,10 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:drawableLeft="@mipmap/icon_search"
+        android:padding="@dimen/ten"
+        android:drawablePadding="@dimen/five"
+        android:inputType="textCapCharacters"
+        android:imeOptions="actionSearch"
         />
     <fragment
         android:id="@+id/map"
