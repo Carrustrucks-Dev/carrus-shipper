@@ -10,6 +10,7 @@
         android:drawableLeft="@mipmap/icon_search"
         android:padding="@dimen/ten"
         android:drawablePadding="@dimen/five"
+        android:background="@color/windowBackground"
         android:inputType="textCapCharacters"
         android:imeOptions="actionSearch"
         />
