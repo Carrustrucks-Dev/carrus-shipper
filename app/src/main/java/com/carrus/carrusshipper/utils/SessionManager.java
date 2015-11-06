@@ -1,8 +1,6 @@
 package com.carrus.carrusshipper.utils;
 
 
-import java.util.HashMap;
- 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;

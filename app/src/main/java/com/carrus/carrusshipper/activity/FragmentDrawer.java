@@ -19,7 +19,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.carrus.carrusshipper.R;
-import com.carrus.carrusshipper.adapter.DividerItemDecoration;
 import com.carrus.carrusshipper.adapter.NavigationDrawerAdapter;
 import com.carrus.carrusshipper.model.NavDrawerItem;
 

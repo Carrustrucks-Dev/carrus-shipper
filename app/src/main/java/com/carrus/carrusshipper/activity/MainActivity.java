@@ -1,30 +1,20 @@
 package com.carrus.carrusshipper.activity;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.carrus.carrusshipper.R;
 import com.carrus.carrusshipper.fragments.HomeFragment;
 import com.carrus.carrusshipper.fragments.MyBookingFragment;
-
-import org.w3c.dom.Text;
 
 
 public class MainActivity extends BaseActivity implements FragmentDrawer.FragmentDrawerListener, HomeFragment.onSwiperListenerChange {

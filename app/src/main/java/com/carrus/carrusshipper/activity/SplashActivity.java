@@ -1,18 +1,12 @@
 package com.carrus.carrusshipper.activity;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 
 import com.carrus.carrusshipper.R;
-import com.carrus.carrusshipper.utils.DeviceTokenFetcher;
 import com.carrus.carrusshipper.utils.SessionManager;
 
-import static com.carrus.carrusshipper.utils.Constants.SENDER_ID;
 
 /**
  * Created by Sunny on 10/29/15.

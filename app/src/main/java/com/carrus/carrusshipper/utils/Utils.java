@@ -7,12 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.carrus.carrusshipper.R;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Created by Sunny on 11/6/15.

@@ -4,8 +4,9 @@ import retrofit.Callback;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
+import retrofit.http.Header;
+import retrofit.http.Headers;
 import retrofit.http.POST;
-import retrofit.http.Path;
 import retrofit.http.Query;
 
 /**
@@ -27,6 +28,9 @@ public interface ApiService {
     @FormUrlEncoded
     @POST("/api/v1/shipper/login")
     public void login(@Field("email") String email, @Field("password") String password, @Field("deviceType") String deviceType, @Field("deviceName") String deviceName, @Field("deviceToken") String deviceToken, Callback<String> callback);
+
+    @GET("/api/v1/shipper/getOnGoing")
+    public void getOnGoing(@Header("authorization") String authorization, @Query("limit") String limit, @Query("skip") String skip, @Query("sort") String sort, Callback<String> callback);
 
 
 }
