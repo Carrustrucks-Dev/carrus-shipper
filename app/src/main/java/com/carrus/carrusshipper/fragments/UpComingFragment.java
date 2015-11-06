@@ -52,7 +52,7 @@ public class UpComingFragment extends Fragment {
         mRecyclerView.addItemDecoration(
                 new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
         // specify an adapter (see also next example)
-        mAdapter = new BookingAdapter();
+        mAdapter = new BookingAdapter(getActivity());
         mRecyclerView.setAdapter(mAdapter);
     }
 }

@@ -53,7 +53,7 @@ public class PastFragment extends Fragment {
                 new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
         //or
         // specify an adapter (see also next example)
-        mAdapter = new BookingAdapter();
+        mAdapter = new BookingAdapter(getActivity());
         mRecyclerView.setAdapter(mAdapter);
     }
 }

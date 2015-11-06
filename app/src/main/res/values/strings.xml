@@ -39,6 +39,8 @@
     <string name="ongoing">Ongoing</string>
     <string name="pickup">PICK UP</string>
     <string name="dropoff">DROP OFF</string>
+    <string name="paymentmode">PAYMENT MODE</string>
+    <string name="totalcost">TOTAL COST</string>
 
 
     <!-- navigation drawer item labels  -->
@@ -58,4 +60,9 @@
         <item>@drawable/contact_btn_selector</item>
         <item>@drawable/signout_btn_selector</item>
     </array>
+
+    <!-- Errors-->
+    <string name="email_required">Email id is required</string>
+    <string name="passwd_required">Password is required</string>
+    <string name="validemail_required">Please enter valid email id</string>
 </resources>

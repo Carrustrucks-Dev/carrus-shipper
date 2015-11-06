@@ -28,4 +28,5 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.5.0'
     compile 'com.squareup.okhttp:okhttp:2.5.0'
     compile 'uk.co.chrisjenx:calligraphy:2.1.0'
+    compile 'com.github.rahatarmanahmed:circularprogressview:2.2.1'
 }

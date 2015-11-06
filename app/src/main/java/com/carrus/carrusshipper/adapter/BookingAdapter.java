@@ -1,14 +1,18 @@
 package com.carrus.carrusshipper.adapter;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.carrus.carrusshipper.R;
+import com.carrus.carrusshipper.activity.BookingDetailsActivity;
 
 public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.ViewHolder> {
-//    private String[] mDataset;
+    //    private String[] mDataset;
+    private Activity mActivity;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -23,17 +27,17 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.ViewHold
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-//    public BookingAdapter(String[] myDataset) {
-//        mDataset = myDataset;
-//    }
+    public BookingAdapter(Activity mActivity) {
+        this.mActivity=mActivity;
+    }
 
     // Create new views (invoked by the layout manager)
     @Override
     public BookingAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                   int viewType) {
+                                                        int viewType) {
         // create a new view
         View v = LayoutInflater.from(parent.getContext())
-                               .inflate(R.layout.itemview_booking, parent, false);
+                .inflate(R.layout.itemview_booking, parent, false);
         // set the view's size, margins, paddings and layout parameters
         ViewHolder vh = new ViewHolder(v);
         return vh;
@@ -45,6 +49,13 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.ViewHold
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
 //        holder.mTextView.setText(mDataset[position]);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mActivity.startActivityForResult(new Intent(mActivity, BookingDetailsActivity.class), 500);
+
+            }
+        });
 
     }
 

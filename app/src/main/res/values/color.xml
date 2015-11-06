@@ -11,7 +11,7 @@
     <color name="drawer_Dark">#14233C</color>
     <color name="tabcolor_dark">#F78C16</color>
     <color name="tabcolor_light">#FFBE71</color>
-
+    <color name="transparent">#00000000</color>
     <color name="gray">#f0f0f0</color>
     <color name="gray_text">#969696</color>
 

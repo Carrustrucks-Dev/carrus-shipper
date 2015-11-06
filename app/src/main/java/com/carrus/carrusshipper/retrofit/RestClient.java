@@ -30,7 +30,7 @@ public class RestClient {
     public static ApiService getApiService() {
         if (apiService == null) {
             RestAdapter restAdapter = new RestAdapter.Builder()
-                    .setEndpoint(Constants.GOOGLE_URL)
+                    .setEndpoint(Constants.ROOT)
                     .setConverter(new StringConverter())    //converter for response type
                     .setLogLevel(RestAdapter.LogLevel.FULL)
                     .build();

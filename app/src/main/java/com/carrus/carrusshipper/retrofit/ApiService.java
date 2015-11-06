@@ -1,7 +1,10 @@
 package com.carrus.carrusshipper.retrofit;
 
 import retrofit.Callback;
+import retrofit.http.Field;
+import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
+import retrofit.http.POST;
 import retrofit.http.Path;
 import retrofit.http.Query;
 
@@ -12,5 +15,18 @@ public interface ApiService {
 
     @GET("/maps/api/directions/xml")
     public void getDriections(@Query("origin") String origin,@Query("destination") String destination,@Query("sensor") String sensor,@Query("units") String units,@Query("mode") String mode, Callback<String> callback);
+
+    /***
+     *
+     * @param email
+     * @param password
+     * @param deviceType
+     * @param deviceName
+     * @param deviceToken
+     */
+    @FormUrlEncoded
+    @POST("/api/v1/shipper/login")
+    public void login(@Field("email") String email, @Field("password") String password, @Field("deviceType") String deviceType, @Field("deviceName") String deviceName, @Field("deviceToken") String deviceToken, Callback<String> callback);
+
 
 }

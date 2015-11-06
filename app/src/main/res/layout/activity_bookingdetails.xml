@@ -53,18 +53,18 @@
                 <ImageView
                     android:id="@+id/profileIV"
                     android:layout_width="80dp"
-                    android:layout_centerVertical="true"
                     android:layout_height="80dp"
-                    android:layout_alignParentLeft="true" />
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/profileIV"
                     android:layout_centerVertical="true"
-                    android:padding="@dimen/five"
                     android:layout_toLeftOf="@+id/locationBtnIV"
-                    android:orientation="vertical">
+                    android:layout_toRightOf="@+id/profileIV"
+                    android:orientation="vertical"
+                    android:padding="@dimen/five">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -114,104 +114,155 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/large_font"
                 android:padding="@dimen/ten"
-                android:text="@string/pickup"/>
+                android:text="@string/pickup"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/large_font" />
 
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/gray_text"
-                android:text="Address"
-                android:paddingLeft="@dimen/ten"
-                android:paddingRight="@dimen/ten"
                 android:drawableLeft="@mipmap/icon_shipment_detail"
                 android:drawablePadding="@dimen/ten"
-                android:textSize="@dimen/mid_fond"/>
+                android:paddingLeft="@dimen/ten"
+                android:paddingRight="@dimen/ten"
+                android:text="Address"
+                android:textColor="@color/gray_text"
+                android:textSize="@dimen/mid_fond" />
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/gray_text"
-                android:text="Date"
-                android:paddingTop="@dimen/ten"
-                android:paddingLeft="@dimen/ten"
-                android:paddingRight="@dimen/ten"
                 android:drawableLeft="@mipmap/icon_calender"
                 android:drawablePadding="@dimen/ten"
-                android:textSize="@dimen/mid_fond"/>
+                android:paddingLeft="@dimen/ten"
+                android:paddingRight="@dimen/ten"
+                android:paddingTop="@dimen/ten"
+                android:text="Date"
+                android:textColor="@color/gray_text"
+                android:textSize="@dimen/mid_fond" />
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/gray_text"
-                android:text="Time"
-                android:paddingTop="@dimen/ten"
-                android:paddingLeft="@dimen/ten"
-                android:paddingRight="@dimen/ten"
                 android:drawableLeft="@mipmap/icon_clock"
                 android:drawablePadding="@dimen/ten"
-                android:textSize="@dimen/mid_fond"/>
+                android:paddingLeft="@dimen/ten"
+                android:paddingRight="@dimen/ten"
+                android:paddingTop="@dimen/ten"
+                android:text="Time"
+                android:textColor="@color/gray_text"
+                android:textSize="@dimen/mid_fond" />
 
             <View
                 android:layout_width="fill_parent"
-                android:layout_marginTop="@dimen/fifteen"
-                android:layout_marginRight="@dimen/fifteen"
-                android:layout_marginLeft="@dimen/fifteen"
                 android:layout_height="2dp"
-                android:background="@color/gray"/>
+                android:layout_marginLeft="@dimen/fifteen"
+                android:layout_marginRight="@dimen/fifteen"
+                android:layout_marginTop="@dimen/fifteen"
+                android:background="@color/gray" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/large_font"
                 android:padding="@dimen/ten"
-                android:text="@string/dropoff"/>
+                android:text="@string/dropoff"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/large_font" />
 
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/gray_text"
-                android:text="Address"
-                android:paddingLeft="@dimen/ten"
-                android:paddingRight="@dimen/ten"
                 android:drawableLeft="@mipmap/icon_shipment_detail"
                 android:drawablePadding="@dimen/ten"
-                android:textSize="@dimen/mid_fond"/>
+                android:paddingLeft="@dimen/ten"
+                android:paddingRight="@dimen/ten"
+                android:text="Address"
+                android:textColor="@color/gray_text"
+                android:textSize="@dimen/mid_fond" />
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/gray_text"
-                android:text="Date"
-                android:paddingTop="@dimen/ten"
-                android:paddingLeft="@dimen/ten"
-                android:paddingRight="@dimen/ten"
                 android:drawableLeft="@mipmap/icon_calender"
                 android:drawablePadding="@dimen/ten"
-                android:textSize="@dimen/mid_fond"/>
+                android:paddingLeft="@dimen/ten"
+                android:paddingRight="@dimen/ten"
+                android:paddingTop="@dimen/ten"
+                android:text="Date"
+                android:textColor="@color/gray_text"
+                android:textSize="@dimen/mid_fond" />
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/gray_text"
-                android:text="Time"
-                android:paddingTop="@dimen/ten"
-                android:paddingLeft="@dimen/ten"
-                android:paddingRight="@dimen/ten"
                 android:drawableLeft="@mipmap/icon_clock"
                 android:drawablePadding="@dimen/ten"
-                android:textSize="@dimen/mid_fond"/>
+                android:paddingLeft="@dimen/ten"
+                android:paddingRight="@dimen/ten"
+                android:paddingTop="@dimen/ten"
+                android:text="Time"
+                android:textColor="@color/gray_text"
+                android:textSize="@dimen/mid_fond" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerview"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                />
+                android:background="@color/gray"
+                android:padding="@dimen/ten">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="@string/paymentmode"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/large_font" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="CASH"
+                    android:textColor="@color/tabcolor_dark"
+                    android:textSize="@dimen/large_font" />
+
+            </RelativeLayout>
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="@color/gray_text"
+                 />
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/gray"
+                android:padding="@dimen/ten">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="@string/totalcost"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/large_font" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="$ 200"
+                    android:textColor="@color/tabcolor_dark"
+                    android:textSize="@dimen/large_font" />
+
+            </RelativeLayout>
 
         </LinearLayout>
 
