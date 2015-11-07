@@ -15,10 +15,9 @@ import retrofit.http.Query;
 public interface ApiService {
 
     @GET("/maps/api/directions/xml")
-    public void getDriections(@Query("origin") String origin,@Query("destination") String destination,@Query("sensor") String sensor,@Query("units") String units,@Query("mode") String mode, Callback<String> callback);
+    public void getDriections(@Query("origin") String origin, @Query("destination") String destination, @Query("sensor") String sensor, @Query("units") String units, @Query("mode") String mode, Callback<String> callback);
 
-    /***
-     *
+    /**
      * @param email
      * @param password
      * @param deviceType
@@ -32,5 +31,7 @@ public interface ApiService {
     @GET("/api/v1/shipper/getOnGoing")
     public void getOnGoing(@Header("authorization") String authorization, @Query("limit") String limit, @Query("skip") String skip, @Query("sort") String sort, Callback<String> callback);
 
+    @GET("/api/v1/shipper/getPast")
+    public void getPast(@Header("authorization") String authorization, @Query("limit") String limit, @Query("skip") String skip, @Query("sort") String sort, Callback<String> callback);
 
 }

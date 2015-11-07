@@ -42,27 +42,24 @@ public class BookingDetailsActivity extends BaseActivity {
         recyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         List<ExpandableListAdapter.Item> data = new ArrayList<>();
 
-        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.HEADER, "Fruits"));
+        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.HEADER, getResources().getString(R.string.cargodetails)));
         data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "Apple"));
         data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "Orange"));
         data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "Banana"));
-        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.HEADER, "Cars"));
+        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.HEADER, getResources().getString(R.string.notes)));
         data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "Audi"));
         data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "Aston Martin"));
         data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "BMW"));
         data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "Cadillac"));
 
-        ExpandableListAdapter.Item places = new ExpandableListAdapter.Item(ExpandableListAdapter.HEADER, "Places");
-        places.invisibleChildren = new ArrayList<>();
-        places.invisibleChildren.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "Kerala"));
-        places.invisibleChildren.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "Tamil Nadu"));
-        places.invisibleChildren.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "Karnataka"));
-        places.invisibleChildren.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "Maharashtra"));
+        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.HEADER, getResources().getString(R.string.fleetownernotes)));
+        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "Kerala"));
+        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "Tamil Nadu"));
+        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "Karnataka"));
+        data.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "Maharashtra"));
 
-        data.add(places);
-
-        recyclerview.setAdapter(new ExpandableListAdapter(data));
-        Utils.getRecyclerViewSize(recyclerview);
+        recyclerview.setAdapter(new ExpandableListAdapter(BookingDetailsActivity.this, data));
+        chnageHieghtListView();
     }
 
     private void initializeClickListner(){
@@ -72,5 +69,9 @@ public class BookingDetailsActivity extends BaseActivity {
                 finish();
             }
         });
+    }
+
+    public void chnageHieghtListView(){
+        Utils.getRecyclerViewSize(recyclerview);
     }
 }

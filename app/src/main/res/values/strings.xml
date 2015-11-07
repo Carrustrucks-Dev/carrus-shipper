@@ -41,6 +41,9 @@
     <string name="dropoff">DROP OFF</string>
     <string name="paymentmode">PAYMENT MODE</string>
     <string name="totalcost">TOTAL COST</string>
+    <string name="cargodetails">CARGO DETAILS</string>
+    <string name="notes">NOTES</string>
+    <string name="fleetownernotes">FLEET OWNER NOTES</string>
 
 
     <!-- navigation drawer item labels  -->

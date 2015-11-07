@@ -21,8 +21,8 @@
     <dimen name="thirty">30dp</dimen>
 
     <!--Text Sizes-->
-    <dimen name="low_font">14sp</dimen>
-    <dimen name="mid_fond">16sp</dimen>
-    <dimen name="big_font">18sp</dimen>
+    <dimen name="low_font">12sp</dimen>
+    <dimen name="mid_fond">14sp</dimen>
+    <dimen name="big_font">16sp</dimen>
     <dimen name="large_font">20sp</dimen>
 </resources>

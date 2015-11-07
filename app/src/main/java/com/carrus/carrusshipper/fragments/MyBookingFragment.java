@@ -1,5 +1,6 @@
 package com.carrus.carrusshipper.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,11 +11,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.carrus.carrusshipper.R;
+import com.carrus.carrusshipper.activity.MainActivity;
+import com.carrus.carrusshipper.model.MyBookingDataModel;
+import com.carrus.carrusshipper.model.MyBookingModel;
 import com.carrus.carrusshipper.retrofit.RestClient;
+import com.carrus.carrusshipper.utils.ApiResponseFlags;
 import com.carrus.carrusshipper.utils.SessionManager;
 import com.carrus.carrusshipper.utils.Utils;
+import com.google.gson.Gson;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -30,9 +40,6 @@ public class MyBookingFragment  extends Fragment{
 
     private TextView mUpComingTextView, mPastTextView;
     private int selectedFlag=0;
-    private SessionManager mSessionManager;
-    private int skip=0;
-
 
     @Nullable
     @Override
@@ -51,8 +58,6 @@ public class MyBookingFragment  extends Fragment{
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setSelectionUpcoming();
-        mSessionManager=new SessionManager(getActivity());
-        getMyBooking();
     }
 
     private void init(View view){
@@ -112,19 +117,4 @@ public class MyBookingFragment  extends Fragment{
         fragmentTransaction.commit();
     }
 
-    private void getMyBooking(){
-        Utils.loading_box(getActivity());
-        RestClient.getApiService().getOnGoing(mSessionManager.getAccessToken(), LIMIT + "", skip+"", SORT, new Callback<String>() {
-            @Override
-            public void success(String s, Response response) {
-                Log.v("" + getClass().getSimpleName(), "Response> " + s);
-                Utils.loading_box_stop();
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                Utils.loading_box_stop();
-            }
-        });
-    }
 }

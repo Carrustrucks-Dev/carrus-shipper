@@ -26,6 +26,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/dateTxtView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="05"
@@ -35,13 +36,14 @@
                 />
 
             <TextView
+                android:id="@+id/monthTxtView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="OCT"
-
                 android:textColor="@color/windowBackground"
                 android:textSize="@dimen/mid_fond"
                 />
+
         </LinearLayout>
     </RelativeLayout>
 
@@ -53,27 +55,30 @@
         android:paddingRight="@dimen/five"
         android:layout_weight="0.38">
         <TextView
+            android:id="@+id/nameTxtView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Name"
             android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/big_font"
+            android:textSize="@dimen/mid_fond"
             />
 
         <TextView
+            android:id="@+id/codeTxtView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Code"
             android:textColor="@android:color/darker_gray"
-            android:textSize="@dimen/mid_fond"
+            android:textSize="@dimen/low_font"
             />
 
         <TextView
+            android:id="@+id/addressTxtView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Address"
             android:textColor="@color/tabcolor_dark"
-            android:textSize="@dimen/mid_fond"
+            android:textSize="@dimen/low_font"
             />
     </LinearLayout>
 
@@ -87,19 +92,21 @@
         android:layout_weight="0.38">
 
         <TextView
+            android:id="@+id/timeTxtView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Time"
             android:textColor="@android:color/darker_gray"
-            android:textSize="@dimen/big_font"
+            android:textSize="@dimen/low_font"
             />
 
         <TextView
+            android:id="@+id/statusTxtView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Status"
             android:textColor="@android:color/darker_gray"
-            android:textSize="@dimen/mid_fond"
+            android:textSize="@dimen/low_font"
             />
     </LinearLayout>
 

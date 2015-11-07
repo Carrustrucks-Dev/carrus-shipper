@@ -10,6 +10,13 @@ import android.view.ViewGroup;
 
 import com.carrus.carrusshipper.R;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
+
 /**
  * Created by Sunny on 11/6/15.
  */
@@ -36,7 +43,7 @@ measures height of recyclerview when placed inside scrollview
 
         ViewGroup.LayoutParams params = myListView.getLayoutParams();
         params.height = totalHeight
-                + (7 * (myListAdapter.getItemCount() - 1));
+                + (1 * (myListAdapter.getItemCount() - 1));
         myListView.setLayoutParams(params);
 
         //	Log.i("height of listItem:", String.valueOf(totalHeight));
@@ -115,5 +122,37 @@ measures height of recyclerview when placed inside scrollview
         } else {
             return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
         }
+    }
+
+    public static String getDate(String time) throws ParseException {
+        Calendar cal = Calendar.getInstance();
+        TimeZone tz = cal.getTimeZone();
+        DateFormat f = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        f.setTimeZone(TimeZone.getTimeZone("ISO"));
+        Date d = f.parse(String.valueOf(time));
+        DateFormat date = new SimpleDateFormat("dd");
+        DateFormat month = new SimpleDateFormat("MMM");
+        return date.format(d);
+    }
+
+    public static String getMonth(String time) throws ParseException {
+        Calendar cal = Calendar.getInstance();
+        TimeZone tz = cal.getTimeZone();
+        DateFormat f = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        f.setTimeZone(TimeZone.getTimeZone("ISO"));
+        Date d = f.parse(String.valueOf(time));
+        DateFormat date = new SimpleDateFormat("dd");
+        DateFormat month = new SimpleDateFormat("MMM");
+        return month.format(d);
+    }
+
+    public static String getDay(String time) throws ParseException {
+        Calendar cal = Calendar.getInstance();
+        TimeZone tz = cal.getTimeZone();
+        DateFormat f = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        f.setTimeZone(TimeZone.getTimeZone("ISO"));
+        Date d = f.parse(String.valueOf(time));
+        DateFormat day = new SimpleDateFormat("EEE");
+        return day.format(d);
     }
 }

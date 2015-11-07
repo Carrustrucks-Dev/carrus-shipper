@@ -1,5 +1,6 @@
 package com.carrus.carrusshipper.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.carrus.carrusshipper.R;
+import com.carrus.carrusshipper.activity.BookingDetailsActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +23,10 @@ public class ExpandableListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public static final int CHILD = 1;
 
     private List<Item> data;
+    private Activity mActivity;
 
-    public ExpandableListAdapter(List<Item> data) {
+    public ExpandableListAdapter(Activity mActivity, List<Item> data) {
+        this.mActivity=mActivity;
         this.data = data;
     }
 
@@ -78,7 +82,8 @@ public class ExpandableListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                             }
                             notifyItemRangeRemoved(pos + 1, count);
                             itemController.btn_expand_toggle.setImageResource(R.mipmap.circle_plus);
-                        } else {
+
+                        }else {
                             int pos = data.indexOf(itemController.refferalItem);
                             int index = pos + 1;
                             for (Item i : item.invisibleChildren) {
@@ -89,6 +94,8 @@ public class ExpandableListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                             itemController.btn_expand_toggle.setImageResource(R.mipmap.circle_minus);
                             item.invisibleChildren = null;
                         }
+
+                        ((BookingDetailsActivity)mActivity).chnageHieghtListView();
                     }
                 });
                 break;
@@ -122,7 +129,8 @@ public class ExpandableListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
     public static class Item {
-        public int type, viewType;
+        public int type;
+        public int viewType;
         public String text;
         public List<Item> invisibleChildren;
 
