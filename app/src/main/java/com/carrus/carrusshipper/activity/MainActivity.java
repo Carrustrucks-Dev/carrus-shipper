@@ -7,14 +7,30 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.carrus.carrusshipper.R;
+import com.carrus.carrusshipper.adapter.BookingAdapter;
 import com.carrus.carrusshipper.fragments.HomeFragment;
 import com.carrus.carrusshipper.fragments.MyBookingFragment;
+import com.carrus.carrusshipper.model.MyBookingModel;
+import com.carrus.carrusshipper.retrofit.RestClient;
+import com.carrus.carrusshipper.utils.ApiResponseFlags;
+import com.carrus.carrusshipper.utils.SessionManager;
+import com.carrus.carrusshipper.utils.Utils;
+import com.google.gson.Gson;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 
 public class MainActivity extends BaseActivity implements FragmentDrawer.FragmentDrawerListener, HomeFragment.onSwiperListenerChange {
@@ -25,16 +41,17 @@ public class MainActivity extends BaseActivity implements FragmentDrawer.Fragmen
     private DrawerLayout mDrawerLayout;
     private TextView mHeaderTextView;
     private ImageView mMenuButton, mBackButton;
-    private int selectedPos=-1;
+    private int selectedPos = -1;
+    private SessionManager mSessionManager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        mSessionManager = new SessionManager(this);
         drawerFragment = (FragmentDrawer)
                 getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
-        mDrawerLayout=(DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerFragment.setUp(R.id.fragment_navigation_drawer, mDrawerLayout);
         drawerFragment.setDrawerListener(this);
 
@@ -47,14 +64,14 @@ public class MainActivity extends BaseActivity implements FragmentDrawer.Fragmen
 
     }
 
-    private void initializeView(){
-        mHeaderTextView=(TextView) findViewById(R.id.headerTxtView);
-        mMenuButton=(ImageView)findViewById(R.id.menu_drawer_btn);
+    private void initializeView() {
+        mHeaderTextView = (TextView) findViewById(R.id.headerTxtView);
+        mMenuButton = (ImageView) findViewById(R.id.menu_drawer_btn);
         mMenuButton.setVisibility(View.VISIBLE);
-        mBackButton=(ImageView)findViewById(R.id.menu_back_btn);
+        mBackButton = (ImageView) findViewById(R.id.menu_back_btn);
     }
 
-    private void initializeClickListners(){
+    private void initializeClickListners() {
         mMenuButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,28 +103,28 @@ public class MainActivity extends BaseActivity implements FragmentDrawer.Fragmen
         String title = getString(R.string.app_name);
         switch (position) {
             case 0:
-                if(selectedPos!=0) {
+                if (selectedPos != 0) {
                     selectedPos = 0;
                     fragment = new HomeFragment();
                     title = getString(R.string.home);
                 }
                 break;
             case 1:
-                if(selectedPos!=1) {
+                if (selectedPos != 1) {
                     selectedPos = 1;
                     fragment = new MyBookingFragment();
                     title = getString(R.string.my_bookings);
                 }
                 break;
             case 2:
-                if(selectedPos!=2) {
+                if (selectedPos != 2) {
                     selectedPos = 2;
 
                 }
                 break;
 
             case 3:
-                if(selectedPos!=3) {
+                if (selectedPos != 3) {
                     selectedPos = 3;
 
                 }
@@ -121,7 +138,8 @@ public class MainActivity extends BaseActivity implements FragmentDrawer.Fragmen
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 //Stop the activity
-                                MainActivity.this.finish();
+//                                MainActivity.this.finish();
+                                logout();
                             }
 
                         })
@@ -162,5 +180,46 @@ public class MainActivity extends BaseActivity implements FragmentDrawer.Fragmen
         mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
         mMenuButton.setVisibility(View.VISIBLE);
         mBackButton.setVisibility(View.GONE);
+    }
+
+
+    private void logout() {
+        Utils.loading_box(MainActivity.this);
+        RestClient.getApiService().logout(mSessionManager.getAccessToken(), new Callback<String>() {
+            @Override
+            public void success(String s, Response response) {
+                Log.v("" + getClass().getSimpleName(), "Response> " + s);
+
+                try {
+                    JSONObject mObject = new JSONObject(s);
+
+                    int status = mObject.getInt("statusCode");
+
+                    if (ApiResponseFlags.OK.getOrdinal() == status) {
+                        new SessionManager(MainActivity.this).logoutUser();
+                    } else {
+                        Toast.makeText(MainActivity.this, mObject.getString("message"), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                Utils.loading_box_stop();
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                try {
+                    Utils.loading_box_stop();
+                    if (error.getKind().equals(RetrofitError.Kind.NETWORK)) {
+                        Toast.makeText(MainActivity.this, getResources().getString(R.string.nointernetconnection), Toast.LENGTH_SHORT).show();
+                    } else if (error.getResponse().getStatus() == ApiResponseFlags.Unauthorized.getOrdinal()) {
+                        Utils.shopAlterDialog(MainActivity.this, error.getLocalizedMessage());
+                    }
+                } catch (Exception ex) {
+                    Toast.makeText(MainActivity.this, getResources().getString(R.string.nointernetconnection), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 }

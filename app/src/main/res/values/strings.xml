@@ -44,6 +44,11 @@
     <string name="cargodetails">CARGO DETAILS</string>
     <string name="notes">NOTES</string>
     <string name="fleetownernotes">FLEET OWNER NOTES</string>
+    <string name="makepayment">MAKE PAYMENT</string>
+    <string name="modify">MODIFY</string>
+    <string name="done">DONE</string>
+    <string name="cancel">CANCEL</string>
+    <string name="viewpod">VIEW POD</string>
 
 
     <!-- navigation drawer item labels  -->
@@ -68,4 +73,5 @@
     <string name="email_required">Email id is required</string>
     <string name="passwd_required">Password is required</string>
     <string name="validemail_required">Please enter valid email id</string>
+    <string name="nointernetconnection">No internet connection found. Please try again</string>
 </resources>

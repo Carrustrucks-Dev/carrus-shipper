@@ -1,8 +1,10 @@
 package com.carrus.carrusshipper.fragments;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -21,6 +23,7 @@ import com.carrus.carrusshipper.utils.ApiResponseFlags;
 import com.carrus.carrusshipper.utils.SessionManager;
 import com.carrus.carrusshipper.utils.Utils;
 import com.google.gson.Gson;
+import com.squareup.okhttp.internal.Util;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,6 +46,22 @@ public class PastFragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
     private SessionManager mSessionManager;
     private int skip=0;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private boolean isRefreshView=false;
+
+
+    /**
+     * Static factory method that takes an int parameter,
+     * initializes the fragment's arguments, and returns the
+     * new fragment to the client.
+     */
+    public static PastFragment newInstance(int index) {
+        PastFragment f = new PastFragment();
+        Bundle args = new Bundle();
+        args.putInt("index", index);
+        f.setArguments(args);
+        return f;
+    }
 
     @Nullable
     @Override
@@ -63,7 +82,11 @@ public class PastFragment extends Fragment {
     private void init(View view){
         TextView myTextView=(TextView) view.findViewById(R.id.myTextView);
         myTextView.setText(TAG);
+        swipeRefreshLayout=(SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
+        swipeRefreshLayout.setColorSchemeColors(
+                Color.RED, Color.GREEN, Color.BLUE, Color.CYAN);
+
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
         mRecyclerView.setHasFixedSize(true);
@@ -73,10 +96,22 @@ public class PastFragment extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.addItemDecoration(
                 new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                isRefreshView=true;
+                getPastBookings();
+            }
+        });
     }
 
     private void getPastBookings(){
-        Utils.loading_box(getActivity());
+        if(isRefreshView){
+            swipeRefreshLayout.setRefreshing(true);
+        }else
+            Utils.loading_box(getActivity());
+
         RestClient.getApiService().getPast(mSessionManager.getAccessToken(), LIMIT + "", skip+"", SORT, new Callback<String>() {
             @Override
             public void success(String s, Response response) {
@@ -101,11 +136,23 @@ public class PastFragment extends Fragment {
                 }
 
                 Utils.loading_box_stop();
+                swipeRefreshLayout.setRefreshing(false);
             }
 
             @Override
             public void failure(RetrofitError error) {
-                Utils.loading_box_stop();
+                try {
+                    Log.v("error.getKind() >> " + error.getKind(), " MSg >> " + error.getResponse().getStatus());
+                    swipeRefreshLayout.setRefreshing(false);
+                    Utils.loading_box_stop();
+                    if (error.getKind().equals(RetrofitError.Kind.NETWORK)) {
+                        Toast.makeText(getActivity(), getResources().getString(R.string.nointernetconnection), Toast.LENGTH_SHORT).show();
+                    } else if (error.getResponse().getStatus() == ApiResponseFlags.Unauthorized.getOrdinal()) {
+                        Utils.shopAlterDialog(getActivity(), error.getLocalizedMessage());
+                    }
+                }catch (Exception ex){
+                    Toast.makeText(getActivity(), getResources().getString(R.string.nointernetconnection), Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

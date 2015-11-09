@@ -7,6 +7,7 @@ import retrofit.http.GET;
 import retrofit.http.Header;
 import retrofit.http.Headers;
 import retrofit.http.POST;
+import retrofit.http.PUT;
 import retrofit.http.Query;
 
 /**
@@ -33,5 +34,8 @@ public interface ApiService {
 
     @GET("/api/v1/shipper/getPast")
     public void getPast(@Header("authorization") String authorization, @Query("limit") String limit, @Query("skip") String skip, @Query("sort") String sort, Callback<String> callback);
+
+    @PUT("/api/v1/shipper/logout")
+    public void logout(@Header("authorization") String authorization, Callback<String> callback);
 
 }

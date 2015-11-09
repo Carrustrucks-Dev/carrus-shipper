@@ -24,6 +24,7 @@
                 android:background="#2058AB">
 
                 <TextView
+                    android:id="@+id/trackDetailsIdTxtView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/five"
@@ -33,6 +34,7 @@
 
 
                 <TextView
+                    android:id="@+id/statusTxtView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -67,6 +69,7 @@
                     android:padding="@dimen/five">
 
                     <TextView
+                        android:id="@+id/nameDetailTxtView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Rahul Dhiman"
@@ -75,6 +78,7 @@
 
 
                     <TextView
+                        android:id="@+id/typeDetailTxtView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Tata Ace"
@@ -83,6 +87,7 @@
 
 
                     <TextView
+                        android:id="@+id/locationDetailsTxtView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="CH 01 A 2772"
@@ -121,6 +126,7 @@
 
 
             <TextView
+                android:id="@+id/addresPickupTxtView"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@mipmap/icon_shipment_detail"
@@ -132,6 +138,7 @@
                 android:textSize="@dimen/mid_fond" />
 
             <TextView
+                android:id="@+id/datePickupTxtView"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@mipmap/icon_calender"
@@ -144,6 +151,7 @@
                 android:textSize="@dimen/mid_fond" />
 
             <TextView
+                android:id="@+id/timePickupTxtView"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@mipmap/icon_clock"
@@ -173,6 +181,7 @@
 
 
             <TextView
+                android:id="@+id/addressDropTxtView"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@mipmap/icon_shipment_detail"
@@ -184,6 +193,7 @@
                 android:textSize="@dimen/mid_fond" />
 
             <TextView
+                android:id="@+id/dateDropTxtview"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@mipmap/icon_calender"
@@ -196,6 +206,7 @@
                 android:textSize="@dimen/mid_fond" />
 
             <TextView
+                android:id="@+id/timeDropTxtView"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@mipmap/icon_clock"
@@ -227,6 +238,7 @@
                     android:textSize="@dimen/large_font" />
 
                 <TextView
+                    android:id="@+id/paymentModeTxtView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -235,11 +247,12 @@
                     android:textSize="@dimen/large_font" />
 
             </RelativeLayout>
+
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
-                android:background="@color/gray_text"
-                 />
+                android:background="@color/gray_text" />
+
             <RelativeLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -255,6 +268,7 @@
                     android:textSize="@dimen/large_font" />
 
                 <TextView
+                    android:id="@+id/totalCostTxtView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -264,6 +278,32 @@
 
             </RelativeLayout>
 
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+
+                >
+
+                <Button
+                    android:id="@+id/paymentBtn"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@color/tabcolor_dark"
+                    android:text="@string/makepayment"
+                    android:textColor="@color/windowBackground" />
+
+                <Button
+                    android:id="@+id/cancelBtn"
+                    android:layout_width="fill_parent"
+                    android:visibility="gone"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@color/gray_text"
+                    android:text="@string/cancel"
+                    android:textColor="@color/windowBackground" />
+            </LinearLayout>
         </LinearLayout>
 
     </ScrollView>

@@ -1,7 +1,11 @@
 package com.carrus.carrusshipper.utils;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -9,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.carrus.carrusshipper.R;
+import com.carrus.carrusshipper.activity.LoginActivity;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -154,5 +159,26 @@ measures height of recyclerview when placed inside scrollview
         Date d = f.parse(String.valueOf(time));
         DateFormat day = new SimpleDateFormat("EEE");
         return day.format(d);
+    }
+
+    public static void shopAlterDialog(final Context myContext, String msg){
+        new AlertDialog.Builder(myContext)
+                // Set Dialog Icon
+//                .setIcon(R.drawable.androidhappy)
+                        // Set Dialog Title
+                .setTitle("")
+                        // Set Dialog Message
+                .setMessage(msg)
+                        .setCancelable(false)
+
+                        // Positive button
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Do something else
+                        dialog.dismiss();
+                        new SessionManager(myContext).logoutUser();
+                    }
+                }).create().show();
+
     }
 }

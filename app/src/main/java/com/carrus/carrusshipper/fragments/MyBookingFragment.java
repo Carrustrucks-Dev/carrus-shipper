@@ -26,6 +26,9 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -40,6 +43,7 @@ public class MyBookingFragment  extends Fragment{
 
     private TextView mUpComingTextView, mPastTextView;
     private int selectedFlag=0;
+    private List<Fragment> myFragmentList=new ArrayList<>();
 
     @Nullable
     @Override
@@ -57,7 +61,10 @@ public class MyBookingFragment  extends Fragment{
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        setSelectionUpcoming();
+        myFragmentList.add(UpComingFragment.newInstance(0));
+        myFragmentList.add(PastFragment.newInstance(1));
+
+        setSelectionUpcoming(0);
     }
 
     private void init(View view){
@@ -73,7 +80,7 @@ public class MyBookingFragment  extends Fragment{
             public void onClick(View v) {
 
                 if(selectedFlag!=0){
-                    setSelectionUpcoming();
+                    setSelectionUpcoming(0);
                 }
 
             }
@@ -83,38 +90,58 @@ public class MyBookingFragment  extends Fragment{
             public void onClick(View v) {
 
                 if(selectedFlag!=1){
-                    setSeclectionPast();
+                    setSeclectionPast(1);
                 }
 
             }
         });
     }
 
-    private void setSelectionUpcoming(){
+    private void setSelectionUpcoming(int button_id){
         selectedFlag=0;
         mUpComingTextView.setBackgroundResource(R.drawable.tab_background);
         mPastTextView.setBackgroundResource(R.drawable.tab_past_background_white);
         mUpComingTextView.setTextColor(getResources().getColor(R.color.windowBackground));
         mPastTextView.setTextColor(getResources().getColor(R.color.tabcolor_dark));
-        setFragment(new UpComingFragment());
+        setFragment(myFragmentList.get(0),button_id);
 
     }
 
-    private void setSeclectionPast(){
+    private void setSeclectionPast(int button_id){
+
         selectedFlag=1;
         mUpComingTextView.setBackgroundResource(R.drawable.tab_upcming_background_white);
         mPastTextView.setBackgroundResource(R.drawable.tab_background);
         mUpComingTextView.setTextColor(getResources().getColor(R.color.tabcolor_dark));
         mPastTextView.setTextColor(getResources().getColor(R.color.windowBackground));
-        setFragment(new PastFragment());
+        setFragment(myFragmentList.get(1),button_id);
+
     }
 
 
-    private void setFragment(Fragment fragment){
+    private void setFragment(Fragment fragment, int button_id){
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.bookingcontainer_body, fragment);
+        // If fragment doesn't exist yet, create one
+        if (fragment.isAdded())
+        {
+            if(fragment instanceof UpComingFragment) {
+                fragmentTransaction.hide(myFragmentList.get(1));
+            }else if(fragment instanceof PastFragment){
+                fragmentTransaction.hide(myFragmentList.get(0));
+            }
+            fragmentTransaction.show(fragment);
+        }
+
+        else { // re-use the old fragment
+            if(fragment instanceof PastFragment){
+                fragmentTransaction.hide(myFragmentList.get(0));
+            }
+            fragmentTransaction.add(R.id.bookingcontainer_body, fragment, button_id + "stack_item");
+        }
+
         fragmentTransaction.commit();
+
     }
 
 }
