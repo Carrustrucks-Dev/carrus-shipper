@@ -1,8 +1,10 @@
 package com.carrus.carrusshipper.retrofit;
 
 import com.carrus.carrusshipper.utils.Constants;
+import com.squareup.okhttp.OkHttpClient;
 
 import retrofit.RestAdapter;
+import retrofit.client.OkClient;
 
 
 /**
@@ -29,8 +31,10 @@ public class RestClient {
 
     public static ApiService getApiService() {
         if (apiService == null) {
+//            OkHttpClient okHttpClient = new OkHttpClient();
             RestAdapter restAdapter = new RestAdapter.Builder()
                     .setEndpoint(Constants.ROOT)
+//                    .setClient(new OkClient(okHttpClient))
                     .setConverter(new StringConverter())    //converter for response type
                     .setLogLevel(RestAdapter.LogLevel.FULL)
                     .build();

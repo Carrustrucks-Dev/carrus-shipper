@@ -49,6 +49,8 @@
     <string name="done">DONE</string>
     <string name="cancel">CANCEL</string>
     <string name="viewpod">VIEW POD</string>
+    <string name="typeofcargo">Type of Cargo</string>
+    <string name="weight">Weight</string>
 
 
     <!-- navigation drawer item labels  -->

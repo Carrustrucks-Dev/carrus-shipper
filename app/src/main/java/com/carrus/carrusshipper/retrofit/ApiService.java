@@ -14,7 +14,8 @@ import retrofit.http.Query;
  * Created by Sunny on 11/3/15.
  */
 public interface ApiService {
-
+    String LOGOUT_URL = "/api/v1/shipper/logout";
+    String AUTHORIZATION = "authorization";
     @GET("/maps/api/directions/xml")
     public void getDriections(@Query("origin") String origin, @Query("destination") String destination, @Query("sensor") String sensor, @Query("units") String units, @Query("mode") String mode, Callback<String> callback);
 
@@ -35,7 +36,8 @@ public interface ApiService {
     @GET("/api/v1/shipper/getPast")
     public void getPast(@Header("authorization") String authorization, @Query("limit") String limit, @Query("skip") String skip, @Query("sort") String sort, Callback<String> callback);
 
-    @PUT("/api/v1/shipper/logout")
-    public void logout(@Header("authorization") String authorization, Callback<String> callback);
+
+    @PUT(LOGOUT_URL)
+    void logout(@Header(AUTHORIZATION) String authorization, Callback<String> callback);
 
 }

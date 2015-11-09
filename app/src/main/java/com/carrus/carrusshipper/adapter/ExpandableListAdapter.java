@@ -30,6 +30,8 @@ public class ExpandableListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         this.data = data;
     }
 
+
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int type) {
         View view = null;
@@ -95,7 +97,7 @@ public class ExpandableListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                             item.invisibleChildren = null;
                         }
 
-                        ((BookingDetailsActivity)mActivity).chnageHieghtListView();
+//                        ((BookingDetailsActivity)mActivity).chnageHieghtListView();
                     }
                 });
                 break;

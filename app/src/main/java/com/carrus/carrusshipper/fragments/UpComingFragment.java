@@ -141,10 +141,11 @@ public class UpComingFragment extends Fragment {
 
             @Override
             public void failure(RetrofitError error) {
+                swipeRefreshLayout.setRefreshing(false);
+                Utils.loading_box_stop();
                 try {
                     Log.v("error.getKind() >> " + error.getKind(), " MSg >> " + error.getResponse().getStatus());
-                    swipeRefreshLayout.setRefreshing(false);
-                    Utils.loading_box_stop();
+
                     if (error.getKind().equals(RetrofitError.Kind.NETWORK)) {
                         Toast.makeText(getActivity(), getResources().getString(R.string.nointernetconnection), Toast.LENGTH_SHORT).show();
                     } else if (error.getResponse().getStatus() == ApiResponseFlags.Unauthorized.getOrdinal()) {

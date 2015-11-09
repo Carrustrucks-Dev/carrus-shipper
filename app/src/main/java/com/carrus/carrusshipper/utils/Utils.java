@@ -161,6 +161,16 @@ measures height of recyclerview when placed inside scrollview
         return day.format(d);
     }
 
+    public static String getFullDateTime(String time) throws ParseException {
+        Calendar cal = Calendar.getInstance();
+        TimeZone tz = cal.getTimeZone();
+        DateFormat f = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        f.setTimeZone(TimeZone.getTimeZone("ISO"));
+        Date d = f.parse(String.valueOf(time));
+        DateFormat day = new SimpleDateFormat("EEEE, dd MMMM yyyy");
+        return day.format(d);
+    }
+
     public static void shopAlterDialog(final Context myContext, String msg){
         new AlertDialog.Builder(myContext)
                 // Set Dialog Icon

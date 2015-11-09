@@ -218,10 +218,16 @@
                 android:textColor="@color/gray_text"
                 android:textSize="@dimen/mid_fond" />
 
-            <android.support.v7.widget.RecyclerView
+            <!--<android.support.v7.widget.RecyclerView-->
+                <!--android:id="@+id/recyclerview"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content" />-->
+
+            <ExpandableListView
                 android:id="@+id/recyclerview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true" />
 
             <RelativeLayout
                 android:layout_width="fill_parent"
