@@ -150,6 +150,8 @@ public class PastFragment extends Fragment {
                         Toast.makeText(getActivity(), getResources().getString(R.string.nointernetconnection), Toast.LENGTH_SHORT).show();
                     } else if (error.getResponse().getStatus() == ApiResponseFlags.Unauthorized.getOrdinal()) {
                         Utils.shopAlterDialog(getActivity(), error.getLocalizedMessage());
+                    }else if (error.getResponse().getStatus() == ApiResponseFlags.Not_Found.getOrdinal()) {
+                        Toast.makeText(getActivity(), getResources().getString(R.string.norecordfound), Toast.LENGTH_SHORT).show();
                     }
                 }catch (Exception ex){
                     Toast.makeText(getActivity(), getResources().getString(R.string.nointernetconnection), Toast.LENGTH_SHORT).show();

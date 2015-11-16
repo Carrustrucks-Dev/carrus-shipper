@@ -76,4 +76,5 @@
     <string name="passwd_required">Password is required</string>
     <string name="validemail_required">Please enter valid email id</string>
     <string name="nointernetconnection">No internet connection found. Please try again</string>
+    <string name="norecordfound">No Record Found</string>
 </resources>

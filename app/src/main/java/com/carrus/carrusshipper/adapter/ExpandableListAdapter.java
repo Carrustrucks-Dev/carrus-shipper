@@ -2,152 +2,149 @@ package com.carrus.carrusshipper.adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseExpandableListAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.carrus.carrusshipper.R;
-import com.carrus.carrusshipper.activity.BookingDetailsActivity;
+import com.carrus.carrusshipper.model.ExpandableChildItem;
+import com.carrus.carrusshipper.model.Header;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+
 /**
- * Created by anandbose on 09/06/15.
+ * Created by Saurbhv on 10/30/15.
  */
-public class ExpandableListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    public static final int HEADER = 0;
-    public static final int CHILD = 1;
+public class ExpandableListAdapter extends BaseExpandableListAdapter{
 
-    private List<Item> data;
-    private Activity mActivity;
+    private Context _context;
+    private List<Header> _listDataHeader; // header titles
+    // child data in format of header title, child title
+    private HashMap<Header, List<ExpandableChildItem>> _listDataChild;
 
-    public ExpandableListAdapter(Activity mActivity, List<Item> data) {
-        this.mActivity=mActivity;
-        this.data = data;
+    public ExpandableListAdapter(Context context,List<Header> listDataHeader,
+                                 HashMap<Header, List<ExpandableChildItem>> listChildData) {
+        this._context = context;
+        this._listDataHeader = listDataHeader;
+        this._listDataChild = listChildData;
     }
-
-
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int type) {
-        View view = null;
-        Context context = parent.getContext();
-        float dp = context.getResources().getDisplayMetrics().density;
-        int subItemPaddingLeft = (int) (18 * dp);
-        int subItemPaddingTopAndBottom = (int) (5 * dp);
-        switch (type) {
-            case HEADER:
-                LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                view = inflater.inflate(R.layout.list_header, parent, false);
-                ListHeaderViewHolder header = new ListHeaderViewHolder(view);
-                return header;
-            case CHILD:
-                TextView itemTextView = new TextView(context);
-                itemTextView.setPadding(subItemPaddingLeft, subItemPaddingTopAndBottom, 0, subItemPaddingTopAndBottom);
-                itemTextView.setTextColor(0x88000000);
-                itemTextView.setLayoutParams(
-                        new ViewGroup.LayoutParams(
-                                ViewGroup.LayoutParams.MATCH_PARENT,
-                                ViewGroup.LayoutParams.WRAP_CONTENT));
-                return new RecyclerView.ViewHolder(itemTextView) {
-                };
-        }
-        return null;
+    public Object getChild(int groupPosition, int childPosititon) {
+        return this._listDataChild.get(this._listDataHeader.get(groupPosition))
+                .get(childPosititon);
     }
 
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        final Item item = data.get(position);
-        switch (item.type) {
-            case HEADER:
-                final ListHeaderViewHolder itemController = (ListHeaderViewHolder) holder;
-                itemController.refferalItem = item;
-                itemController.header_title.setText(item.text);
-                if (item.invisibleChildren == null) {
-                    itemController.btn_expand_toggle.setImageResource(R.mipmap.circle_minus);
-                } else {
-                    itemController.btn_expand_toggle.setImageResource(R.mipmap.circle_plus);
-                }
-                itemController.btn_expand_toggle.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (item.invisibleChildren == null) {
-                            item.invisibleChildren = new ArrayList<Item>();
-                            int count = 0;
-                            int pos = data.indexOf(itemController.refferalItem);
-                            while (data.size() > pos + 1 && data.get(pos + 1).type == CHILD) {
-                                item.invisibleChildren.add(data.remove(pos + 1));
-                                count++;
-                            }
-                            notifyItemRangeRemoved(pos + 1, count);
-                            itemController.btn_expand_toggle.setImageResource(R.mipmap.circle_plus);
+    @Override
+    public long getChildId(int groupPosition, int childPosition) {
+        return childPosition;
+    }
 
-                        }else {
-                            int pos = data.indexOf(itemController.refferalItem);
-                            int index = pos + 1;
-                            for (Item i : item.invisibleChildren) {
-                                data.add(index, i);
-                                index++;
-                            }
-                            notifyItemRangeInserted(pos + 1, index - pos - 1);
-                            itemController.btn_expand_toggle.setImageResource(R.mipmap.circle_minus);
-                            item.invisibleChildren = null;
-                        }
+    @Override
+    public View getChildView(int groupPosition, final int childPosition,
+                             boolean isLastChild, View convertView, ViewGroup parent) {
 
-//                        ((BookingDetailsActivity)mActivity).chnageHieghtListView();
-                    }
-                });
+        final ExpandableChildItem expandableChildItem = (ExpandableChildItem) getChild(groupPosition, childPosition);
+        LayoutInflater infalInflater = (LayoutInflater) this._context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        TextView name, details;
+        switch (expandableChildItem.getType()) {
+            case 0:
+                convertView = infalInflater.inflate(R.layout.itemview_cargodetails, null);
+//                name = (TextView) convertView.findViewById(R.id.name);
+//                details = (TextView) convertView.findViewById(R.id.details);
+//                name.setText(expandableChildItem.getName());
+//                details.setText(expandableChildItem.getDetail());
+
+
                 break;
-            case CHILD:
-                TextView itemTextView = (TextView) holder.itemView;
-                itemTextView.setText(data.get(position).text);
+            case 1:
+                convertView = infalInflater.inflate(R.layout.itemview_desc, null);
+                TextView mDescTxtView=(TextView)convertView.findViewById(R.id.descTxtView);
+                mDescTxtView.setText(expandableChildItem.getDetail());
                 break;
+
         }
+//        if (expandableChildItem.getType() == 1) {
+////            TextView name = (TextView) convertView.findViewById(R.id.name);
+////            TextView details = (TextView) convertView.findViewById(R.id.details);
+////            name.setText(expandableChildItem.getName());
+////            details.setText(expandableChildItem.getDetail());
+//        } else if (expandableChildItem.getType() == 2) {
+//
+//        } else if (expandableChildItem.getType() == 3) {
+//
+//        }
+        return convertView;
     }
 
     @Override
-    public int getItemViewType(int position) {
-        return data.get(position).type;
+    public int getChildrenCount(int groupPosition) {
+        return this._listDataChild.get(this._listDataHeader.get(groupPosition))
+                .size();
     }
 
     @Override
-    public int getItemCount() {
-        return data.size();
+    public Object getGroup(int groupPosition) {
+        return this._listDataHeader.get(groupPosition);
     }
 
-    private static class ListHeaderViewHolder extends RecyclerView.ViewHolder {
-        public TextView header_title;
-        public ImageView btn_expand_toggle;
-        public Item refferalItem;
-
-        public ListHeaderViewHolder(View itemView) {
-            super(itemView);
-            header_title = (TextView) itemView.findViewById(R.id.header_title);
-            btn_expand_toggle = (ImageView) itemView.findViewById(R.id.btn_expand_toggle);
-        }
+    @Override
+    public int getGroupCount() {
+        return this._listDataHeader.size();
     }
 
-    public static class Item {
-        public int type;
-        public int viewType;
-        public String text;
-        public List<Item> invisibleChildren;
+    @Override
+    public long getGroupId(int groupPosition) {
+        return groupPosition;
+    }
 
-        public Item() {
+    @Override
+    public View getGroupView(int groupPosition, boolean isExpanded,
+                             View convertView, ViewGroup parent) {
+        final Header mHeader = (Header) getGroup(groupPosition);
+        if (convertView == null) {
+            LayoutInflater infalInflater = (LayoutInflater) this._context
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = infalInflater.inflate(R.layout.list_header, null);
         }
 
-        public Item(int type, String text) {
-            this.type = type;
-            this.text = text;
-        }
+        final TextView lblListHeader = (TextView) convertView
+                .findViewById(R.id.header_title);
+        lblListHeader.setText(mHeader.getName());
 
-        public Item(int viewType, int type, String text) {
-            this.viewType=viewType;
-            this.type = type;
-            this.text = text;
-        }
+        final ImageView btn_expand_toggle=(ImageView) convertView.findViewById(R.id.btn_expand_toggle);
+
+//        if (mHeader.isVisible()) {
+//            btn_expand_toggle.setImageResource(R.mipmap.circle_minus);
+//        } else {
+//            btn_expand_toggle.setImageResource(R.mipmap.circle_plus);
+//        }
+
+        int imageResourceId = isExpanded ? R.mipmap.circle_minus
+                : R.mipmap.circle_plus;
+        btn_expand_toggle.setImageResource(imageResourceId);
+
+
+
+        return convertView;
+    }
+
+    @Override
+    public boolean hasStableIds() {
+        return false;
+    }
+
+    @Override
+    public boolean isChildSelectable(int groupPosition, int childPosition) {
+        return true;
     }
 }
