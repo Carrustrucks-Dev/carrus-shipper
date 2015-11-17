@@ -25,6 +25,8 @@ import com.carrus.carrusshipper.utils.Constants;
 import com.carrus.carrusshipper.utils.GMapV2GetRouteDirection;
 import com.carrus.carrusshipper.utils.SessionManager;
 import com.carrus.carrusshipper.utils.Utils;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -167,6 +169,8 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
         getActivity().stopService(new Intent(getActivity(), MyService.class));
         mMarkerArray.clear();
         mTrackermodel.clear();
+        CameraUpdate center=null;
+
         for (int i = 0; i < mOnGoingShipper.mData.size(); i++) {
 
             if (mOnGoingShipper.mData.get(i).tracking.equalsIgnoreCase("yes")) {
@@ -178,9 +182,12 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
                                 .snippet(mOnGoingShipper.mData.get(i).shipper.firstName)
                                 .icon(BitmapDescriptorFactory.fromResource(R.mipmap.icon_van))
                 );
-
+                center=
+                        CameraUpdateFactory.newLatLng(location);
                 mMarkerArray.add(marker);
             }
+            if(center!=null)
+            googleMap.moveCamera(center);
         }
 //        for (int i = 0; i < Constants.name.length; i++) {
 //
@@ -255,6 +262,14 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
 
                     String[] ar = start.split("[,]");
                     googleMap.addMarker(new MarkerOptions().position(new LatLng(Double.valueOf(ar[0]), Double.valueOf(ar[1]))).icon(BitmapDescriptorFactory.fromResource(R.mipmap.icon_location_blue)));
+
+                    CameraUpdate center=
+                            CameraUpdateFactory.newLatLng(currentposition);
+                    CameraUpdate zoom=CameraUpdateFactory.zoomTo(7);
+
+                    googleMap.moveCamera(center);
+                    googleMap.animateCamera(zoom);
+
 
                     getActivity().startService(new Intent(getActivity(), MyService.class));
                 } catch (ParserConfigurationException e) {
