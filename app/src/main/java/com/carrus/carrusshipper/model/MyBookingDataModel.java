@@ -45,6 +45,8 @@ public class MyBookingDataModel  implements Serializable{
 
     public Truck truck;
 
+    public Cargo cargo;
+
     @SerializedName("paymentStatus")
     public String paymentStatus;
 

@@ -1,6 +1,8 @@
 package com.carrus.carrusshipper.activity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -21,6 +23,7 @@ import com.carrus.carrusshipper.fragments.MyBookingFragment;
 import com.carrus.carrusshipper.model.MyBookingModel;
 import com.carrus.carrusshipper.retrofit.RestClient;
 import com.carrus.carrusshipper.utils.ApiResponseFlags;
+import com.carrus.carrusshipper.utils.Constants;
 import com.carrus.carrusshipper.utils.SessionManager;
 import com.carrus.carrusshipper.utils.Utils;
 import com.google.gson.Gson;
@@ -118,18 +121,20 @@ public class MainActivity extends BaseActivity implements FragmentDrawer.Fragmen
                 break;
             case 2:
                 if (selectedPos != 2) {
-                    selectedPos = 2;
-
+//                    selectedPos = 2;
+                    Intent callIntent = new Intent(Intent.ACTION_CALL);
+                    callIntent.setData(Uri.parse("tel:"+ Constants .CONTACT_CARRUS));
+                    startActivity(callIntent);
                 }
                 break;
 
+//            case 3:
+//                if (selectedPos != 3) {
+//                    selectedPos = 3;
+//
+//                }
+//                break;
             case 3:
-                if (selectedPos != 3) {
-                    selectedPos = 3;
-
-                }
-                break;
-            case 4:
                 new AlertDialog.Builder(this)
                         .setTitle(R.string.quit)
                         .setMessage(R.string.really_quit)
@@ -214,7 +219,7 @@ public class MainActivity extends BaseActivity implements FragmentDrawer.Fragmen
                     if (error.getKind().equals(RetrofitError.Kind.NETWORK)) {
                         Toast.makeText(MainActivity.this, getResources().getString(R.string.nointernetconnection), Toast.LENGTH_SHORT).show();
                     } else if (error.getResponse().getStatus() == ApiResponseFlags.Unauthorized.getOrdinal()) {
-                        Utils.shopAlterDialog(MainActivity.this, error.getLocalizedMessage());
+                        Utils.shopAlterDialog(MainActivity.this, Utils.getErrorMsg(error), true);
                     }
                 } catch (Exception ex) {
                     Toast.makeText(MainActivity.this, getResources().getString(R.string.nointernetconnection), Toast.LENGTH_SHORT).show();

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +13,12 @@ import android.widget.Toast;
 import com.carrus.carrusshipper.R;
 import com.carrus.carrusshipper.activity.MainActivity;
 import com.carrus.carrusshipper.retrofit.RestClient;
+import com.carrus.carrusshipper.utils.ApiResponseFlags;
+import com.carrus.carrusshipper.utils.ConnectionDetector;
 import com.carrus.carrusshipper.utils.Constants;
 import com.carrus.carrusshipper.utils.GMapV2GetRouteDirection;
+import com.carrus.carrusshipper.utils.SessionManager;
+import com.carrus.carrusshipper.utils.Utils;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -53,6 +58,10 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
 
     private GMapV2GetRouteDirection v2GetRouteDirection;
 
+    private ConnectionDetector mConnectionDetector;
+
+    private SessionManager mSessionManager;
+
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -67,6 +76,8 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         v2GetRouteDirection = new GMapV2GetRouteDirection();
+        mSessionManager=new SessionManager(getActivity());
+        mConnectionDetector=new ConnectionDetector(getActivity());
     }
 
     @Override
@@ -100,6 +111,12 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
      */
     private void initilizeMap() {
         mainActivity=(MainActivity) getActivity();
+
+        if(!mConnectionDetector.isConnectingToInternet()){
+            Utils.shopAlterDialog(getActivity(), getResources().getString(R.string.nointernetconnection), false);
+            return;
+        }
+
         if (googleMap == null) {
 
             SupportMapFragment fragmentManager = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
@@ -123,6 +140,7 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
 //                googleMap.animateCamera(CameraUpdateFactory.zoomTo(14));
                 googleMap.setOnMarkerClickListener(this);
                 addmarkers();
+                getOnGoingBookingTrack();
             }
 
 
@@ -207,6 +225,36 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
             @Override
             public void failure(RetrofitError error) {
 
+            }
+        });
+    }
+
+    private void getOnGoingBookingTrack(){
+        Utils.loading_box(getActivity());
+
+        RestClient.getApiService().getAllOnGoingBookingTrack(mSessionManager.getAccessToken(), 100, 0, Constants.SORT, new Callback<String>() {
+            @Override
+            public void success(String s, Response response) {
+                Log.v("" + getClass().getSimpleName(), "Response> " + s);
+                Utils.loading_box_stop();
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Utils.loading_box_stop();
+                try {
+                    Log.v("error.getKind() >> " + error.getKind(), " MSg >> " + error.getResponse().getStatus());
+
+                    if (error.getKind().equals(RetrofitError.Kind.NETWORK)) {
+                        Toast.makeText(getActivity(), getResources().getString(R.string.nointernetconnection), Toast.LENGTH_SHORT).show();
+                    } else if (error.getResponse().getStatus() == ApiResponseFlags.Unauthorized.getOrdinal()) {
+                        Utils.shopAlterDialog(getActivity(), Utils.getErrorMsg(error), true);
+                    }else if (error.getResponse().getStatus() == ApiResponseFlags.Not_Found.getOrdinal()) {
+                        Toast.makeText(getActivity(), Utils.getErrorMsg(error), Toast.LENGTH_SHORT).show();
+                    }
+                }catch (Exception ex){
+                    Toast.makeText(getActivity(), getResources().getString(R.string.nointernetconnection), Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

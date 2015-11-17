@@ -10,6 +10,7 @@
         layout="@layout/toolbar" />
 
     <ScrollView
+        android:id="@+id/mainscrollview"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
 

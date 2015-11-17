@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.carrus.carrusshipper.R;
 import com.carrus.carrusshipper.retrofit.RestClient;
 import com.carrus.carrusshipper.utils.ApiResponseFlags;
+import com.carrus.carrusshipper.utils.ConnectionDetector;
 import com.carrus.carrusshipper.utils.DeviceTokenFetcher;
 import com.carrus.carrusshipper.utils.SessionManager;
 import com.carrus.carrusshipper.utils.Utils;
@@ -31,12 +32,14 @@ public class LoginActivity extends BaseActivity {
 
     private EditText mEmailidEdtTxt, mPasswordEdtTxt;
     private SessionManager mSessionManager;
+    private ConnectionDetector mConnectionDetector;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         mSessionManager = new SessionManager(this);
+        mConnectionDetector = new ConnectionDetector(this);
         init();
         initializeClickListners();
     }
@@ -45,20 +48,16 @@ public class LoginActivity extends BaseActivity {
         mEmailidEdtTxt = (EditText) findViewById(R.id.emailLoginET);
         mPasswordEdtTxt = (EditText) findViewById(R.id.passwdLoginET);
         mSessionManager = new SessionManager(this);
-        new DeviceTokenFetcher(this, new DeviceTokenFetcher.Listener() {
-            @Override
-            public void onDeviceTokenReceived(String deviceToken) {
-                Log.e("Device Token", deviceToken);
-                mSessionManager.saveDeviceToken(deviceToken);
-            }
-        }).execute(SENDER_ID);
+        getDeviceToken();
     }
 
     private void initializeClickListners() {
         findViewById(R.id.submitBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (mSessionManager.getDeviceToken().isEmpty()) {
+                    getDeviceToken();
+                }
                 if (mEmailidEdtTxt.getText().toString().trim().isEmpty()) {
                     mEmailidEdtTxt.setError(getResources().getString(R.string.email_required));
                     mEmailidEdtTxt.requestFocus();
@@ -69,7 +68,10 @@ public class LoginActivity extends BaseActivity {
                     mEmailidEdtTxt.setError(getResources().getString(R.string.validemail_required));
                     mEmailidEdtTxt.requestFocus();
                 } else {
-                    verifyLoggedIn();
+                    if (mConnectionDetector.isConnectingToInternet())
+                        verifyLoggedIn();
+                    else
+                        Utils.shopAlterDialog(LoginActivity.this, getResources().getString(R.string.nointernetconnection), false);
                 }
             }
         });
@@ -80,6 +82,16 @@ public class LoginActivity extends BaseActivity {
                 startActivityForResult(new Intent(LoginActivity.this, ForgotPasswordActivity.class), 600);
             }
         });
+    }
+
+    private void getDeviceToken() {
+        new DeviceTokenFetcher(this, new DeviceTokenFetcher.Listener() {
+            @Override
+            public void onDeviceTokenReceived(String deviceToken) {
+                Log.e("Device Token", deviceToken + "");
+                mSessionManager.saveDeviceToken(deviceToken);
+            }
+        }).execute(SENDER_ID);
     }
 
     private void verifyLoggedIn() {
@@ -117,6 +129,19 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void failure(RetrofitError error) {
                 Utils.loading_box_stop();
+                try {
+                    Log.v("error.getKind() >> " + error.getKind(), " MSg >> " + error.getResponse().getReason());
+
+                    if (error.getKind().equals(RetrofitError.Kind.NETWORK)) {
+                        Toast.makeText(LoginActivity.this, getResources().getString(R.string.nointernetconnection), Toast.LENGTH_SHORT).show();
+                    } else if (error.getResponse().getStatus() == ApiResponseFlags.Unauthorized.getOrdinal()) {
+                        Utils.shopAlterDialog(LoginActivity.this, Utils.getErrorMsg(error), false);
+                    } else if (error.getResponse().getStatus() == ApiResponseFlags.Not_Found.getOrdinal()) {
+                        Toast.makeText(LoginActivity.this, Utils.getErrorMsg(error), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception ex) {
+                    Toast.makeText(LoginActivity.this, getResources().getString(R.string.nointernetconnection), Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

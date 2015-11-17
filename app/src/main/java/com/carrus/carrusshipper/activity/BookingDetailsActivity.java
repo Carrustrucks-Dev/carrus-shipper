@@ -9,6 +9,7 @@ import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.carrus.carrusshipper.R;
@@ -31,7 +32,7 @@ public class BookingDetailsActivity extends BaseActivity {
 
     private TextView headerTxtView;
     private ImageView mBackBtn;
-//    private RecyclerView recyclerview;
+    //    private RecyclerView recyclerview;
     private MyBookingDataModel mMyBookingDataModel;
     private TextView nameDetailTxtView, typeDetailTxtView, locationDetailsTxtView, trackDetailsIdTxtView, statusTxtView, addresPickupTxtView, datePickupTxtView, timePickupTxtView, addressDropTxtView, dateDropTxtview, timeDropTxtView, paymentModeTxtView, totalCostTxtView;
     private Button paymentBtn, cancelBtn;
@@ -57,7 +58,7 @@ public class BookingDetailsActivity extends BaseActivity {
 //        recyclerview = (RecyclerView) findViewById(R.id.recyclerview);
 //        recyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
-        mExpandableListView=(ExpandableListView) findViewById(R.id.recyclerview);
+        mExpandableListView = (ExpandableListView) findViewById(R.id.recyclerview);
         nameDetailTxtView = (TextView) findViewById(R.id.nameDetailTxtView);
         typeDetailTxtView = (TextView) findViewById(R.id.typeDetailTxtView);
         locationDetailsTxtView = (TextView) findViewById(R.id.locationDetailsTxtView);
@@ -71,8 +72,8 @@ public class BookingDetailsActivity extends BaseActivity {
         timeDropTxtView = (TextView) findViewById(R.id.timeDropTxtView);
         paymentModeTxtView = (TextView) findViewById(R.id.paymentModeTxtView);
         totalCostTxtView = (TextView) findViewById(R.id.totalCostTxtView);
-        paymentBtn=(Button) findViewById(R.id.paymentBtn);
-        cancelBtn=(Button) findViewById(R.id.cancelBtn);
+        paymentBtn = (Button) findViewById(R.id.paymentBtn);
+        cancelBtn = (Button) findViewById(R.id.cancelBtn);
 
         // Listview Group click listener
         mExpandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
@@ -218,12 +219,12 @@ public class BookingDetailsActivity extends BaseActivity {
 
     private void setValuesonViews() {
 
-        nameDetailTxtView.setText(mMyBookingDataModel.shipper.firstName+" "+mMyBookingDataModel.shipper.lastName);
-        typeDetailTxtView.setText(mMyBookingDataModel.truck.truckType.typeTruckName+", "+mMyBookingDataModel.truck.truckNumber);
-        locationDetailsTxtView.setText(mMyBookingDataModel.pickUp.city+" to "+mMyBookingDataModel.dropOff.city);
+        nameDetailTxtView.setText(mMyBookingDataModel.shipper.firstName + " " + mMyBookingDataModel.shipper.lastName);
+        typeDetailTxtView.setText(mMyBookingDataModel.truck.truckType.typeTruckName + ", " + mMyBookingDataModel.truck.truckNumber);
+        locationDetailsTxtView.setText(mMyBookingDataModel.pickUp.city + " to " + mMyBookingDataModel.dropOff.city);
 //        trackDetailsIdTxtView
         statusTxtView.setText(mMyBookingDataModel.bookingStatus);
-        addresPickupTxtView.setText(mMyBookingDataModel.pickUp.address+", "+mMyBookingDataModel.pickUp.city+", "+mMyBookingDataModel.pickUp.state+", "+mMyBookingDataModel.pickUp.zipCode);
+        addresPickupTxtView.setText(mMyBookingDataModel.pickUp.address + ", " + mMyBookingDataModel.pickUp.city + ", " + mMyBookingDataModel.pickUp.state + ", " + mMyBookingDataModel.pickUp.zipCode);
 
         try {
             datePickupTxtView.setText(Utils.getFullDateTime(mMyBookingDataModel.pickUp.date));
@@ -231,26 +232,26 @@ public class BookingDetailsActivity extends BaseActivity {
             e.printStackTrace();
         }
         timePickupTxtView.setText(mMyBookingDataModel.pickUp.time);
-                        addressDropTxtView.setText(mMyBookingDataModel.dropOff.address+", "+mMyBookingDataModel.dropOff.city+", "+mMyBookingDataModel.dropOff.state+", "+mMyBookingDataModel.dropOff.zipCode);
+        addressDropTxtView.setText(mMyBookingDataModel.dropOff.address + ", " + mMyBookingDataModel.dropOff.city + ", " + mMyBookingDataModel.dropOff.state + ", " + mMyBookingDataModel.dropOff.zipCode);
         try {
             dateDropTxtview.setText(Utils.getFullDateTime(mMyBookingDataModel.dropOff.date));
         } catch (ParseException e) {
             e.printStackTrace();
         }
         timeDropTxtView.setText(mMyBookingDataModel.dropOff.time);
-                                paymentModeTxtView.setText(mMyBookingDataModel.paymentMode);
-                                        totalCostTxtView.setText(mMyBookingDataModel.acceptPrice);
+        paymentModeTxtView.setText(mMyBookingDataModel.paymentMode);
+        totalCostTxtView.setText("₹ "+mMyBookingDataModel.acceptPrice);
 
         // Adding child data
         ArrayList<ExpandableChildItem> cargoDetails = new ArrayList<ExpandableChildItem>();
-        cargoDetails.add(new ExpandableChildItem("", "", 0));
+        cargoDetails.add(new ExpandableChildItem(mMyBookingDataModel.cargo.cargoType.typeCargoName, mMyBookingDataModel.cargo.weight + "", 0));
 
         // Adding child data
         ArrayList<ExpandableChildItem> notes = new ArrayList<ExpandableChildItem>();
         notes.add(new ExpandableChildItem("", "Details of notes", 1));
 
         // Adding child data
-        ArrayList<ExpandableChildItem> fleetowner= new ArrayList<ExpandableChildItem>();
+        ArrayList<ExpandableChildItem> fleetowner = new ArrayList<ExpandableChildItem>();
         fleetowner.add(new ExpandableChildItem("", "Details of fleet owner", 1));
 
         listDataChild.put(listDataHeader.get(0), cargoDetails); // Header, Child data
@@ -261,5 +262,12 @@ public class BookingDetailsActivity extends BaseActivity {
         mExpandableListView.setAdapter(listAdapter);
         setListViewHeight(mExpandableListView);
 //        chnageHieghtListView();
+        final ScrollView scrollview = (ScrollView)findViewById(R.id.mainscrollview);
+
+        scrollview.post(new Runnable() {
+            public void run() {
+                scrollview.scrollTo(0, 0);
+            }
+        });
     }
 }

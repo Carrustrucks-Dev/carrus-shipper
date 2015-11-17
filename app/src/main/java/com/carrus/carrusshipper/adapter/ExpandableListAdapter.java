@@ -55,14 +55,14 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter{
         final ExpandableChildItem expandableChildItem = (ExpandableChildItem) getChild(groupPosition, childPosition);
         LayoutInflater infalInflater = (LayoutInflater) this._context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        TextView name, details;
+        TextView typeCargoTxtView, weightTxtView;
         switch (expandableChildItem.getType()) {
             case 0:
                 convertView = infalInflater.inflate(R.layout.itemview_cargodetails, null);
-//                name = (TextView) convertView.findViewById(R.id.name);
-//                details = (TextView) convertView.findViewById(R.id.details);
-//                name.setText(expandableChildItem.getName());
-//                details.setText(expandableChildItem.getDetail());
+                typeCargoTxtView = (TextView) convertView.findViewById(R.id.typeCargoTxtView);
+                weightTxtView = (TextView) convertView.findViewById(R.id.weightTxtView);
+                typeCargoTxtView.setText(expandableChildItem.getName());
+                weightTxtView.setText(expandableChildItem.getDetail()+" Ton");
 
 
                 break;

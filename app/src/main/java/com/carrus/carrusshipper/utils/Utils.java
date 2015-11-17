@@ -15,12 +15,18 @@ import android.view.ViewGroup;
 import com.carrus.carrusshipper.R;
 import com.carrus.carrusshipper.activity.LoginActivity;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
+
+import retrofit.RetrofitError;
+import retrofit.mime.TypedByteArray;
 
 /**
  * Created by Sunny on 11/6/15.
@@ -40,7 +46,7 @@ measures height of recyclerview when placed inside scrollview
         }
         int totalHeight = 0;
         for (int size = 0; size < myListAdapter.getItemCount(); size++) {
-            View listItem = myListView.getAdapter().createViewHolder(myListView,0).itemView;
+            View listItem = myListView.getAdapter().createViewHolder(myListView, 0).itemView;
             listItem.measure(0, 0);
             totalHeight += listItem.getMeasuredHeight();
 
@@ -57,7 +63,7 @@ measures height of recyclerview when placed inside scrollview
     /**
      * Loading view
      *
-     * @param c   context from where the loading view is in voked
+     * @param c context from where the loading view is in voked
      */
 
     public static void loading_box(Context c) {
@@ -92,7 +98,9 @@ measures height of recyclerview when placed inside scrollview
             }
     }
 
-    /** Returns the consumer friendly device name */
+    /**
+     * Returns the consumer friendly device name
+     */
     public static String getDeviceName() {
         String manufacturer = Build.MANUFACTURER;
         String model = Build.MODEL;
@@ -121,6 +129,7 @@ measures height of recyclerview when placed inside scrollview
         }
         return phrase;
     }
+
     public final static boolean isValidEmail(String target) {
         if (TextUtils.isEmpty(target)) {
             return false;
@@ -171,24 +180,39 @@ measures height of recyclerview when placed inside scrollview
         return day.format(d);
     }
 
-    public static void shopAlterDialog(final Context myContext, String msg){
+    public static void shopAlterDialog(final Context myContext, String msg, final boolean isAuthroized) {
         new AlertDialog.Builder(myContext)
                 // Set Dialog Icon
 //                .setIcon(R.drawable.androidhappy)
-                        // Set Dialog Title
+                // Set Dialog Title
                 .setTitle("")
                         // Set Dialog Message
                 .setMessage(msg)
-                        .setCancelable(false)
+                .setCancelable(false)
 
                         // Positive button
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         // Do something else
                         dialog.dismiss();
+                        if(isAuthroized)
                         new SessionManager(myContext).logoutUser();
                     }
                 }).create().show();
 
     }
-}
+
+    public static String getErrorMsg(RetrofitError error) {
+        String errorMessage = "";
+        String str = new String(((TypedByteArray) error.getResponse().getBody()).getBytes());
+        JSONObject json = null;
+        try {
+            json = new JSONObject(str);
+            errorMessage = json.getString("message");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return errorMessage;
+    }
+
+    }

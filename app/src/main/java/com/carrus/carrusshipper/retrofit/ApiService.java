@@ -1,6 +1,7 @@
 package com.carrus.carrusshipper.retrofit;
 
 import retrofit.Callback;
+import retrofit.http.Body;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
@@ -15,6 +16,8 @@ import retrofit.http.Query;
  */
 public interface ApiService {
     String LOGOUT_URL = "/api/v1/shipper/logout";
+    String FORGETPASSWORD_URL = "/api/v1/shipper/forgotPassword";
+
     String AUTHORIZATION = "authorization";
     @GET("/maps/api/directions/xml")
     public void getDriections(@Query("origin") String origin, @Query("destination") String destination, @Query("sensor") String sensor, @Query("units") String units, @Query("mode") String mode, Callback<String> callback);
@@ -31,13 +34,22 @@ public interface ApiService {
     public void login(@Field("email") String email, @Field("password") String password, @Field("deviceType") String deviceType, @Field("deviceName") String deviceName, @Field("deviceToken") String deviceToken, Callback<String> callback);
 
     @GET("/api/v1/shipper/getOnGoing")
-    public void getOnGoing(@Header("authorization") String authorization, @Query("limit") String limit, @Query("skip") String skip, @Query("sort") String sort, Callback<String> callback);
+    public void getOnGoing(@Header(AUTHORIZATION) String authorization, @Query("limit") String limit, @Query("skip") String skip, @Query("sort") String sort, Callback<String> callback);
 
     @GET("/api/v1/shipper/getPast")
-    public void getPast(@Header("authorization") String authorization, @Query("limit") String limit, @Query("skip") String skip, @Query("sort") String sort, Callback<String> callback);
-
+    public void getPast(@Header(AUTHORIZATION) String authorization, @Query("limit") String limit, @Query("skip") String skip, @Query("sort") String sort, Callback<String> callback);
 
     @PUT(LOGOUT_URL)
     void logout(@Header(AUTHORIZATION) String authorization, Callback<String> callback);
 
+    @FormUrlEncoded
+    @PUT(FORGETPASSWORD_URL)
+    void forgotPassword(@Field("email") String body, Callback<String> callback);
+
+    @GET("/api/v1/shipper/getOnGoingBookingTrack")
+    public void getAllOnGoingBookingTrack(@Header(AUTHORIZATION) String authorization,  @Query("limit") Integer limit, @Query("skip") Integer skip, @Query("sort") String sort, Callback<String> callback);
+
+
+    @GET("/api/v1/shipper/getOnGoingBookingTrack")
+    public void getSingleOnGoingBookingTrack(@Header(AUTHORIZATION) String authorization,  @Query("bookingId") Integer bookingId, @Query("limit") Integer limit, @Query("skip") Integer skip, @Query("sort") String sort, Callback<String> callback);
 }

@@ -20,6 +20,7 @@ import com.carrus.carrusshipper.adapter.DividerItemDecoration;
 import com.carrus.carrusshipper.model.MyBookingModel;
 import com.carrus.carrusshipper.retrofit.RestClient;
 import com.carrus.carrusshipper.utils.ApiResponseFlags;
+import com.carrus.carrusshipper.utils.ConnectionDetector;
 import com.carrus.carrusshipper.utils.SessionManager;
 import com.carrus.carrusshipper.utils.Utils;
 import com.google.gson.Gson;
@@ -48,6 +49,7 @@ public class PastFragment extends Fragment {
     private int skip=0;
     private SwipeRefreshLayout swipeRefreshLayout;
     private boolean isRefreshView=false;
+    private ConnectionDetector mConnectionDetector;
 
 
     /**
@@ -76,7 +78,11 @@ public class PastFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mSessionManager=new SessionManager(getActivity());
+        mConnectionDetector=new ConnectionDetector(getActivity());
+        if(mConnectionDetector.isConnectingToInternet())
         getPastBookings();
+        else
+            Utils.shopAlterDialog(getActivity(), getResources().getString(R.string.nointernetconnection), false);
     }
 
     private void init(View view){
@@ -149,9 +155,9 @@ public class PastFragment extends Fragment {
                     if (error.getKind().equals(RetrofitError.Kind.NETWORK)) {
                         Toast.makeText(getActivity(), getResources().getString(R.string.nointernetconnection), Toast.LENGTH_SHORT).show();
                     } else if (error.getResponse().getStatus() == ApiResponseFlags.Unauthorized.getOrdinal()) {
-                        Utils.shopAlterDialog(getActivity(), error.getLocalizedMessage());
+                        Utils.shopAlterDialog(getActivity(), Utils.getErrorMsg(error), true);
                     }else if (error.getResponse().getStatus() == ApiResponseFlags.Not_Found.getOrdinal()) {
-                        Toast.makeText(getActivity(), getResources().getString(R.string.norecordfound), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), Utils.getErrorMsg(error), Toast.LENGTH_SHORT).show();
                     }
                 }catch (Exception ex){
                     Toast.makeText(getActivity(), getResources().getString(R.string.nointernetconnection), Toast.LENGTH_SHORT).show();

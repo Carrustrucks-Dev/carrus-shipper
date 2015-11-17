@@ -22,6 +22,7 @@
             android:layout_weight="0.5"/>
 
         <TextView
+            android:id="@+id/typeCargoTxtView"
             android:layout_width="0dp"
             android:textColor="@color/gray_text"
             android:padding="@dimen/ten"
@@ -55,6 +56,7 @@
             android:layout_weight="0.5"/>
 
         <TextView
+            android:id="@+id/weightTxtView"
             android:layout_width="0dp"
             android:textColor="@color/gray_text"
             android:padding="@dimen/ten"
