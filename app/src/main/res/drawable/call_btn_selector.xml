@@ -10,7 +10,7 @@
         android:drawable="@mipmap/icon_call_p"
         />
     <item
-        android:drawable="@mipmap/icon_call_normal"
+        android:drawable="@mipmap/icon_call"
         />
 
 </selector>

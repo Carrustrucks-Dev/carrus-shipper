@@ -9,6 +9,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.TranslateAnimation;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.carrus.carrusshipper.R;
@@ -78,6 +82,8 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
 
     private OnGoingShipper mOnGoingShipper;
 
+    private RelativeLayout mBottomView;
+
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -100,6 +106,8 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+        mBottomView=(RelativeLayout)rootView.findViewById(R.id.bottomview);
+        hideLogin();
         try {
             // Loading map
             initilizeMap();
@@ -165,6 +173,7 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
 
     //Add marker function on google map
     public void addmarkers() {
+        hideLogin();
         googleMap.clear();
         getActivity().stopService(new Intent(getActivity(), MyService.class));
         mMarkerArray.clear();
@@ -263,14 +272,14 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
                     String[] ar = start.split("[,]");
                     googleMap.addMarker(new MarkerOptions().position(new LatLng(Double.valueOf(ar[0]), Double.valueOf(ar[1]))).icon(BitmapDescriptorFactory.fromResource(R.mipmap.icon_location_blue)));
 
-                    CameraUpdate center=
+                    CameraUpdate center =
                             CameraUpdateFactory.newLatLng(currentposition);
-                    CameraUpdate zoom=CameraUpdateFactory.zoomTo(7);
+                    CameraUpdate zoom = CameraUpdateFactory.zoomTo(7);
 
                     googleMap.moveCamera(center);
                     googleMap.animateCamera(zoom);
 
-
+                    showLogin();
                     getActivity().startService(new Intent(getActivity(), MyService.class));
                 } catch (ParserConfigurationException e) {
                     e.printStackTrace();
@@ -346,5 +355,33 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
                 }
             }
         });
+    }
+
+    //    /***
+//     * shows login layout
+//     */
+    private void showLogin() {
+        final Animation animationFadeIn = AnimationUtils.loadAnimation(getActivity(), R.anim.fadein);
+
+        mBottomView.setAnimation(animationFadeIn);
+        mBottomView.setVisibility(View.VISIBLE);
+//        final Animation animationFadeOut = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fadeout);
+//        bottomlayout.clearAnimation();
+//        bottomlayout.setAnimation(animationFadeOut);
+//        bottomlayout.setVisibility(View.INVISIBLE);
+    }
+
+    //    /***
+//     * hides login layout
+//     */
+    private void hideLogin() {
+//        final Animation animationFadeIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fadein);
+        final Animation animationFadeOut = AnimationUtils.loadAnimation(getActivity(), R.anim.fadeout);
+        mBottomView.setAnimation(animationFadeOut);
+        mBottomView.setVisibility(View.INVISIBLE);
+
+//        bottomlayout.clearAnimation();
+//        bottomlayout.setAnimation(animationFadeIn);
+//        bottomlayout.setVisibility(View.VISIBLE);
     }
 }
