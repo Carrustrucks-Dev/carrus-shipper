@@ -17,16 +17,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.carrus.carrusshipper.R;
-import com.carrus.carrusshipper.adapter.BookingAdapter;
 import com.carrus.carrusshipper.fragments.HomeFragment;
 import com.carrus.carrusshipper.fragments.MyBookingFragment;
-import com.carrus.carrusshipper.model.MyBookingModel;
 import com.carrus.carrusshipper.retrofit.RestClient;
+import com.carrus.carrusshipper.services.MyService;
 import com.carrus.carrusshipper.utils.ApiResponseFlags;
 import com.carrus.carrusshipper.utils.Constants;
 import com.carrus.carrusshipper.utils.SessionManager;
 import com.carrus.carrusshipper.utils.Utils;
-import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -65,6 +63,12 @@ public class MainActivity extends BaseActivity implements FragmentDrawer.Fragmen
         displayView(0);
 
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        stopService(new Intent(MainActivity.this, MyService.class));
     }
 
     private void initializeView() {

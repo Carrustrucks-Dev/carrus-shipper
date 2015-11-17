@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.carrus.carrusshipper.R;
-import com.carrus.carrusshipper.activity.BookingDetailsActivity;
 
 import java.util.ArrayList;
 import java.util.List;

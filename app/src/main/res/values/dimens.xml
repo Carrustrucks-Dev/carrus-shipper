@@ -19,10 +19,12 @@
     <dimen name="ten">10dp</dimen>
     <dimen name="fifteen">15dp</dimen>
     <dimen name="thirty">30dp</dimen>
+    <dimen name="mediumhieght">70dp</dimen>
 
     <!--Text Sizes-->
     <dimen name="low_font">12sp</dimen>
     <dimen name="mid_fond">14sp</dimen>
     <dimen name="big_font">16sp</dimen>
     <dimen name="large_font">20sp</dimen>
+    <dimen name="toolarge_font">30sp</dimen>
 </resources>

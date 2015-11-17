@@ -24,7 +24,6 @@ import com.carrus.carrusshipper.utils.ConnectionDetector;
 import com.carrus.carrusshipper.utils.SessionManager;
 import com.carrus.carrusshipper.utils.Utils;
 import com.google.gson.Gson;
-import com.squareup.okhttp.internal.Util;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -50,6 +49,7 @@ public class PastFragment extends Fragment {
     private SwipeRefreshLayout swipeRefreshLayout;
     private boolean isRefreshView=false;
     private ConnectionDetector mConnectionDetector;
+    private TextView mErrorTxtView;
 
 
     /**
@@ -71,6 +71,7 @@ public class PastFragment extends Fragment {
 
         View convertView = inflater.inflate(R.layout.fragment_bookinglist, container, false);
         init(convertView);
+        intializeListners();
         return convertView;
     }
 
@@ -81,13 +82,30 @@ public class PastFragment extends Fragment {
         mConnectionDetector=new ConnectionDetector(getActivity());
         if(mConnectionDetector.isConnectingToInternet())
         getPastBookings();
-        else
+        else {
+            mErrorTxtView.setText(getResources().getString(R.string.nointernetconnection));
+            mErrorTxtView.setVisibility(View.VISIBLE);
             Utils.shopAlterDialog(getActivity(), getResources().getString(R.string.nointernetconnection), false);
+        }
+    }
+
+    private void intializeListners(){
+        mErrorTxtView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mConnectionDetector.isConnectingToInternet())
+                    getPastBookings();
+                else {
+                    mErrorTxtView.setText(getResources().getString(R.string.nointernetconnection));
+                    mErrorTxtView.setVisibility(View.VISIBLE);
+                    Utils.shopAlterDialog(getActivity(), getResources().getString(R.string.nointernetconnection), false);
+                }
+            }
+        });
     }
 
     private void init(View view){
-        TextView myTextView=(TextView) view.findViewById(R.id.myTextView);
-        myTextView.setText(TAG);
+        mErrorTxtView=(TextView) view.findViewById(R.id.errorTxtView);
         swipeRefreshLayout=(SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
         swipeRefreshLayout.setColorSchemeColors(
@@ -154,10 +172,14 @@ public class PastFragment extends Fragment {
 
                     if (error.getKind().equals(RetrofitError.Kind.NETWORK)) {
                         Toast.makeText(getActivity(), getResources().getString(R.string.nointernetconnection), Toast.LENGTH_SHORT).show();
+                        mErrorTxtView.setText(getResources().getString(R.string.nointernetconnection));
+                        mErrorTxtView.setVisibility(View.VISIBLE);
                     } else if (error.getResponse().getStatus() == ApiResponseFlags.Unauthorized.getOrdinal()) {
                         Utils.shopAlterDialog(getActivity(), Utils.getErrorMsg(error), true);
                     }else if (error.getResponse().getStatus() == ApiResponseFlags.Not_Found.getOrdinal()) {
                         Toast.makeText(getActivity(), Utils.getErrorMsg(error), Toast.LENGTH_SHORT).show();
+                        mErrorTxtView.setText(Utils.getErrorMsg(error));
+                        mErrorTxtView.setVisibility(View.VISIBLE);
                     }
                 }catch (Exception ex){
                     Toast.makeText(getActivity(), getResources().getString(R.string.nointernetconnection), Toast.LENGTH_SHORT).show();

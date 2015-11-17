@@ -1,10 +1,8 @@
 package com.carrus.carrusshipper.retrofit;
 
 import com.carrus.carrusshipper.utils.Constants;
-import com.squareup.okhttp.OkHttpClient;
 
 import retrofit.RestAdapter;
-import retrofit.client.OkClient;
 
 
 /**

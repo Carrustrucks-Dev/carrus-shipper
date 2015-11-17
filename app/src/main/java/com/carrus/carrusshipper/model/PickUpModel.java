@@ -36,7 +36,7 @@ public class PickUpModel  implements Serializable {
     @SerializedName("date")
     public String date;
 
-    public CoordinatesModel coordinates;
+    public CoordinatesPickUpModel coordinates;
 
     @SerializedName("time")
     public String time;

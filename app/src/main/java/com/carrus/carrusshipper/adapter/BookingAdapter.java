@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.carrus.carrusshipper.R;
 import com.carrus.carrusshipper.activity.BookingDetailsActivity;
 import com.carrus.carrusshipper.model.MyBookingDataModel;
-import com.carrus.carrusshipper.model.MyBookingModel;
 import com.carrus.carrusshipper.utils.Utils;
 
 import java.text.ParseException;

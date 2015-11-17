@@ -16,7 +16,7 @@
     </android.support.v4.widget.SwipeRefreshLayout>
 
     <TextView
-        android:id="@+id/myTextView"
+        android:id="@+id/errorTxtView"
         android:layout_width="wrap_content"
         android:visibility="gone"
         android:layout_height="wrap_content"

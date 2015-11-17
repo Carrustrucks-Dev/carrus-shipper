@@ -14,11 +14,12 @@ import android.widget.TextView;
 
 import com.carrus.carrusshipper.R;
 import com.carrus.carrusshipper.adapter.ExpandableListAdapter;
-import com.carrus.carrusshipper.adapter.ExpandableListAdapter_Recycler;
 import com.carrus.carrusshipper.model.ExpandableChildItem;
 import com.carrus.carrusshipper.model.Header;
 import com.carrus.carrusshipper.model.MyBookingDataModel;
+import com.carrus.carrusshipper.utils.CircleTransform;
 import com.carrus.carrusshipper.utils.Utils;
+import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -40,6 +41,7 @@ public class BookingDetailsActivity extends BaseActivity {
     private List<Header> listDataHeader;
     private HashMap<Header, List<ExpandableChildItem>> listDataChild;
     private ExpandableListAdapter listAdapter;
+    private ImageView mProfileIV;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -74,6 +76,9 @@ public class BookingDetailsActivity extends BaseActivity {
         totalCostTxtView = (TextView) findViewById(R.id.totalCostTxtView);
         paymentBtn = (Button) findViewById(R.id.paymentBtn);
         cancelBtn = (Button) findViewById(R.id.cancelBtn);
+        mProfileIV=(ImageView) findViewById(R.id.profileIV);
+
+        Picasso.with(BookingDetailsActivity.this).load(R.mipmap.icon_placeholder).resize(100,100).transform(new CircleTransform()).into(mProfileIV);
 
         // Listview Group click listener
         mExpandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {

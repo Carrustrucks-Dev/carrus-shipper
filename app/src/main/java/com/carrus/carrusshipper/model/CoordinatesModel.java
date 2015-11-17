@@ -10,10 +10,10 @@ import java.io.Serializable;
 public class CoordinatesModel implements Serializable{
 
     @SerializedName("dropOffLat")
-    public String dropOffLat;
+    public Double dropOffLat;
 
     @SerializedName("dropOffLong")
-    public String dropOffLong;
+    public Double dropOffLong;
 
 
 }
