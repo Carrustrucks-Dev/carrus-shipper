@@ -180,6 +180,29 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
                         mSearchEdtTxt.requestFocus();
                     }else{
 
+                        for (int i = 0; i < mOnGoingShipper.mData.size(); i++) {
+
+                            if (mOnGoingShipper.mData.get(i).tracking.equalsIgnoreCase("yes")) {
+                                if (mOnGoingShipper.mData.get(i).crruentTracking.size() != 0 && mSearchEdtTxt.getText().toString().trim().equals(mOnGoingShipper.mData.get(i).crruentTracking.get(0)._id)) {
+                                    LatLng location = new LatLng(mOnGoingShipper.mData.get(i).crruentTracking.get(0).lat, mOnGoingShipper.mData.get(i).crruentTracking.get(0).longg);
+
+                                    Marker marker = googleMap.addMarker(new MarkerOptions().position(location)
+                                                    .title(mOnGoingShipper.mData.get(i).shipper.firstName)
+                                                    .snippet(mOnGoingShipper.mData.get(i).shipper.firstName)
+                                                    .icon(BitmapDescriptorFactory.fromResource(R.mipmap.icon_van))
+                                    );
+                                    CameraUpdate center =
+                                            CameraUpdateFactory.newLatLng(location);
+                                    mMarkerArray.add(marker);
+                                    mTrackermodel.add(mOnGoingShipper.mData.get(i));
+                                    googleMap.moveCamera(center);
+                                    break;
+                                }else{
+                                    Toast.makeText(getActivity(), "No booking found", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                        }
                     }
 
                     return true;
@@ -268,9 +291,10 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
                     mTrackermodel.add(mOnGoingShipper.mData.get(i));
                 }
             }
-            if (center != null)
-                googleMap.moveCamera(center);
+
         }
+        if (center != null)
+            googleMap.moveCamera(center);
 //        for (int i = 0; i < Constants.name.length; i++) {
 //
 //            LatLng location = new LatLng(Constants.latitude[i],Constants.longitude[i]);
