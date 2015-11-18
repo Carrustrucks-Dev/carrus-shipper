@@ -13,6 +13,7 @@
     <string name="send">SEND</string>
     <string name="forgotpasswdlable">Forgot Password</string>
     <string name="bookingdetails">Booking Details</string>
+    <string name="searchshipment">Track Your Shipment</string>
 
 
 
@@ -73,6 +74,7 @@
 
     <!-- Errors-->
     <string name="email_required">Email id is required</string>
+    <string name="entertrackid">Tracking id is required</string>
     <string name="passwd_required">Password is required</string>
     <string name="validemail_required">Please enter valid email id</string>
     <string name="nointernetconnection">No internet connection found. Please try again</string>

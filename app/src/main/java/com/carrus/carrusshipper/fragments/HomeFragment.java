@@ -1,18 +1,24 @@
 package com.carrus.carrusshipper.fragments;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.TranslateAnimation;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -21,6 +27,7 @@ import android.widget.Toast;
 import com.carrus.carrusshipper.R;
 import com.carrus.carrusshipper.activity.MainActivity;
 import com.carrus.carrusshipper.adapter.BookingAdapter;
+import com.carrus.carrusshipper.model.MyBookingDataModel;
 import com.carrus.carrusshipper.model.MyBookingModel;
 import com.carrus.carrusshipper.model.OnGoingShipper;
 import com.carrus.carrusshipper.model.TrackingModel;
@@ -70,6 +77,8 @@ import retrofit.client.Response;
  */
 public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickListener {
 
+    public static final String mBroadcastUiAction = "com.carrus.carrusshipper.broadcast.UI";
+
     // Google Map
     private GoogleMap googleMap;
 
@@ -98,6 +107,12 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
 
     private String selectedNumber = null;
 
+    private IntentFilter mIntentFilter;
+
+    private Marker now;
+
+    private EditText mSearchEdtTxt;
+
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -114,6 +129,8 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
         v2GetRouteDirection = new GMapV2GetRouteDirection();
         mSessionManager = new SessionManager(getActivity());
         mConnectionDetector = new ConnectionDetector(getActivity());
+        mIntentFilter = new IntentFilter();
+        mIntentFilter.addAction(mBroadcastUiAction);
     }
 
     @Override
@@ -150,6 +167,26 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
         nameTxtView = (TextView) view.findViewById(R.id.nameTxtView);
         typeTxtView = (TextView) view.findViewById(R.id.typeTxtView);
         locationTxtView = (TextView) view.findViewById(R.id.locationTxtView);
+        mSearchEdtTxt=(EditText) view.findViewById(R.id.searchEdtTxt);
+
+
+        mSearchEdtTxt.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    // Your piece of code on keyboard search click
+                    if(mSearchEdtTxt.getText().toString().trim().isEmpty()){
+                        mSearchEdtTxt.setError(getResources().getString(R.string.entertrackid));
+                        mSearchEdtTxt.requestFocus();
+                    }else{
+
+                    }
+
+                    return true;
+                }
+                return false;
+            }
+        });
 
         (view.findViewById(R.id.callBtnIV)).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -206,7 +243,7 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
 
     //Add marker function on google map
     public void addmarkers() {
-        selectedNumber=null;
+        selectedNumber = null;
         hideLogin();
         googleMap.clear();
         getActivity().stopService(new Intent(getActivity(), MyService.class));
@@ -252,6 +289,13 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
     public void onResume() {
         super.onResume();
         initilizeMap();
+        getActivity().registerReceiver(mReceiver, mIntentFilter);
+    }
+
+    @Override
+    public void onPause() {
+        getActivity().unregisterReceiver(mReceiver);
+        super.onPause();
     }
 
     @Override
@@ -286,6 +330,30 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
         void onStartDrawerSwipe();
     }
 
+
+    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(mBroadcastUiAction)) {
+
+                Bundle bundle = intent.getExtras();
+                TrackingModel mTrackingModel = (TrackingModel) bundle.getSerializable("data");
+//                mTextView.setText(mTextView.getText()
+//                        + intent.getStringExtra("Data") + "\n\n");
+                if(now != null){
+                    now.remove();
+
+                }
+
+                MarkerOptions markerOptions = new MarkerOptions();
+                markerOptions.position(new LatLng(mTrackingModel.crruentTracking.get(0).lat, mTrackingModel.crruentTracking.get(0).longg));
+                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.mipmap.icon_van));
+                now= googleMap.addMarker(markerOptions);
+
+            }
+        }
+    };
+
     //Path Direction Call
     private void getDriectionToDestination(final LatLng currentposition, final String start, String end, String mode, final int pos) {
         Utils.loading_box(getActivity());
@@ -311,7 +379,7 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
                     MarkerOptions markerOptions = new MarkerOptions();
                     markerOptions.position(currentposition);
                     markerOptions.icon(BitmapDescriptorFactory.fromResource(R.mipmap.icon_van));
-                    googleMap.addMarker(markerOptions);
+                    now= googleMap.addMarker(markerOptions);
 
                     String[] ar = start.split("[,]");
                     googleMap.addMarker(new MarkerOptions().title(mTrackermodel.get(pos).pickUp.name).snippet(mTrackermodel.get(pos).pickUp.companyName + ", " + mTrackermodel.get(pos).pickUp.address + ", " + mTrackermodel.get(pos).pickUp.city + "," + mTrackermodel.get(pos).pickUp.state + "\n" + mTrackermodel.get(pos).pickUp.contactNumber).position(new LatLng(Double.valueOf(ar[0]), Double.valueOf(ar[1]))).icon(BitmapDescriptorFactory.fromResource(R.mipmap.icon_location_blue)));
@@ -323,7 +391,7 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
                     googleMap.moveCamera(center);
                     googleMap.animateCamera(zoom);
 
-                    selectedNumber=mTrackermodel.get(pos).shipper.phoneNumber;
+                    selectedNumber = mTrackermodel.get(pos).shipper.phoneNumber;
                     nameTxtView.setText(mTrackermodel.get(pos).shipper.firstName + " " + mTrackermodel.get(pos).shipper.lastName);
                     typeTxtView.setText(mTrackermodel.get(pos).truck.truckType.typeTruckName + ", " + mTrackermodel.get(pos).truck.truckNumber);
                     locationTxtView.setText(mTrackermodel.get(pos).pickUp.city + " to " + mTrackermodel.get(pos).dropOff.city);

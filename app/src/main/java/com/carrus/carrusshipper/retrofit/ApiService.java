@@ -49,5 +49,5 @@ public interface ApiService {
 
 
     @GET("/api/v1/shipper/getOnGoingBookingTrack")
-    public void getSingleOnGoingBookingTrack(@Header(AUTHORIZATION) String authorization,  @Query("bookingId") Integer bookingId, @Query("limit") Integer limit, @Query("skip") Integer skip, @Query("sort") String sort, Callback<String> callback);
+    public void getSingleOnGoingBookingTrack(@Header(AUTHORIZATION) String authorization,  @Query("bookingId") String bookingId, @Query("limit") Integer limit, @Query("skip") Integer skip, @Query("sort") String sort, Callback<String> callback);
 }

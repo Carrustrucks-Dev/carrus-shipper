@@ -1,4 +1,4 @@
-package com.carrus.carrusshipper.utils;
+package com.carrus.carrusshipper.gcm;
 
 import android.app.Activity;
 import android.app.Fragment;

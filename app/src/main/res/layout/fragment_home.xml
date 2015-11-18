@@ -11,6 +11,7 @@
         android:layout_alignParentTop="true"
         android:background="@color/windowBackground"
         android:drawableLeft="@mipmap/icon_search"
+        android:hint="@string/searchshipment"
         android:drawablePadding="@dimen/five"
         android:imeOptions="actionSearch"
         android:inputType="textCapCharacters"

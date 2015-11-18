@@ -1,6 +1,7 @@
 package com.carrus.carrusshipper.activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -167,7 +168,9 @@ public class BookingDetailsActivity extends BaseActivity {
         findViewById(R.id.callBtnIV).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                            Intent callIntent = new Intent(Intent.ACTION_CALL);
+                            callIntent.setData(Uri.parse("tel:" + mMyBookingDataModel.shipper.phoneNumber));
+                            startActivity(callIntent);
             }
         });
     }
@@ -198,18 +201,14 @@ public class BookingDetailsActivity extends BaseActivity {
         for (int i = 0; i < listAdapter.getGroupCount(); i++) {
             View groupItem = listAdapter.getGroupView(i, false, null, listView);
             groupItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
-
             totalHeight += groupItem.getMeasuredHeight();
-
             if (((listView.isGroupExpanded(i)) && (i != group))
                     || ((!listView.isGroupExpanded(i)) && (i == group))) {
                 for (int j = 0; j < listAdapter.getChildrenCount(i); j++) {
                     View listItem = listAdapter.getChildView(i, j, false, null,
                             listView);
                     listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
-
                     totalHeight += listItem.getMeasuredHeight();
-
                 }
             }
         }
@@ -235,10 +234,20 @@ public class BookingDetailsActivity extends BaseActivity {
         statusTxtView.setText(mMyBookingDataModel.bookingStatus);
         if(mMyBookingDataModel.bookingStatus.equalsIgnoreCase("ongoing")){
             topView.setBackgroundColor(getResources().getColor(R.color.blue_ongoing));
+            cancelBtn.setVisibility(View.VISIBLE);
+            paymentBtn.setVisibility(View.GONE);
         }else if(mMyBookingDataModel.bookingStatus.equalsIgnoreCase("canceled")){
             topView.setBackgroundColor(getResources().getColor(R.color.red));
+            paymentBtn.setVisibility(View.GONE);
+            cancelBtn.setVisibility(View.GONE);
         }else if(mMyBookingDataModel.bookingStatus.equalsIgnoreCase("confirmed")){
             topView.setBackgroundColor(getResources().getColor(R.color.green));
+            cancelBtn.setVisibility(View.VISIBLE);
+            paymentBtn.setVisibility(View.GONE);
+        }else if(mMyBookingDataModel.bookingStatus.equalsIgnoreCase("completed")){
+            topView.setBackgroundColor(getResources().getColor(R.color.gray_completed));
+            cancelBtn.setVisibility(View.GONE);
+            paymentBtn.setVisibility(View.VISIBLE);
         }
 
 
