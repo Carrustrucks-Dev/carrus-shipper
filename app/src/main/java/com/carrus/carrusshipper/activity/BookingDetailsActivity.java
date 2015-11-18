@@ -9,6 +9,7 @@ import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -42,6 +43,7 @@ public class BookingDetailsActivity extends BaseActivity {
     private HashMap<Header, List<ExpandableChildItem>> listDataChild;
     private ExpandableListAdapter listAdapter;
     private ImageView mProfileIV;
+    private RelativeLayout topView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,13 +55,14 @@ public class BookingDetailsActivity extends BaseActivity {
     }
 
     private void init() {
+
         headerTxtView = (TextView) findViewById(R.id.headerTxtView);
         headerTxtView.setText(getResources().getString(R.string.bookingdetails));
         mBackBtn = (ImageView) findViewById(R.id.menu_back_btn);
         mBackBtn.setVisibility(View.VISIBLE);
 //        recyclerview = (RecyclerView) findViewById(R.id.recyclerview);
 //        recyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-
+        topView=(RelativeLayout) findViewById(R.id.topView);
         mExpandableListView = (ExpandableListView) findViewById(R.id.recyclerview);
         nameDetailTxtView = (TextView) findViewById(R.id.nameDetailTxtView);
         typeDetailTxtView = (TextView) findViewById(R.id.typeDetailTxtView);
@@ -227,8 +230,18 @@ public class BookingDetailsActivity extends BaseActivity {
         nameDetailTxtView.setText(mMyBookingDataModel.shipper.firstName + " " + mMyBookingDataModel.shipper.lastName);
         typeDetailTxtView.setText(mMyBookingDataModel.truck.truckType.typeTruckName + ", " + mMyBookingDataModel.truck.truckNumber);
         locationDetailsTxtView.setText(mMyBookingDataModel.pickUp.city + " to " + mMyBookingDataModel.dropOff.city);
-//        trackDetailsIdTxtView
+        trackDetailsIdTxtView.setText(mMyBookingDataModel.crn);
+
         statusTxtView.setText(mMyBookingDataModel.bookingStatus);
+        if(mMyBookingDataModel.bookingStatus.equalsIgnoreCase("ongoing")){
+            topView.setBackgroundColor(getResources().getColor(R.color.blue_ongoing));
+        }else if(mMyBookingDataModel.bookingStatus.equalsIgnoreCase("canceled")){
+            topView.setBackgroundColor(getResources().getColor(R.color.red));
+        }else if(mMyBookingDataModel.bookingStatus.equalsIgnoreCase("confirmed")){
+            topView.setBackgroundColor(getResources().getColor(R.color.green));
+        }
+
+
         addresPickupTxtView.setText(mMyBookingDataModel.pickUp.address + ", " + mMyBookingDataModel.pickUp.city + ", " + mMyBookingDataModel.pickUp.state + ", " + mMyBookingDataModel.pickUp.zipCode);
 
         try {
@@ -253,7 +266,7 @@ public class BookingDetailsActivity extends BaseActivity {
 
         // Adding child data
         ArrayList<ExpandableChildItem> notes = new ArrayList<ExpandableChildItem>();
-        notes.add(new ExpandableChildItem("", "Details of notes", 1));
+        notes.add(new ExpandableChildItem("", mMyBookingDataModel.jobNote, 1));
 
         // Adding child data
         ArrayList<ExpandableChildItem> fleetowner = new ArrayList<ExpandableChildItem>();

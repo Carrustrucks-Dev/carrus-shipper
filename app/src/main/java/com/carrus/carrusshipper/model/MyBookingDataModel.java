@@ -54,5 +54,8 @@ public class MyBookingDataModel  implements Serializable{
 
     public PickUpModel pickUp;
 
+    @SerializedName("crn")
+    public String crn;
+
 
 }

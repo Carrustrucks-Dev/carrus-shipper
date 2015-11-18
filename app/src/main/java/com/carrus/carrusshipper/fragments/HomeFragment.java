@@ -3,6 +3,7 @@ package com.carrus.carrusshipper.fragments;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -12,7 +13,9 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.TranslateAnimation;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.carrus.carrusshipper.R;
@@ -24,6 +27,7 @@ import com.carrus.carrusshipper.model.TrackingModel;
 import com.carrus.carrusshipper.retrofit.RestClient;
 import com.carrus.carrusshipper.services.MyService;
 import com.carrus.carrusshipper.utils.ApiResponseFlags;
+import com.carrus.carrusshipper.utils.CircleTransform;
 import com.carrus.carrusshipper.utils.ConnectionDetector;
 import com.carrus.carrusshipper.utils.Constants;
 import com.carrus.carrusshipper.utils.GMapV2GetRouteDirection;
@@ -40,10 +44,12 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.gson.Gson;
 import com.squareup.okhttp.internal.Util;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Document;
+import org.w3c.dom.Text;
 import org.xml.sax.SAXException;
 
 import java.io.ByteArrayInputStream;
@@ -84,6 +90,14 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
 
     private RelativeLayout mBottomView;
 
+    private boolean isMarkerMatch = false;
+
+    private ImageView mProfileIV;
+
+    private TextView nameTxtView, typeTxtView, locationTxtView;
+
+    private String selectedNumber = null;
+
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -106,10 +120,11 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
-        mBottomView=(RelativeLayout)rootView.findViewById(R.id.bottomview);
+        mBottomView = (RelativeLayout) rootView.findViewById(R.id.bottomview);
         hideLogin();
         try {
             // Loading map
+            init(rootView);
             initilizeMap();
 
         } catch (Exception e) {
@@ -128,6 +143,24 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
     @Override
     public void onDetach() {
         super.onDetach();
+    }
+
+    private void init(View view) {
+        mProfileIV = (ImageView) view.findViewById(R.id.profileIV);
+        nameTxtView = (TextView) view.findViewById(R.id.nameTxtView);
+        typeTxtView = (TextView) view.findViewById(R.id.typeTxtView);
+        locationTxtView = (TextView) view.findViewById(R.id.locationTxtView);
+
+        (view.findViewById(R.id.callBtnIV)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (selectedNumber != null) {
+                    Intent callIntent = new Intent(Intent.ACTION_CALL);
+                    callIntent.setData(Uri.parse("tel:" + selectedNumber));
+                    startActivity(callIntent);
+                }
+            }
+        });
     }
 
     /**
@@ -173,30 +206,33 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
 
     //Add marker function on google map
     public void addmarkers() {
+        selectedNumber=null;
         hideLogin();
         googleMap.clear();
         getActivity().stopService(new Intent(getActivity(), MyService.class));
         mMarkerArray.clear();
         mTrackermodel.clear();
-        CameraUpdate center=null;
-
+        CameraUpdate center = null;
+        isMarkerMatch = false;
         for (int i = 0; i < mOnGoingShipper.mData.size(); i++) {
 
             if (mOnGoingShipper.mData.get(i).tracking.equalsIgnoreCase("yes")) {
-                mTrackermodel.add(mOnGoingShipper.mData.get(i));
-                LatLng location = new LatLng(mOnGoingShipper.mData.get(i).crruentTracking.get(0).lat, mOnGoingShipper.mData.get(i).crruentTracking.get(0).longg);
+                if (mOnGoingShipper.mData.get(i).crruentTracking.size() != 0) {
+                    LatLng location = new LatLng(mOnGoingShipper.mData.get(i).crruentTracking.get(0).lat, mOnGoingShipper.mData.get(i).crruentTracking.get(0).longg);
 
-                Marker marker = googleMap.addMarker(new MarkerOptions().position(location)
-                                .title(mOnGoingShipper.mData.get(i).shipper.firstName)
-                                .snippet(mOnGoingShipper.mData.get(i).shipper.firstName)
-                                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.icon_van))
-                );
-                center=
-                        CameraUpdateFactory.newLatLng(location);
-                mMarkerArray.add(marker);
+                    Marker marker = googleMap.addMarker(new MarkerOptions().position(location)
+                                    .title(mOnGoingShipper.mData.get(i).shipper.firstName)
+                                    .snippet(mOnGoingShipper.mData.get(i).shipper.firstName)
+                                    .icon(BitmapDescriptorFactory.fromResource(R.mipmap.icon_van))
+                    );
+                    center =
+                            CameraUpdateFactory.newLatLng(location);
+                    mMarkerArray.add(marker);
+                    mTrackermodel.add(mOnGoingShipper.mData.get(i));
+                }
             }
-            if(center!=null)
-            googleMap.moveCamera(center);
+            if (center != null)
+                googleMap.moveCamera(center);
         }
 //        for (int i = 0; i < Constants.name.length; i++) {
 //
@@ -220,16 +256,24 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        googleMap.clear();
-        mainActivity.onStopDrawerSwip();
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(marker.getPosition().latitude, marker.getPosition().longitude))
-                .title(marker.getTitle())
-                .snippet(marker.getSnippet()).icon(BitmapDescriptorFactory.fromResource(R.mipmap.icon_van)));
+
         for (int i = 0; i < mMarkerArray.size(); i++) {
             if (marker.equals(mMarkerArray.get(i))) {
-                getDriectionToDestination(new LatLng(mTrackermodel.get(i).crruentTracking.get(0).lat, mTrackermodel.get(i).crruentTracking.get(0).longg), mTrackermodel.get(i).pickUp.coordinates.pickUpLat + ", " + mTrackermodel.get(i).pickUp.coordinates.pickUpLong, mTrackermodel.get(i).dropOff.coordinates.dropOffLat + ", " + mTrackermodel.get(i).dropOff.coordinates.dropOffLong, GMapV2GetRouteDirection.MODE_DRIVING);
+                if (mTrackermodel.get(i).crruentTracking.size() != 0) {
+                    isMarkerMatch = true;
+                    googleMap.clear();
+                    mainActivity.onStopDrawerSwip();
+                    googleMap.addMarker(new MarkerOptions().position(new LatLng(marker.getPosition().latitude, marker.getPosition().longitude))
+                            .title(marker.getTitle())
+                            .snippet(marker.getSnippet()).icon(BitmapDescriptorFactory.fromResource(R.mipmap.icon_van)));
+                    getDriectionToDestination(new LatLng(mTrackermodel.get(i).crruentTracking.get(0).lat, mTrackermodel.get(i).crruentTracking.get(0).longg), mTrackermodel.get(i).pickUp.coordinates.pickUpLat + ", " + mTrackermodel.get(i).pickUp.coordinates.pickUpLong, mTrackermodel.get(i).dropOff.coordinates.dropOffLat + ", " + mTrackermodel.get(i).dropOff.coordinates.dropOffLong, GMapV2GetRouteDirection.MODE_DRIVING, i);
+                }
                 break;
             }
+        }
+
+        if (!isMarkerMatch) {
+            marker.showInfoWindow();
         }
 //        Toast.makeText(getActivity(), marker.getTitle()+", lat> "+marker.getPosition().latitude +"& long> "+marker.getPosition().longitude, Toast.LENGTH_SHORT).show();
         return false;
@@ -243,7 +287,7 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
     }
 
     //Path Direction Call
-    private void getDriectionToDestination(final LatLng currentposition, final String start, String end, String mode) {
+    private void getDriectionToDestination(final LatLng currentposition, final String start, String end, String mode, final int pos) {
         Utils.loading_box(getActivity());
         RestClient.getGoogleApiService().getDriections(start, end, "false", "metric", mode, new Callback<String>() {
             @Override
@@ -270,7 +314,7 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
                     googleMap.addMarker(markerOptions);
 
                     String[] ar = start.split("[,]");
-                    googleMap.addMarker(new MarkerOptions().position(new LatLng(Double.valueOf(ar[0]), Double.valueOf(ar[1]))).icon(BitmapDescriptorFactory.fromResource(R.mipmap.icon_location_blue)));
+                    googleMap.addMarker(new MarkerOptions().title(mTrackermodel.get(pos).pickUp.name).snippet(mTrackermodel.get(pos).pickUp.companyName + ", " + mTrackermodel.get(pos).pickUp.address + ", " + mTrackermodel.get(pos).pickUp.city + "," + mTrackermodel.get(pos).pickUp.state + "\n" + mTrackermodel.get(pos).pickUp.contactNumber).position(new LatLng(Double.valueOf(ar[0]), Double.valueOf(ar[1]))).icon(BitmapDescriptorFactory.fromResource(R.mipmap.icon_location_blue)));
 
                     CameraUpdate center =
                             CameraUpdateFactory.newLatLng(currentposition);
@@ -279,8 +323,15 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
                     googleMap.moveCamera(center);
                     googleMap.animateCamera(zoom);
 
+                    selectedNumber=mTrackermodel.get(pos).shipper.phoneNumber;
+                    nameTxtView.setText(mTrackermodel.get(pos).shipper.firstName + " " + mTrackermodel.get(pos).shipper.lastName);
+                    typeTxtView.setText(mTrackermodel.get(pos).truck.truckType.typeTruckName + ", " + mTrackermodel.get(pos).truck.truckNumber);
+                    locationTxtView.setText(mTrackermodel.get(pos).pickUp.city + " to " + mTrackermodel.get(pos).dropOff.city);
+                    Picasso.with(getActivity()).load(R.mipmap.icon_placeholder).resize(100, 100).transform(new CircleTransform()).into(mProfileIV);
                     showLogin();
-                    getActivity().startService(new Intent(getActivity(), MyService.class));
+                    Intent serviceIntent = new Intent(getActivity(), MyService.class);
+                    serviceIntent.putExtra("bookingId", mTrackermodel.get(pos).crruentTracking.get(0).bookingId);
+                    getActivity().startService(serviceIntent);
                 } catch (ParserConfigurationException e) {
                     e.printStackTrace();
                 } catch (SAXException e) {
@@ -362,26 +413,16 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
 //     */
     private void showLogin() {
         final Animation animationFadeIn = AnimationUtils.loadAnimation(getActivity(), R.anim.fadein);
-
         mBottomView.setAnimation(animationFadeIn);
         mBottomView.setVisibility(View.VISIBLE);
-//        final Animation animationFadeOut = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fadeout);
-//        bottomlayout.clearAnimation();
-//        bottomlayout.setAnimation(animationFadeOut);
-//        bottomlayout.setVisibility(View.INVISIBLE);
     }
 
     //    /***
 //     * hides login layout
 //     */
     private void hideLogin() {
-//        final Animation animationFadeIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fadein);
         final Animation animationFadeOut = AnimationUtils.loadAnimation(getActivity(), R.anim.fadeout);
         mBottomView.setAnimation(animationFadeOut);
         mBottomView.setVisibility(View.INVISIBLE);
-
-//        bottomlayout.clearAnimation();
-//        bottomlayout.setAnimation(animationFadeIn);
-//        bottomlayout.setVisibility(View.VISIBLE);
     }
 }

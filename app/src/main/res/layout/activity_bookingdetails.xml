@@ -20,9 +20,10 @@
             android:orientation="vertical">
 
             <RelativeLayout
+                android:id="@+id/topView"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="#2058AB">
+                android:background="@color/blue_ongoing">
 
                 <TextView
                     android:id="@+id/trackDetailsIdTxtView"

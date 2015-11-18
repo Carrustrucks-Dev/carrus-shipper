@@ -48,7 +48,7 @@
             android:padding="@dimen/five">
 
             <TextView
-                android:id="@+id/nameDetailTxtView"
+                android:id="@+id/nameTxtView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Rahul Dhiman"
@@ -57,7 +57,7 @@
 
 
             <TextView
-                android:id="@+id/typeDetailTxtView"
+                android:id="@+id/typeTxtView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Tata Ace"
@@ -66,7 +66,7 @@
 
 
             <TextView
-                android:id="@+id/locationDetailsTxtView"
+                android:id="@+id/locationTxtView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="CH 01 A 2772"
@@ -78,6 +78,7 @@
             android:id="@+id/callBtnIV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="@dimen/fifteen"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:src="@drawable/call_btn_selector" />

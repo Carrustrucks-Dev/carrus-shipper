@@ -183,6 +183,8 @@ public class PastFragment extends Fragment {
                     }
                 }catch (Exception ex){
                     Toast.makeText(getActivity(), getResources().getString(R.string.nointernetconnection), Toast.LENGTH_SHORT).show();
+                    mErrorTxtView.setText(getResources().getString(R.string.nointernetconnection));
+                    mErrorTxtView.setVisibility(View.VISIBLE);
                 }
             }
         });

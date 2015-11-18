@@ -59,5 +59,7 @@ public class TrackingModel implements Serializable {
 
     public PickUpModel pickUp;
 
+    @SerializedName("crn")
+    String crn;
 
 }
