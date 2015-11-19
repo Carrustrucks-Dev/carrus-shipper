@@ -55,8 +55,9 @@ public class MyBookingFragment  extends Fragment{
         mUpComingTextView=(TextView) view.findViewById(R.id.upcomingTextView);
         mPastTextView=(TextView) view.findViewById(R.id.pastTextView);
 
-        Intent i = new Intent(getActivity(), RatingDialogActivity.class);
-        startActivity(i);
+//        Intent i = new Intent(getActivity(), RatingDialogActivity.class);
+//        i.putExtra("bookingid", bookingid);
+//        startActivity(i);
     }
 
     private void initializeClickListners(){

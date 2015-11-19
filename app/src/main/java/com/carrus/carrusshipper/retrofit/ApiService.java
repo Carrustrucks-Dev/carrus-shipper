@@ -38,11 +38,11 @@ public interface ApiService {
     public void getPast(@Header(AUTHORIZATION) String authorization, @Query("limit") String limit, @Query("skip") String skip, @Query("sort") String sort, Callback<String> callback);
 
     @PUT(LOGOUT_URL)
-    void logout(@Header(AUTHORIZATION) String authorization, Callback<String> callback);
+    public void logout(@Header(AUTHORIZATION) String authorization, Callback<String> callback);
 
     @FormUrlEncoded
     @PUT(FORGETPASSWORD_URL)
-    void forgotPassword(@Field("email") String body, Callback<String> callback);
+    public void forgotPassword(@Field("email") String body, Callback<String> callback);
 
     @GET("/api/v1/shipper/getOnGoingBookingTrack")
     public void getAllOnGoingBookingTrack(@Header(AUTHORIZATION) String authorization,  @Query("limit") Integer limit, @Query("skip") Integer skip, @Query("sort") String sort, Callback<String> callback);
@@ -50,4 +50,8 @@ public interface ApiService {
 
     @GET("/api/v1/shipper/getOnGoingBookingTrack")
     public void getSingleOnGoingBookingTrack(@Header(AUTHORIZATION) String authorization,  @Query("bookingId") String bookingId, @Query("limit") Integer limit, @Query("skip") Integer skip, @Query("sort") String sort, Callback<String> callback);
+
+    @FormUrlEncoded
+    @PUT("/api/v1/shipper/addRating")
+    public void setRating(@Header(AUTHORIZATION) String authorization, @Field("bookingId") String bookingId,@Field("rating") String rating,@Field("comment") String comment, Callback<String> callback);
 }

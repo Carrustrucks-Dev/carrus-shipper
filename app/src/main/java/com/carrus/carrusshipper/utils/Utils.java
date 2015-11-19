@@ -1,5 +1,6 @@
 package com.carrus.carrusshipper.utils;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -9,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 
 import com.carrus.carrusshipper.R;
 
@@ -192,8 +194,8 @@ measures height of recyclerview when placed inside scrollview
                     public void onClick(DialogInterface dialog, int which) {
                         // Do something else
                         dialog.dismiss();
-                        if(isAuthroized)
-                        new SessionManager(myContext).logoutUser();
+                        if (isAuthroized)
+                            new SessionManager(myContext).logoutUser();
                     }
                 }).create().show();
 
@@ -212,4 +214,21 @@ measures height of recyclerview when placed inside scrollview
         return errorMessage;
     }
 
+    /**
+     * hiding keyboard
+     *
+     * @param activity
+     */
+
+    public static void hideSoftKeyboard(Activity activity) {
+//        InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+//        inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
+        try {
+            InputMethodManager imm = (InputMethodManager) activity.getSystemService(activity.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
+        } catch (Exception e) {
+
+        }
     }
+
+}

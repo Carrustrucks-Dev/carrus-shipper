@@ -82,4 +82,6 @@
     <string name="nointernetconnection">No internet connection found. Please try again</string>
     <string name="norecordfound">No Record Found</string>
     <string name="nonotesfound">No note Found</string>
+    <string name="ratingerror">Rating not zero</string>
+    <string name="commentrequired">Comment must not be empty</string>
 </resources>
