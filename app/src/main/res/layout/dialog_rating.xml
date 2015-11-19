@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/rounded_bg"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/crossIV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:padding="@dimen/ten"
+        android:src="@mipmap/icon_cross"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ratetruck"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/colorAccent"
+        android:textSize="@dimen/large_font"
+        />
+
+    <RatingBar
+        android:id="@+id/ratingStars"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/ten"
+        android:numStars="5"
+        android:stepSize="0.5"
+        style="@style/ratingBar"
+        android:layout_gravity = "center_horizontal"
+        />
+
+    <EditText
+        android:id="@+id/feedbackEdtxt"
+        android:layout_width="fill_parent"
+        android:background="@drawable/rounded_edit_text"
+        android:padding="@dimen/ten"
+        android:hint="@string/addfeedback"
+        android:layout_margin="@dimen/fifteen"
+        android:gravity="left|top"
+        android:layout_height="@dimen/largehieght" />
+
+
+    <Button
+        android:id="@+id/ratingSubmitBtn"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/submit"
+        android:textColor="@color/windowBackground"
+        android:padding="@dimen/ten"
+        android:textSize="@dimen/mid_fond"
+        android:layout_marginTop="@dimen/fifteen"
+        android:background="@drawable/background_bottomrounded"/>
+
+
+</LinearLayout>

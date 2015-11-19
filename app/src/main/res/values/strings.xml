@@ -6,6 +6,7 @@
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
     <string name="home">Home</string>
+    <string name="ratetruck">Rate Trucker</string>
     <string name="my_bookings">My Bookings</string>
     <string name="payments">Payments</string>
     <string name="contact">Contact Carrus</string>
@@ -14,6 +15,7 @@
     <string name="forgotpasswdlable">Forgot Password</string>
     <string name="bookingdetails">Booking Details</string>
     <string name="searchshipment">Track Your Shipment</string>
+    <string name="addfeedback">Add feedback here...</string>
 
 
 

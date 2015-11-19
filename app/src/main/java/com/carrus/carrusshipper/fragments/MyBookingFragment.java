@@ -1,5 +1,7 @@
 package com.carrus.carrusshipper.fragments;
 
+import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -8,9 +10,12 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.carrus.carrusshipper.R;
+import com.carrus.carrusshipper.activity.RatingDialogActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +54,9 @@ public class MyBookingFragment  extends Fragment{
     private void init(View view){
         mUpComingTextView=(TextView) view.findViewById(R.id.upcomingTextView);
         mPastTextView=(TextView) view.findViewById(R.id.pastTextView);
+
+        Intent i = new Intent(getActivity(), RatingDialogActivity.class);
+        startActivity(i);
     }
 
     private void initializeClickListners(){

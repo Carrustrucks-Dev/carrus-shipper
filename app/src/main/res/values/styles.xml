@@ -32,4 +32,21 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+
+    <style name="Theme.UserDialog" parent="android:style/Theme.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowMinWidthMajor">@android:dimen/dialog_min_width_major</item>
+        <item name="android:windowMinWidthMinor">@android:dimen/dialog_min_width_minor</item>
+
+    </style>
+
+
+    <style name="ratingBar" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/ratingbar_custom</item>
+        <item name="android:minHeight">@dimen/ratingBarHeight</item>
+        <item name="android:maxHeight">@dimen/ratingBarHeight</item>
+    </style>
+
 </resources>
