@@ -189,6 +189,7 @@ public class MainActivity extends BaseActivity implements FragmentDrawer.Fragmen
         mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
         mMenuButton.setVisibility(View.VISIBLE);
         mBackButton.setVisibility(View.GONE);
+        stopService(new Intent(MainActivity.this, MyService.class));
     }
 
 

@@ -65,6 +65,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter{
             case 1:
                 convertView = infalInflater.inflate(R.layout.itemview_desc, null);
                 TextView mDescTxtView=(TextView)convertView.findViewById(R.id.descTxtView);
+                if(expandableChildItem.getDetail()!=null)
                 mDescTxtView.setText(expandableChildItem.getDetail());
                 break;
 

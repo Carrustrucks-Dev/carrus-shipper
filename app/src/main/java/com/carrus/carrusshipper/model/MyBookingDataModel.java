@@ -7,7 +7,7 @@ import java.io.Serializable;
 /**
  * Created by Sunny on 11/7/15.
  */
-public class MyBookingDataModel  implements Serializable{
+public class MyBookingDataModel implements Serializable {
 
     @SerializedName("_id")
     public String id;
@@ -29,8 +29,7 @@ public class MyBookingDataModel  implements Serializable{
     @SerializedName("bookingStatus")
     public String bookingStatus;
 
-    @SerializedName("fleetOwner")
-    public String fleetOwner;
+    public FleetOwner fleetOwner;
 
     @SerializedName("tracking")
     public String tracking;
@@ -56,6 +55,9 @@ public class MyBookingDataModel  implements Serializable{
 
     @SerializedName("crn")
     public String crn;
+
+    @SerializedName("truckerNote")
+    public String truckerNote;
 
 
 }

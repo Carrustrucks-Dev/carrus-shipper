@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -26,9 +25,6 @@ import android.widget.Toast;
 
 import com.carrus.carrusshipper.R;
 import com.carrus.carrusshipper.activity.MainActivity;
-import com.carrus.carrusshipper.adapter.BookingAdapter;
-import com.carrus.carrusshipper.model.MyBookingDataModel;
-import com.carrus.carrusshipper.model.MyBookingModel;
 import com.carrus.carrusshipper.model.OnGoingShipper;
 import com.carrus.carrusshipper.model.TrackingModel;
 import com.carrus.carrusshipper.retrofit.RestClient;
@@ -50,13 +46,11 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.gson.Gson;
-import com.squareup.okhttp.internal.Util;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Document;
-import org.w3c.dom.Text;
 import org.xml.sax.SAXException;
 
 import java.io.ByteArrayInputStream;
@@ -138,7 +132,7 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
         mBottomView = (RelativeLayout) rootView.findViewById(R.id.bottomview);
-        hideLogin();
+        hideProfile();
         try {
             // Loading map
             init(rootView);
@@ -167,7 +161,7 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
         nameTxtView = (TextView) view.findViewById(R.id.nameTxtView);
         typeTxtView = (TextView) view.findViewById(R.id.typeTxtView);
         locationTxtView = (TextView) view.findViewById(R.id.locationTxtView);
-        mSearchEdtTxt=(EditText) view.findViewById(R.id.searchEdtTxt);
+        mSearchEdtTxt = (EditText) view.findViewById(R.id.searchEdtTxt);
 
 
         mSearchEdtTxt.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -175,10 +169,10 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     // Your piece of code on keyboard search click
-                    if(mSearchEdtTxt.getText().toString().trim().isEmpty()){
+                    if (mSearchEdtTxt.getText().toString().trim().isEmpty()) {
                         mSearchEdtTxt.setError(getResources().getString(R.string.entertrackid));
                         mSearchEdtTxt.requestFocus();
-                    }else{
+                    } else {
 
                         for (int i = 0; i < mOnGoingShipper.mData.size(); i++) {
 
@@ -197,7 +191,7 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
                                     mTrackermodel.add(mOnGoingShipper.mData.get(i));
                                     googleMap.moveCamera(center);
                                     break;
-                                }else{
+                                } else {
                                     Toast.makeText(getActivity(), "No booking found", Toast.LENGTH_SHORT).show();
                                 }
                             }
@@ -267,9 +261,8 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
     //Add marker function on google map
     public void addmarkers() {
         selectedNumber = null;
-        hideLogin();
+        hideProfile();
         googleMap.clear();
-        getActivity().stopService(new Intent(getActivity(), MyService.class));
         mMarkerArray.clear();
         mTrackermodel.clear();
         CameraUpdate center = null;
@@ -362,17 +355,14 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
 
                 Bundle bundle = intent.getExtras();
                 TrackingModel mTrackingModel = (TrackingModel) bundle.getSerializable("data");
-//                mTextView.setText(mTextView.getText()
-//                        + intent.getStringExtra("Data") + "\n\n");
-                if(now != null){
+                if (now != null) {
                     now.remove();
-
                 }
 
                 MarkerOptions markerOptions = new MarkerOptions();
                 markerOptions.position(new LatLng(mTrackingModel.crruentTracking.get(0).lat, mTrackingModel.crruentTracking.get(0).longg));
                 markerOptions.icon(BitmapDescriptorFactory.fromResource(R.mipmap.icon_van));
-                now= googleMap.addMarker(markerOptions);
+                now = googleMap.addMarker(markerOptions);
 
             }
         }
@@ -388,6 +378,7 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
                 // convert String into InputStream
                 InputStream in = new ByteArrayInputStream(s.getBytes());
                 DocumentBuilder builder = null;
+
                 try {
                     builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
                     Document doc = builder.parse(in);
@@ -398,12 +389,13 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
                     for (int i = 0; i < directionPoint.size(); i++) {
                         rectLine.add(directionPoint.get(i));
                     }
+
                     // Adding route on the map
                     googleMap.addPolyline(rectLine);
                     MarkerOptions markerOptions = new MarkerOptions();
                     markerOptions.position(currentposition);
                     markerOptions.icon(BitmapDescriptorFactory.fromResource(R.mipmap.icon_van));
-                    now= googleMap.addMarker(markerOptions);
+                    now = googleMap.addMarker(markerOptions);
 
                     String[] ar = start.split("[,]");
                     googleMap.addMarker(new MarkerOptions().title(mTrackermodel.get(pos).pickUp.name).snippet(mTrackermodel.get(pos).pickUp.companyName + ", " + mTrackermodel.get(pos).pickUp.address + ", " + mTrackermodel.get(pos).pickUp.city + "," + mTrackermodel.get(pos).pickUp.state + "\n" + mTrackermodel.get(pos).pickUp.contactNumber).position(new LatLng(Double.valueOf(ar[0]), Double.valueOf(ar[1]))).icon(BitmapDescriptorFactory.fromResource(R.mipmap.icon_location_blue)));
@@ -420,7 +412,7 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
                     typeTxtView.setText(mTrackermodel.get(pos).truck.truckType.typeTruckName + ", " + mTrackermodel.get(pos).truck.truckNumber);
                     locationTxtView.setText(mTrackermodel.get(pos).pickUp.city + " to " + mTrackermodel.get(pos).dropOff.city);
                     Picasso.with(getActivity()).load(R.mipmap.icon_placeholder).resize(100, 100).transform(new CircleTransform()).into(mProfileIV);
-                    showLogin();
+                    showProfile();
                     Intent serviceIntent = new Intent(getActivity(), MyService.class);
                     serviceIntent.putExtra("bookingId", mTrackermodel.get(pos).crruentTracking.get(0).bookingId);
                     getActivity().startService(serviceIntent);
@@ -503,7 +495,7 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
     //    /***
 //     * shows login layout
 //     */
-    private void showLogin() {
+    private void showProfile() {
         final Animation animationFadeIn = AnimationUtils.loadAnimation(getActivity(), R.anim.fadein);
         mBottomView.setAnimation(animationFadeIn);
         mBottomView.setVisibility(View.VISIBLE);
@@ -512,7 +504,7 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
     //    /***
 //     * hides login layout
 //     */
-    private void hideLogin() {
+    private void hideProfile() {
         final Animation animationFadeOut = AnimationUtils.loadAnimation(getActivity(), R.anim.fadeout);
         mBottomView.setAnimation(animationFadeOut);
         mBottomView.setVisibility(View.INVISIBLE);

@@ -8,10 +8,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.carrus.carrusshipper.R;
+import com.carrus.carrusshipper.gcm.DeviceTokenFetcher;
 import com.carrus.carrusshipper.retrofit.RestClient;
 import com.carrus.carrusshipper.utils.ApiResponseFlags;
 import com.carrus.carrusshipper.utils.ConnectionDetector;
-import com.carrus.carrusshipper.gcm.DeviceTokenFetcher;
 import com.carrus.carrusshipper.utils.SessionManager;
 import com.carrus.carrusshipper.utils.Utils;
 

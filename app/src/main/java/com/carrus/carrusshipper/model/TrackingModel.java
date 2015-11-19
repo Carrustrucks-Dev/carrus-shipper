@@ -31,8 +31,7 @@ public class TrackingModel implements Serializable {
     @SerializedName("bookingStatus")
     public String bookingStatus;
 
-    @SerializedName("fleetOwner")
-    public String fleetOwner;
+    public FleetOwner fleetOwner;
 
     @SerializedName("tracking")
     public String tracking;
@@ -61,5 +60,8 @@ public class TrackingModel implements Serializable {
 
     @SerializedName("crn")
     String crn;
+
+    @SerializedName("truckerNote")
+    public String truckerNote;
 
 }

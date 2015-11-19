@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
 import com.carrus.carrusshipper.R;
@@ -53,9 +52,9 @@ public class MyService extends Service {
     public synchronized void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "onDestroy");
-        if (!isRunning) {
+        if (isRunning) {
             mythread.interrupt();
-            mythread.stop();
+            //mythread.stop();
         }
     }
 

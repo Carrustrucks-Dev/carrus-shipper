@@ -79,4 +79,5 @@
     <string name="validemail_required">Please enter valid email id</string>
     <string name="nointernetconnection">No internet connection found. Please try again</string>
     <string name="norecordfound">No Record Found</string>
+    <string name="nonotesfound">No note Found</string>
 </resources>

@@ -7,6 +7,7 @@
         android:id="@+id/descTxtView"
         android:padding="@dimen/ten"
         android:layout_width="fill_parent"
+        android:text="@string/nonotesfound"
         android:layout_height="wrap_content" />
 
 </LinearLayout>
