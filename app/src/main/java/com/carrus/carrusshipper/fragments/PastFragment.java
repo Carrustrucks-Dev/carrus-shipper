@@ -40,14 +40,14 @@ import static com.carrus.carrusshipper.utils.Constants.SORT;
  */
 public class PastFragment extends Fragment {
 
-    private final String TAG= getClass().getSimpleName();
+    private final String TAG = getClass().getSimpleName();
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private SessionManager mSessionManager;
-    private int skip=0;
+    private int skip = 0;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private boolean isRefreshView=false;
+    private boolean isRefreshView = false;
     private ConnectionDetector mConnectionDetector;
     private TextView mErrorTxtView;
 
@@ -78,10 +78,10 @@ public class PastFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mSessionManager=new SessionManager(getActivity());
-        mConnectionDetector=new ConnectionDetector(getActivity());
-        if(mConnectionDetector.isConnectingToInternet())
-        getPastBookings();
+        mSessionManager = new SessionManager(getActivity());
+        mConnectionDetector = new ConnectionDetector(getActivity());
+        if (mConnectionDetector.isConnectingToInternet())
+            getPastBookings();
         else {
             mErrorTxtView.setText(getResources().getString(R.string.nointernetconnection));
             mErrorTxtView.setVisibility(View.VISIBLE);
@@ -89,11 +89,12 @@ public class PastFragment extends Fragment {
         }
     }
 
-    private void intializeListners(){
+    private void intializeListners() {
         mErrorTxtView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mConnectionDetector.isConnectingToInternet())
+                mErrorTxtView.setVisibility(View.GONE);
+                if (mConnectionDetector.isConnectingToInternet())
                     getPastBookings();
                 else {
                     mErrorTxtView.setText(getResources().getString(R.string.nointernetconnection));
@@ -104,9 +105,9 @@ public class PastFragment extends Fragment {
         });
     }
 
-    private void init(View view){
-        mErrorTxtView=(TextView) view.findViewById(R.id.errorTxtView);
-        swipeRefreshLayout=(SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
+    private void init(View view) {
+        mErrorTxtView = (TextView) view.findViewById(R.id.errorTxtView);
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
         swipeRefreshLayout.setColorSchemeColors(
                 Color.RED, Color.GREEN, Color.BLUE, Color.CYAN);
@@ -124,19 +125,19 @@ public class PastFragment extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                isRefreshView=true;
+                isRefreshView = true;
                 getPastBookings();
             }
         });
     }
 
-    private void getPastBookings(){
-        if(isRefreshView){
+    private void getPastBookings() {
+        if (isRefreshView) {
             swipeRefreshLayout.setRefreshing(true);
-        }else
+        } else
             Utils.loading_box(getActivity());
 
-        RestClient.getApiService().getPast(mSessionManager.getAccessToken(), LIMIT + "", skip+"", SORT, new Callback<String>() {
+        RestClient.getApiService().getPast(mSessionManager.getAccessToken(), LIMIT + "", skip + "", SORT, new Callback<String>() {
             @Override
             public void success(String s, Response response) {
                 Log.v("" + getClass().getSimpleName(), "Response> " + s);
@@ -154,6 +155,8 @@ public class PastFragment extends Fragment {
                         mRecyclerView.setAdapter(mAdapter);
                     } else {
                         Toast.makeText(getActivity(), mObject.getString("message"), Toast.LENGTH_SHORT).show();
+                        mErrorTxtView.setText(mObject.getString("message"));
+                        mErrorTxtView.setVisibility(View.VISIBLE);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -176,12 +179,12 @@ public class PastFragment extends Fragment {
                         mErrorTxtView.setVisibility(View.VISIBLE);
                     } else if (error.getResponse().getStatus() == ApiResponseFlags.Unauthorized.getOrdinal()) {
                         Utils.shopAlterDialog(getActivity(), Utils.getErrorMsg(error), true);
-                    }else if (error.getResponse().getStatus() == ApiResponseFlags.Not_Found.getOrdinal()) {
+                    } else if (error.getResponse().getStatus() == ApiResponseFlags.Not_Found.getOrdinal()) {
                         Toast.makeText(getActivity(), Utils.getErrorMsg(error), Toast.LENGTH_SHORT).show();
                         mErrorTxtView.setText(Utils.getErrorMsg(error));
                         mErrorTxtView.setVisibility(View.VISIBLE);
                     }
-                }catch (Exception ex){
+                } catch (Exception ex) {
                     Toast.makeText(getActivity(), getResources().getString(R.string.nointernetconnection), Toast.LENGTH_SHORT).show();
                     mErrorTxtView.setText(getResources().getString(R.string.nointernetconnection));
                     mErrorTxtView.setVisibility(View.VISIBLE);

@@ -75,37 +75,23 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
 
     // Google Map
     private GoogleMap googleMap;
-
     //Markers List
     private ArrayList<Marker> mMarkerArray = new ArrayList<Marker>();
-
     private ArrayList<TrackingModel> mTrackermodel = new ArrayList<>();
-
     private MainActivity mainActivity;
-
     private GMapV2GetRouteDirection v2GetRouteDirection;
-
     private ConnectionDetector mConnectionDetector;
-
     private SessionManager mSessionManager;
-
     private OnGoingShipper mOnGoingShipper;
-
     private RelativeLayout mBottomView;
-
     private boolean isMarkerMatch = false;
-
     private ImageView mProfileIV;
-
     private TextView nameTxtView, typeTxtView, locationTxtView;
-
     private String selectedNumber = null;
-
     private IntentFilter mIntentFilter;
-
     private Marker now;
-
     private EditText mSearchEdtTxt;
+
 
     public HomeFragment() {
         // Required empty public constructor
@@ -461,7 +447,7 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
     private void getOnGoingBookingTrack() {
         Utils.loading_box(getActivity());
 
-        RestClient.getApiService().getAllOnGoingBookingTrack(mSessionManager.getAccessToken(), 100, 0, Constants.SORT, new Callback<String>() {
+        RestClient.getApiService().getAllOnGoingBookingTrack(mSessionManager.getAccessToken(), Constants.LIMIT, 0, Constants.SORT, new Callback<String>() {
             @Override
             public void success(String s, Response response) {
                 Log.v("" + getClass().getSimpleName(), "Response> " + s);

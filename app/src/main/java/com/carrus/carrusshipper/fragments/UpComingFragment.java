@@ -95,6 +95,7 @@ public class UpComingFragment extends Fragment {
         mErrorTxtView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mErrorTxtView.setVisibility(View.GONE);
                 if(mConnectionDetector.isConnectingToInternet())
                     getMyBooking();
                 else {
@@ -156,6 +157,8 @@ public class UpComingFragment extends Fragment {
                         mRecyclerView.setAdapter(mAdapter);
                     } else {
                         Toast.makeText(getActivity(), mObject.getString("message"), Toast.LENGTH_SHORT).show();
+                        mErrorTxtView.setText(mObject.getString("message"));
+                        mErrorTxtView.setVisibility(View.VISIBLE);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
