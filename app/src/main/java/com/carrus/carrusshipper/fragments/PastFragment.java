@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.carrus.carrusshipper.R;
 import com.carrus.carrusshipper.adapter.BookingAdapter;
 import com.carrus.carrusshipper.adapter.DividerItemDecoration;
+import com.carrus.carrusshipper.interfaces.OnLoadMoreListener;
 import com.carrus.carrusshipper.model.MyBookingModel;
 import com.carrus.carrusshipper.retrofit.RestClient;
 import com.carrus.carrusshipper.utils.ApiResponseFlags;
@@ -50,6 +51,7 @@ public class PastFragment extends Fragment {
     private boolean isRefreshView = false;
     private ConnectionDetector mConnectionDetector;
     private TextView mErrorTxtView;
+    private OnLoadMoreListener onLoadMoreListener;
 
 
     /**

@@ -104,6 +104,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toLeftOf="@+id/callBtnIV"
+                    android:visibility="gone"
                     android:padding="@dimen/ten"
                     android:src="@mipmap/icon_track" />
 

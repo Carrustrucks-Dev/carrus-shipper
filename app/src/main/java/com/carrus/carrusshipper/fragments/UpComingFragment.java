@@ -112,7 +112,6 @@ public class UpComingFragment extends Fragment {
         swipeRefreshLayout.setColorSchemeColors(
                 Color.RED, Color.GREEN, Color.BLUE, Color.CYAN);
 
-
         mRecyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
@@ -146,9 +145,7 @@ public class UpComingFragment extends Fragment {
 
                 try {
                     JSONObject mObject = new JSONObject(s);
-
                     int status = mObject.getInt("statusCode");
-
                     if (ApiResponseFlags.OK.getOrdinal() == status) {
                         Gson gson = new Gson();
                         MyBookingModel mMyBookingModel = gson.fromJson(s, MyBookingModel.class);

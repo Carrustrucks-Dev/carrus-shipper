@@ -42,6 +42,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -283,8 +284,24 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
             }
 
         }
-        if (center != null)
-            googleMap.moveCamera(center);
+
+
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+        for (Marker marker : mMarkerArray) {
+            builder.include(marker.getPosition());
+        }
+        LatLngBounds bounds = builder.build();
+        int padding = 0; // offset from edges of the map in pixels
+        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+
+//        googleMap.moveCamera(cu);
+
+        googleMap.animateCamera(cu);
+
+//        if (center != null)
+//            googleMap.moveCamera(center);
+
+
 //        for (int i = 0; i < Constants.name.length; i++) {
 //
 //            LatLng location = new LatLng(Constants.latitude[i],Constants.longitude[i]);
@@ -366,7 +383,7 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
     };
 
     //Path Direction Call
-    private void getDriectionToDestination(final LatLng currentposition, final String start, String end, String mode, final int pos) {
+    private void getDriectionToDestination(final LatLng currentposition, final String start, final String end, String mode, final int pos) {
         Utils.loading_box(getActivity());
         RestClient.getGoogleApiService().getDriections(start, end, "false", "metric", mode, new Callback<String>() {
             @Override
@@ -395,14 +412,19 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
                     now = googleMap.addMarker(markerOptions);
 
                     String[] ar = start.split("[,]");
+                    String[] ad = end.split("[,]");
                     googleMap.addMarker(new MarkerOptions().title(mTrackermodel.get(pos).pickUp.name).snippet(mTrackermodel.get(pos).pickUp.companyName + ", " + mTrackermodel.get(pos).pickUp.address + ", " + mTrackermodel.get(pos).pickUp.city + "," + mTrackermodel.get(pos).pickUp.state + "\n" + mTrackermodel.get(pos).pickUp.contactNumber).position(new LatLng(Double.valueOf(ar[0]), Double.valueOf(ar[1]))).icon(BitmapDescriptorFactory.fromResource(R.mipmap.icon_location_blue)));
 
-                    CameraUpdate center =
-                            CameraUpdateFactory.newLatLng(currentposition);
-                    CameraUpdate zoom = CameraUpdateFactory.zoomTo(7);
 
-                    googleMap.moveCamera(center);
-                    googleMap.animateCamera(zoom);
+                    LatLngBounds.Builder mbuilder = new LatLngBounds.Builder();
+                    mbuilder.include(new LatLng(Double.valueOf(ar[0]), Double.valueOf(ar[1])));
+                    mbuilder.include(new LatLng(Double.valueOf(ad[0]), Double.valueOf(ad[1])));
+
+                    LatLngBounds bounds = mbuilder.build();
+                    int padding = 250; // offset from edges of the map in pixels
+                    CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+
+                    googleMap.animateCamera(cu);
 
                     selectedNumber = mTrackermodel.get(pos).shipper.phoneNumber;
                     nameTxtView.setText(mTrackermodel.get(pos).shipper.firstName + " " + mTrackermodel.get(pos).shipper.lastName);
@@ -461,7 +483,9 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
                         mOnGoingShipper = gson.fromJson(s, OnGoingShipper.class);
                         addmarkers();
                     } else {
+
                         Toast.makeText(getActivity(), mObject.getString("message"), Toast.LENGTH_SHORT).show();
+
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -504,6 +528,6 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
     private void hideProfile() {
         final Animation animationFadeOut = AnimationUtils.loadAnimation(getActivity(), R.anim.fadeout);
         mBottomView.setAnimation(animationFadeOut);
-        mBottomView.setVisibility(View.INVISIBLE);
+        mBottomView.setVisibility(View.GONE);
     }
 }

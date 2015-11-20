@@ -27,6 +27,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import static com.carrus.carrusshipper.utils.Constants.selectedId;
 
 /**
  * Created by Sunny on 11/6/15.
@@ -43,7 +44,7 @@ public class BookingDetailsActivity extends BaseActivity {
     private List<Header> listDataHeader;
     private HashMap<Header, List<ExpandableChildItem>> listDataChild;
     private ExpandableListAdapter listAdapter;
-    private ImageView mProfileIV;
+    private ImageView mProfileIV, locationIV;
     private RelativeLayout topView;
 
     @Override
@@ -81,6 +82,7 @@ public class BookingDetailsActivity extends BaseActivity {
         paymentBtn = (Button) findViewById(R.id.paymentBtn);
         cancelBtn = (Button) findViewById(R.id.cancelBtn);
         mProfileIV=(ImageView) findViewById(R.id.profileIV);
+        locationIV=(ImageView) findViewById(R.id.locationBtnIV);
 
         Picasso.with(BookingDetailsActivity.this).load(R.mipmap.icon_placeholder).resize(100,100).transform(new CircleTransform()).into(mProfileIV);
 
@@ -168,9 +170,17 @@ public class BookingDetailsActivity extends BaseActivity {
         findViewById(R.id.callBtnIV).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                            Intent callIntent = new Intent(Intent.ACTION_CALL);
-                            callIntent.setData(Uri.parse("tel:" + mMyBookingDataModel.shipper.phoneNumber));
-                            startActivity(callIntent);
+                Intent callIntent = new Intent(Intent.ACTION_CALL);
+                callIntent.setData(Uri.parse("tel:" + mMyBookingDataModel.shipper.phoneNumber));
+                startActivity(callIntent);
+            }
+        });
+
+        locationIV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Intent myIntent=new Intent();
+//                myIntent.putExtra(selectedId,mMyBookingDataModel.);
             }
         });
     }
@@ -236,6 +246,7 @@ public class BookingDetailsActivity extends BaseActivity {
             topView.setBackgroundColor(getResources().getColor(R.color.blue_ongoing));
             cancelBtn.setVisibility(View.VISIBLE);
             paymentBtn.setVisibility(View.GONE);
+            locationIV.setVisibility(View.VISIBLE);
         }else if(mMyBookingDataModel.bookingStatus.equalsIgnoreCase("canceled")){
             topView.setBackgroundColor(getResources().getColor(R.color.red));
             paymentBtn.setVisibility(View.GONE);
