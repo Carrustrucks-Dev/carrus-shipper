@@ -15,9 +15,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.carrus.carrusshipper.R;
-import com.carrus.carrusshipper.adapter.BookingAdapter;
 import com.carrus.carrusshipper.adapter.DividerItemDecoration;
+import com.carrus.carrusshipper.adapter.PastBookingAdapter;
+import com.carrus.carrusshipper.adapter.UpComingBookingAdapter;
 import com.carrus.carrusshipper.interfaces.OnLoadMoreListener;
+import com.carrus.carrusshipper.model.MyBookingDataModel;
 import com.carrus.carrusshipper.model.MyBookingModel;
 import com.carrus.carrusshipper.retrofit.RestClient;
 import com.carrus.carrusshipper.utils.ApiResponseFlags;
@@ -28,6 +30,9 @@ import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -43,7 +48,7 @@ public class PastFragment extends Fragment {
 
     private final String TAG = getClass().getSimpleName();
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private PastBookingAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private SessionManager mSessionManager;
     private int skip = 0;
@@ -52,6 +57,8 @@ public class PastFragment extends Fragment {
     private ConnectionDetector mConnectionDetector;
     private TextView mErrorTxtView;
     private OnLoadMoreListener onLoadMoreListener;
+    private List<MyBookingDataModel> bookingList;
+    MyBookingModel mMyBookingModel;
 
 
     /**
@@ -136,8 +143,10 @@ public class PastFragment extends Fragment {
     private void getPastBookings() {
         if (isRefreshView) {
             swipeRefreshLayout.setRefreshing(true);
-        } else
+        } else {
+            if(bookingList==null || bookingList.size()==0)
             Utils.loading_box(getActivity());
+        }
 
         RestClient.getApiService().getPast(mSessionManager.getAccessToken(), LIMIT + "", skip + "", SORT, new Callback<String>() {
             @Override
@@ -151,14 +160,39 @@ public class PastFragment extends Fragment {
 
                     if (ApiResponseFlags.OK.getOrdinal() == status) {
                         Gson gson = new Gson();
-                        MyBookingModel mMyBookingModel = gson.fromJson(s, MyBookingModel.class);
+                        mMyBookingModel = gson.fromJson(s, MyBookingModel.class);
                         // specify an adapter (see also next example)
-                        mAdapter = new BookingAdapter(getActivity(), mMyBookingModel.mData);
-                        mRecyclerView.setAdapter(mAdapter);
+                        if (bookingList == null) {
+                            bookingList = new ArrayList<MyBookingDataModel>();
+                            bookingList.addAll(mMyBookingModel.mData);
+                            mAdapter = new PastBookingAdapter(getActivity(), bookingList, mRecyclerView);
+                            mRecyclerView.setAdapter(mAdapter);
+                            setonScrollListener();
+                        }else{
+                            bookingList.remove(bookingList.size() - 1);
+                            mAdapter.notifyItemRemoved(bookingList.size());
+                            //add items one by one
+                            int start = bookingList.size();
+                            int end = start + mMyBookingModel.mData.size();
+                            int j=0;
+                            for (int i = start + 1; i <= end; i++) {
+                                bookingList.add(mMyBookingModel.mData.get(j));
+                                mAdapter.notifyItemInserted(bookingList.size());
+                                j++;
+                            }
+                            mAdapter.setLoaded();
+                        }
+                        skip=skip+LIMIT;
                     } else {
+                        if(ApiResponseFlags.Not_Found.getOrdinal() == status){
+                            bookingList.remove(bookingList.size() - 1);
+                            mAdapter.notifyItemRemoved(bookingList.size());
+                        }else{
+                            mErrorTxtView.setText(mObject.getString("message"));
+                            mErrorTxtView.setVisibility(View.VISIBLE);
+                        }
+
                         Toast.makeText(getActivity(), mObject.getString("message"), Toast.LENGTH_SHORT).show();
-                        mErrorTxtView.setText(mObject.getString("message"));
-                        mErrorTxtView.setVisibility(View.VISIBLE);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -183,14 +217,41 @@ public class PastFragment extends Fragment {
                         Utils.shopAlterDialog(getActivity(), Utils.getErrorMsg(error), true);
                     } else if (error.getResponse().getStatus() == ApiResponseFlags.Not_Found.getOrdinal()) {
                         Toast.makeText(getActivity(), Utils.getErrorMsg(error), Toast.LENGTH_SHORT).show();
-                        mErrorTxtView.setText(Utils.getErrorMsg(error));
-                        mErrorTxtView.setVisibility(View.VISIBLE);
+                        try {
+                            bookingList.remove(bookingList.size() - 1);
+                            mAdapter.notifyItemRemoved(bookingList.size());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 } catch (Exception ex) {
                     Toast.makeText(getActivity(), getResources().getString(R.string.nointernetconnection), Toast.LENGTH_SHORT).show();
                     mErrorTxtView.setText(getResources().getString(R.string.nointernetconnection));
                     mErrorTxtView.setVisibility(View.VISIBLE);
                 }
+            }
+        });
+    }
+
+    private void setonScrollListener() {
+
+        mAdapter.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                //add null , so the adapter will check view_type and show progress bar at bottom
+                bookingList.add(null);
+                mAdapter.notifyItemInserted(bookingList.size() - 1);
+                getPastBookings();
+//                new Handler().postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//
+//                        //   remove progress item
+//
+//                        //or you can add all at once but do not forget to call mAdapter.notifyDataSetChanged();
+//                    }
+//                }, 2000);
+
             }
         });
     }

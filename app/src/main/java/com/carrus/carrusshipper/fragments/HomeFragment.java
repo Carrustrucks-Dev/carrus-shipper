@@ -431,10 +431,13 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
                     typeTxtView.setText(mTrackermodel.get(pos).truck.truckType.typeTruckName + ", " + mTrackermodel.get(pos).truck.truckNumber);
                     locationTxtView.setText(mTrackermodel.get(pos).pickUp.city + " to " + mTrackermodel.get(pos).dropOff.city);
                     Picasso.with(getActivity()).load(R.mipmap.icon_placeholder).resize(100, 100).transform(new CircleTransform()).into(mProfileIV);
+
                     showProfile();
+
                     Intent serviceIntent = new Intent(getActivity(), MyService.class);
                     serviceIntent.putExtra("bookingId", mTrackermodel.get(pos).crruentTracking.get(0).bookingId);
                     getActivity().startService(serviceIntent);
+
                 } catch (ParserConfigurationException e) {
                     e.printStackTrace();
                 } catch (SAXException e) {

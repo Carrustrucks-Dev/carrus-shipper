@@ -1,7 +1,5 @@
 package com.carrus.carrusshipper.fragments;
 
-import android.app.Dialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,12 +8,9 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.carrus.carrusshipper.R;
-import com.carrus.carrusshipper.activity.RatingDialogActivity;
 
 import java.util.ArrayList;
 import java.util.List;

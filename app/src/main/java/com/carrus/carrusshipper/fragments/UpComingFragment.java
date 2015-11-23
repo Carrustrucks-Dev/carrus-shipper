@@ -2,6 +2,7 @@ package com.carrus.carrusshipper.fragments;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -15,8 +16,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.carrus.carrusshipper.R;
-import com.carrus.carrusshipper.adapter.BookingAdapter;
 import com.carrus.carrusshipper.adapter.DividerItemDecoration;
+import com.carrus.carrusshipper.adapter.UpComingBookingAdapter;
+import com.carrus.carrusshipper.interfaces.OnLoadMoreListener;
+import com.carrus.carrusshipper.model.MyBookingDataModel;
 import com.carrus.carrusshipper.model.MyBookingModel;
 import com.carrus.carrusshipper.retrofit.RestClient;
 import com.carrus.carrusshipper.utils.ApiResponseFlags;
@@ -27,6 +30,9 @@ import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -42,7 +48,7 @@ public class UpComingFragment extends Fragment {
 
     private final String TAG = getClass().getSimpleName();
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private UpComingBookingAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private SessionManager mSessionManager;
     private int skip = 0;
@@ -50,6 +56,8 @@ public class UpComingFragment extends Fragment {
     private boolean isRefreshView = false;
     private ConnectionDetector mConnectionDetector;
     private TextView mErrorTxtView;
+    private List<MyBookingDataModel> bookingList;
+    MyBookingModel mMyBookingModel;
 
     /**
      * Static factory method that takes an int parameter,
@@ -76,14 +84,13 @@ public class UpComingFragment extends Fragment {
     }
 
 
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mSessionManager = new SessionManager(getActivity());
-        mConnectionDetector=new ConnectionDetector(getActivity());
-        if(mConnectionDetector.isConnectingToInternet())
-        getMyBooking();
+        mConnectionDetector = new ConnectionDetector(getActivity());
+        if (mConnectionDetector.isConnectingToInternet())
+            getMyBooking();
         else {
             mErrorTxtView.setText(getResources().getString(R.string.nointernetconnection));
             mErrorTxtView.setVisibility(View.VISIBLE);
@@ -91,12 +98,12 @@ public class UpComingFragment extends Fragment {
         }
     }
 
-    private void intializeListners(){
+    private void intializeListners() {
         mErrorTxtView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mErrorTxtView.setVisibility(View.GONE);
-                if(mConnectionDetector.isConnectingToInternet())
+                if (mConnectionDetector.isConnectingToInternet())
                     getMyBooking();
                 else {
                     mErrorTxtView.setText(getResources().getString(R.string.nointernetconnection));
@@ -106,8 +113,9 @@ public class UpComingFragment extends Fragment {
             }
         });
     }
+
     private void init(View view) {
-        mErrorTxtView=(TextView) view.findViewById(R.id.errorTxtView);
+        mErrorTxtView = (TextView) view.findViewById(R.id.errorTxtView);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setColorSchemeColors(
                 Color.RED, Color.GREEN, Color.BLUE, Color.CYAN);
@@ -135,10 +143,13 @@ public class UpComingFragment extends Fragment {
     private void getMyBooking() {
         if (isRefreshView) {
             swipeRefreshLayout.setRefreshing(true);
-        } else
+        } else {
+         if(bookingList==null || bookingList.size()==0)
             Utils.loading_box(getActivity());
+        }
 
-        RestClient.getApiService().getOnGoing(mSessionManager.getAccessToken(), LIMIT + "", skip + "", SORT, new Callback<String>() {
+        RestClient.getApiService().getPast(mSessionManager.getAccessToken(), LIMIT + "", skip + "", SORT, new Callback<String>() {
+
             @Override
             public void success(String s, Response response) {
                 Log.v("" + getClass().getSimpleName(), "Response> " + s);
@@ -148,14 +159,40 @@ public class UpComingFragment extends Fragment {
                     int status = mObject.getInt("statusCode");
                     if (ApiResponseFlags.OK.getOrdinal() == status) {
                         Gson gson = new Gson();
-                        MyBookingModel mMyBookingModel = gson.fromJson(s, MyBookingModel.class);
+                        mMyBookingModel = gson.fromJson(s, MyBookingModel.class);
                         // specify an adapter (see also next example)
-                        mAdapter = new BookingAdapter(getActivity(), mMyBookingModel.mData);
-                        mRecyclerView.setAdapter(mAdapter);
+                        if (bookingList == null) {
+                            bookingList = new ArrayList<MyBookingDataModel>();
+                            bookingList.addAll(mMyBookingModel.mData);
+                            mAdapter = new UpComingBookingAdapter(getActivity(), bookingList, mRecyclerView);
+                            mRecyclerView.setAdapter(mAdapter);
+                            setonScrollListener();
+                        }else{
+                            bookingList.remove(bookingList.size() - 1);
+                            mAdapter.notifyItemRemoved(bookingList.size());
+                            //add items one by one
+                            int start = bookingList.size();
+                            int end = start + mMyBookingModel.mData.size();
+                            int j=0;
+                            for (int i = start + 1; i <= end; i++) {
+                                bookingList.add(mMyBookingModel.mData.get(j));
+                                mAdapter.notifyItemInserted(bookingList.size());
+                                j++;
+                            }
+                            mAdapter.setLoaded();
+                        }
+                        skip=skip+LIMIT;
                     } else {
+                        if(ApiResponseFlags.Not_Found.getOrdinal() == status){
+                            bookingList.remove(bookingList.size() - 1);
+                            mAdapter.notifyItemRemoved(bookingList.size());
+                        }else{
+                            mErrorTxtView.setText(mObject.getString("message"));
+                            mErrorTxtView.setVisibility(View.VISIBLE);
+                        }
+
                         Toast.makeText(getActivity(), mObject.getString("message"), Toast.LENGTH_SHORT).show();
-                        mErrorTxtView.setText(mObject.getString("message"));
-                        mErrorTxtView.setVisibility(View.VISIBLE);
+
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -180,8 +217,13 @@ public class UpComingFragment extends Fragment {
                         Utils.shopAlterDialog(getActivity(), Utils.getErrorMsg(error), true);
                     } else if (error.getResponse().getStatus() == ApiResponseFlags.Not_Found.getOrdinal()) {
                         Toast.makeText(getActivity(), Utils.getErrorMsg(error), Toast.LENGTH_SHORT).show();
-                        mErrorTxtView.setText(Utils.getErrorMsg(error));
-                        mErrorTxtView.setVisibility(View.VISIBLE);
+                        try {
+                            bookingList.remove(bookingList.size() - 1);
+                            mAdapter.notifyItemRemoved(bookingList.size());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
                     }
 
                 } catch (Exception ex) {
@@ -192,4 +234,28 @@ public class UpComingFragment extends Fragment {
             }
         });
     }
+
+    private void setonScrollListener() {
+
+        mAdapter.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                //add null , so the adapter will check view_type and show progress bar at bottom
+                bookingList.add(null);
+                mAdapter.notifyItemInserted(bookingList.size() - 1);
+                getMyBooking();
+//                new Handler().postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//
+//                        //   remove progress item
+//
+//                        //or you can add all at once but do not forget to call mAdapter.notifyDataSetChanged();
+//                    }
+//                }, 2000);
+
+            }
+        });
+    }
+
 }

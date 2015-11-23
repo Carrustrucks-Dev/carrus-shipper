@@ -10,7 +10,7 @@ public class Constants {
     public static final String SENDER_ID="57143499411";
     public static final String DEVICE_TYPE="ANDROID";
     public static final String selectedId="selectedTrackingId";
-    public static final int LIMIT=50;
+    public static final int LIMIT=10;
     public static final String SORT="ASC";
 //    public static final String SORT="DESC";
 

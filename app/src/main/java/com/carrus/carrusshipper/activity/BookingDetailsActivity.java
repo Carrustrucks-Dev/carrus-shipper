@@ -27,7 +27,6 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import static com.carrus.carrusshipper.utils.Constants.selectedId;
 
 /**
  * Created by Sunny on 11/6/15.
