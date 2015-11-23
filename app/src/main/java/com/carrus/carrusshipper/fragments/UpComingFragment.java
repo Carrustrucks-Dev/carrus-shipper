@@ -2,7 +2,6 @@ package com.carrus.carrusshipper.fragments;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -57,7 +56,7 @@ public class UpComingFragment extends Fragment {
     private ConnectionDetector mConnectionDetector;
     private TextView mErrorTxtView;
     private List<MyBookingDataModel> bookingList;
-    MyBookingModel mMyBookingModel;
+    private MyBookingModel mMyBookingModel;
 
     /**
      * Static factory method that takes an int parameter,
@@ -247,15 +246,6 @@ public class UpComingFragment extends Fragment {
                 bookingList.add(null);
                 mAdapter.notifyItemInserted(bookingList.size() - 1);
                 getMyBooking();
-//                new Handler().postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//
-//                        //   remove progress item
-//
-//                        //or you can add all at once but do not forget to call mAdapter.notifyDataSetChanged();
-//                    }
-//                }, 2000);
 
             }
         });

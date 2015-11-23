@@ -42,6 +42,8 @@ public class MyBookingDataModel implements Serializable {
 
     public Rating rating;
 
+    public DocModel doc;
+
     public Truck truck;
 
     public Cargo cargo;

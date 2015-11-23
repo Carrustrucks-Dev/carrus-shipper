@@ -291,7 +291,7 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
             builder.include(marker.getPosition());
         }
         LatLngBounds bounds = builder.build();
-        int padding = 0; // offset from edges of the map in pixels
+        int padding = 200; // offset from edges of the map in pixels
         CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
 
 //        googleMap.moveCamera(cu);

@@ -10,10 +10,10 @@ import java.io.Serializable;
 public class Rating  implements Serializable {
 
     @SerializedName("shipperRate")
-    public Long shipperRate;
+    public Double shipperRate;
 
     @SerializedName("truckerRate")
-    public Long truckerRate;
+    public Double truckerRate;
 
     @SerializedName("shipperComment")
     public String shipperComment;

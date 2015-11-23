@@ -3,6 +3,7 @@ package com.carrus.carrusshipper.activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -13,20 +14,36 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.carrus.carrusshipper.R;
 import com.carrus.carrusshipper.adapter.ExpandableListAdapter;
+import com.carrus.carrusshipper.fragments.HomeFragment;
 import com.carrus.carrusshipper.model.ExpandableChildItem;
 import com.carrus.carrusshipper.model.Header;
 import com.carrus.carrusshipper.model.MyBookingDataModel;
+import com.carrus.carrusshipper.model.MyBookingModel;
+import com.carrus.carrusshipper.model.OnGoingShipper;
+import com.carrus.carrusshipper.retrofit.RestClient;
+import com.carrus.carrusshipper.utils.ApiResponseFlags;
 import com.carrus.carrusshipper.utils.CircleTransform;
+import com.carrus.carrusshipper.utils.Constants;
+import com.carrus.carrusshipper.utils.SessionManager;
 import com.carrus.carrusshipper.utils.Utils;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * Created by Sunny on 11/6/15.
@@ -45,6 +62,7 @@ public class BookingDetailsActivity extends BaseActivity {
     private ExpandableListAdapter listAdapter;
     private ImageView mProfileIV, locationIV;
     private RelativeLayout topView;
+    private SessionManager mSessionManager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,7 +74,7 @@ public class BookingDetailsActivity extends BaseActivity {
     }
 
     private void init() {
-
+        mSessionManager=new SessionManager(this);
         headerTxtView = (TextView) findViewById(R.id.headerTxtView);
         headerTxtView.setText(getResources().getString(R.string.bookingdetails));
         mBackBtn = (ImageView) findViewById(R.id.menu_back_btn);
@@ -138,10 +156,13 @@ public class BookingDetailsActivity extends BaseActivity {
         Intent intent = this.getIntent();
         Bundle bundle = intent.getExtras();
 
-        mMyBookingDataModel =
-                (MyBookingDataModel) bundle.getSerializable("value");
+        if(getIntent().getStringExtra("id")==null) {
+            mMyBookingDataModel =
+                    (MyBookingDataModel) bundle.getSerializable("value");
+            setValuesonViews();
+        }else{
 
-        setValuesonViews();
+        }
     }
 
     private void initializeClickListner() {
@@ -304,6 +325,58 @@ public class BookingDetailsActivity extends BaseActivity {
         scrollview.post(new Runnable() {
             public void run() {
                 scrollview.scrollTo(0, 0);
+            }
+        });
+    }
+
+    private void getBookingDetails(String id){
+        Utils.loading_box(BookingDetailsActivity.this);
+
+        RestClient.getApiService().getSingleOnGoingBookingTrack(mSessionManager.getAccessToken(), id, 100, 0, Constants.SORT, new Callback<String>() {
+            @Override
+            public void success(String s, Response response) {
+                Log.v("" + getClass().getSimpleName(), "Response> " + s);
+                try {
+                    JSONObject mObject = new JSONObject(s);
+
+                    int status = mObject.getInt("statusCode");
+
+                    if (ApiResponseFlags.OK.getOrdinal() == status) {
+                        Gson gson = new Gson();
+                        MyBookingModel mOnGoingShipper = gson.fromJson(s, MyBookingModel.class);
+
+                        if(mOnGoingShipper.mData.size()!=0){
+                            mMyBookingDataModel = mOnGoingShipper.mData.get(0);
+                            setValuesonViews();
+                        }else{
+                            finish();
+                        }
+
+                    } else {
+                        Toast.makeText(BookingDetailsActivity.this, mObject.getString("message"), Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                try {
+                    Log.v("error.getKind() >> " + error.getKind(), " MSg >> " + error.getResponse().getStatus());
+
+                    if (error.getKind().equals(RetrofitError.Kind.NETWORK)) {
+                        Toast.makeText(BookingDetailsActivity.this, getResources().getString(R.string.nointernetconnection), Toast.LENGTH_SHORT).show();
+                    } else if (error.getResponse().getStatus() == ApiResponseFlags.Unauthorized.getOrdinal()) {
+                        Utils.shopAlterDialog(BookingDetailsActivity.this, Utils.getErrorMsg(error), true);
+                    } else if (error.getResponse().getStatus() == ApiResponseFlags.Not_Found.getOrdinal()) {
+                        Toast.makeText(BookingDetailsActivity.this, Utils.getErrorMsg(error), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception ex) {
+                    Toast.makeText(BookingDetailsActivity.this, getResources().getString(R.string.nointernetconnection), Toast.LENGTH_SHORT).show();
+                }
+                finish();
             }
         });
     }

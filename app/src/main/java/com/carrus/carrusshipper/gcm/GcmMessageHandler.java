@@ -17,6 +17,8 @@ import com.carrus.carrusshipper.R;
 import com.carrus.carrusshipper.activity.SplashActivity;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
+import org.json.JSONObject;
+
 
 public class GcmMessageHandler extends IntentService {
     public static final int MESSAGE_NOTIFICATION_ID = 435345;
@@ -44,24 +46,27 @@ public class GcmMessageHandler extends IntentService {
         // Keys in the data are shown as extras
         Log.i("Complete payload", intent.getExtras().toString());
         try {
-            sendNotification(extras.getString("gcm.notification.body").toString(), extras.getString("gcm.notification.title").toString());
+            String msg = extras.getString("message");
+//            sendNotification(extras.getString("message").toString(), extras.getString("gcm.notification.title").toString());
+            JSONObject myObject=new JSONObject(extras.getString("flag"));
+            sendNotification(extras.getString("message").toString(),extras.getString("brand_name").toString(), myObject.getString("bookingId"));
 
         } catch (Exception e) {
-            sendNotification("", "Carrus Shipper");
+            sendNotification("", "Carrus Shipper","");
         }
 
         // Notify receiver the intent is completed
         GcmBroadcastReceiver.completeWakefulIntent(intent);
     }
 
-    private void sendNotification(String msg, String title) {
+    private void sendNotification(String msg, String title, String id) {
         mNotificationManager = (NotificationManager)
                 this.getSystemService(Context.NOTIFICATION_SERVICE);
 
         final Intent notificationIntent = new Intent(this, SplashActivity.class);
         notificationIntent.setAction(Intent.ACTION_MAIN);
         notificationIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-
+        notificationIntent.putExtra("id", id);
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
                 notificationIntent, 0);
 

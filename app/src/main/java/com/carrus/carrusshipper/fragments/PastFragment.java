@@ -17,7 +17,6 @@ import android.widget.Toast;
 import com.carrus.carrusshipper.R;
 import com.carrus.carrusshipper.adapter.DividerItemDecoration;
 import com.carrus.carrusshipper.adapter.PastBookingAdapter;
-import com.carrus.carrusshipper.adapter.UpComingBookingAdapter;
 import com.carrus.carrusshipper.interfaces.OnLoadMoreListener;
 import com.carrus.carrusshipper.model.MyBookingDataModel;
 import com.carrus.carrusshipper.model.MyBookingModel;
@@ -58,7 +57,7 @@ public class PastFragment extends Fragment {
     private TextView mErrorTxtView;
     private OnLoadMoreListener onLoadMoreListener;
     private List<MyBookingDataModel> bookingList;
-    MyBookingModel mMyBookingModel;
+    private MyBookingModel mMyBookingModel;
 
 
     /**
@@ -245,16 +244,6 @@ public class PastFragment extends Fragment {
                 bookingList.add(null);
                 mAdapter.notifyItemInserted(bookingList.size() - 1);
                 getPastBookings();
-//                new Handler().postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//
-//                        //   remove progress item
-//
-//                        //or you can add all at once but do not forget to call mAdapter.notifyDataSetChanged();
-//                    }
-//                }, 2000);
-
             }
         });
     }

@@ -58,7 +58,7 @@
         android:paddingLeft="@dimen/five"
         android:paddingRight="@dimen/five"
         android:layout_weight="0.38">
-        <TextView
+        <com.carrus.carrusshipper.utils.CapitalizedTextView
             android:id="@+id/nameTxtView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -77,7 +77,7 @@
             android:textSize="@dimen/low_font"
             />
 
-        <TextView
+        <com.carrus.carrusshipper.utils.CapitalizedTextView
             android:id="@+id/addressTxtView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
