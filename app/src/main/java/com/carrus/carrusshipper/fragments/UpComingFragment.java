@@ -143,12 +143,14 @@ public class UpComingFragment extends Fragment {
     private void getMyBooking() {
         if (isRefreshView) {
             swipeRefreshLayout.setRefreshing(true);
+            skip=0;
+            bookingList=null;
         } else {
          if(bookingList==null || bookingList.size()==0)
             Utils.loading_box(getActivity());
         }
 
-        RestClient.getApiService().getPast(mSessionManager.getAccessToken(), LIMIT + "", skip + "", SORT, new Callback<String>() {
+        RestClient.getApiService().getOnGoing(mSessionManager.getAccessToken(), LIMIT + "", skip + "", SORT, new Callback<String>() {
 
             @Override
             public void success(String s, Response response) {
@@ -167,13 +169,13 @@ public class UpComingFragment extends Fragment {
                             mAdapter = new UpComingBookingAdapter(getActivity(), bookingList, mRecyclerView);
                             mRecyclerView.setAdapter(mAdapter);
                             setonScrollListener();
-                        }else{
+                        } else {
                             bookingList.remove(bookingList.size() - 1);
                             mAdapter.notifyItemRemoved(bookingList.size());
                             //add items one by one
                             int start = bookingList.size();
                             int end = start + mMyBookingModel.mData.size();
-                            int j=0;
+                            int j = 0;
                             for (int i = start + 1; i <= end; i++) {
                                 bookingList.add(mMyBookingModel.mData.get(j));
                                 mAdapter.notifyItemInserted(bookingList.size());
@@ -181,12 +183,12 @@ public class UpComingFragment extends Fragment {
                             }
                             mAdapter.setLoaded();
                         }
-                        skip=skip+LIMIT;
+                        skip = skip + LIMIT;
                     } else {
-                        if(ApiResponseFlags.Not_Found.getOrdinal() == status){
+                        if (ApiResponseFlags.Not_Found.getOrdinal() == status) {
                             bookingList.remove(bookingList.size() - 1);
                             mAdapter.notifyItemRemoved(bookingList.size());
-                        }else{
+                        } else {
                             mErrorTxtView.setText(mObject.getString("message"));
                             mErrorTxtView.setVisibility(View.VISIBLE);
                         }
@@ -199,6 +201,7 @@ public class UpComingFragment extends Fragment {
                 }
 
                 Utils.loading_box_stop();
+                isRefreshView=false;
                 swipeRefreshLayout.setRefreshing(false);
             }
 

@@ -143,6 +143,8 @@ public class PastFragment extends Fragment {
     private void getPastBookings() {
         if (isRefreshView) {
             swipeRefreshLayout.setRefreshing(true);
+            skip=0;
+            bookingList=null;
         } else {
             if(bookingList==null || bookingList.size()==0)
             Utils.loading_box(getActivity());
@@ -199,6 +201,7 @@ public class PastFragment extends Fragment {
                 }
 
                 Utils.loading_box_stop();
+                isRefreshView=false;
                 swipeRefreshLayout.setRefreshing(false);
             }
 
