@@ -72,8 +72,8 @@ public class GcmMessageHandler extends IntentService {
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.mipmap.ic_launcher).setLargeIcon(BitmapFactory.decodeResource(getResources(),
-                        R.mipmap.ic_launcher))
+                        .setSmallIcon(getNotificationIcon()).setLargeIcon(BitmapFactory.decodeResource(getResources(),
+                        getNotificationIcon()))
                         .setContentTitle(title)
                         .setStyle(new NotificationCompat.BigTextStyle()
                                 .bigText(msg)).setAutoCancel(true)
@@ -85,6 +85,11 @@ public class GcmMessageHandler extends IntentService {
         mBuilder.setVibrate(new long[]{1000, 1000});
         mBuilder.setLights(Color.BLUE, 300, 300);
         mNotificationManager.notify(MESSAGE_NOTIFICATION_ID, mBuilder.build());
+    }
+
+    private int getNotificationIcon() {
+        boolean whiteIcon = (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP);
+        return whiteIcon ? R.mipmap.notification_icon : R.mipmap.ic_launcher;
     }
 
 
