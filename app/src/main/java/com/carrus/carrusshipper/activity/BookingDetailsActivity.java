@@ -18,12 +18,10 @@ import android.widget.Toast;
 
 import com.carrus.carrusshipper.R;
 import com.carrus.carrusshipper.adapter.ExpandableListAdapter;
-import com.carrus.carrusshipper.fragments.HomeFragment;
 import com.carrus.carrusshipper.model.ExpandableChildItem;
 import com.carrus.carrusshipper.model.Header;
 import com.carrus.carrusshipper.model.MyBookingDataModel;
 import com.carrus.carrusshipper.model.MyBookingModel;
-import com.carrus.carrusshipper.model.OnGoingShipper;
 import com.carrus.carrusshipper.retrofit.RestClient;
 import com.carrus.carrusshipper.utils.ApiResponseFlags;
 import com.carrus.carrusshipper.utils.CircleTransform;
@@ -55,7 +53,7 @@ public class BookingDetailsActivity extends BaseActivity {
     //    private RecyclerView recyclerview;
     private MyBookingDataModel mMyBookingDataModel;
     private TextView nameDetailTxtView, typeDetailTxtView, locationDetailsTxtView, trackDetailsIdTxtView, statusTxtView, addresPickupTxtView, datePickupTxtView, timePickupTxtView, addressDropTxtView, dateDropTxtview, timeDropTxtView, paymentModeTxtView, totalCostTxtView;
-    private Button paymentBtn, cancelBtn;
+    private Button viewPodBtn, cancelBtn;
     private ExpandableListView mExpandableListView;
     private List<Header> listDataHeader;
     private HashMap<Header, List<ExpandableChildItem>> listDataChild;
@@ -74,14 +72,14 @@ public class BookingDetailsActivity extends BaseActivity {
     }
 
     private void init() {
-        mSessionManager=new SessionManager(this);
+        mSessionManager = new SessionManager(this);
         headerTxtView = (TextView) findViewById(R.id.headerTxtView);
         headerTxtView.setText(getResources().getString(R.string.bookingdetails));
         mBackBtn = (ImageView) findViewById(R.id.menu_back_btn);
         mBackBtn.setVisibility(View.VISIBLE);
 //        recyclerview = (RecyclerView) findViewById(R.id.recyclerview);
 //        recyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        topView=(RelativeLayout) findViewById(R.id.topView);
+        topView = (RelativeLayout) findViewById(R.id.topView);
         mExpandableListView = (ExpandableListView) findViewById(R.id.recyclerview);
         nameDetailTxtView = (TextView) findViewById(R.id.nameDetailTxtView);
         typeDetailTxtView = (TextView) findViewById(R.id.typeDetailTxtView);
@@ -96,12 +94,12 @@ public class BookingDetailsActivity extends BaseActivity {
         timeDropTxtView = (TextView) findViewById(R.id.timeDropTxtView);
         paymentModeTxtView = (TextView) findViewById(R.id.paymentModeTxtView);
         totalCostTxtView = (TextView) findViewById(R.id.totalCostTxtView);
-        paymentBtn = (Button) findViewById(R.id.paymentBtn);
+        viewPodBtn = (Button) findViewById(R.id.viewPodBtn);
         cancelBtn = (Button) findViewById(R.id.cancelBtn);
-        mProfileIV=(ImageView) findViewById(R.id.profileIV);
-        locationIV=(ImageView) findViewById(R.id.locationBtnIV);
+        mProfileIV = (ImageView) findViewById(R.id.profileIV);
+        locationIV = (ImageView) findViewById(R.id.locationBtnIV);
 
-        Picasso.with(BookingDetailsActivity.this).load(R.mipmap.icon_placeholder).resize(100,100).transform(new CircleTransform()).into(mProfileIV);
+        Picasso.with(BookingDetailsActivity.this).load(R.mipmap.icon_placeholder).resize(100, 100).transform(new CircleTransform()).into(mProfileIV);
 
         // Listview Group click listener
         mExpandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
@@ -144,7 +142,7 @@ public class BookingDetailsActivity extends BaseActivity {
             }
         });
 
-//                                prepareListData();
+        //prepareListData();
         listDataHeader = new ArrayList<Header>();
         listDataChild = new HashMap<Header, List<ExpandableChildItem>>();
 
@@ -156,12 +154,12 @@ public class BookingDetailsActivity extends BaseActivity {
         Intent intent = this.getIntent();
         Bundle bundle = intent.getExtras();
 
-        if(getIntent().getStringExtra("id")==null) {
+        if (getIntent().getStringExtra("id") == null) {
             mMyBookingDataModel =
                     (MyBookingDataModel) bundle.getSerializable("value");
             setValuesonViews();
-        }else{
-
+        } else {
+            getBookingDetails(getIntent().getStringExtra("id"));
         }
     }
 
@@ -173,9 +171,14 @@ public class BookingDetailsActivity extends BaseActivity {
             }
         });
 
-        paymentBtn.setOnClickListener(new View.OnClickListener() {
+        viewPodBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (mMyBookingDataModel.doc.pod != null) {
+                    Intent mIntent = new Intent(BookingDetailsActivity.this, ShowPODActivity.class);
+                    mIntent.putExtra("url", mMyBookingDataModel.doc.pod);
+                    startActivity(mIntent);
+                }
 
             }
         });
@@ -262,23 +265,23 @@ public class BookingDetailsActivity extends BaseActivity {
         trackDetailsIdTxtView.setText(mMyBookingDataModel.crn);
 
         statusTxtView.setText(mMyBookingDataModel.bookingStatus);
-        if(mMyBookingDataModel.bookingStatus.equalsIgnoreCase("ongoing")){
+        if (mMyBookingDataModel.bookingStatus.equalsIgnoreCase("on_going")) {
             topView.setBackgroundColor(getResources().getColor(R.color.blue_ongoing));
             cancelBtn.setVisibility(View.VISIBLE);
-            paymentBtn.setVisibility(View.GONE);
+            viewPodBtn.setVisibility(View.GONE);
             locationIV.setVisibility(View.VISIBLE);
-        }else if(mMyBookingDataModel.bookingStatus.equalsIgnoreCase("canceled")){
+        } else if (mMyBookingDataModel.bookingStatus.equalsIgnoreCase("canceled")) {
             topView.setBackgroundColor(getResources().getColor(R.color.red));
-            paymentBtn.setVisibility(View.GONE);
+            viewPodBtn.setVisibility(View.GONE);
             cancelBtn.setVisibility(View.GONE);
-        }else if(mMyBookingDataModel.bookingStatus.equalsIgnoreCase("confirmed")){
+        } else if (mMyBookingDataModel.bookingStatus.equalsIgnoreCase("confirmed")) {
             topView.setBackgroundColor(getResources().getColor(R.color.green));
             cancelBtn.setVisibility(View.VISIBLE);
-            paymentBtn.setVisibility(View.GONE);
-        }else if(mMyBookingDataModel.bookingStatus.equalsIgnoreCase("completed")){
+            viewPodBtn.setVisibility(View.GONE);
+        } else if (mMyBookingDataModel.bookingStatus.equalsIgnoreCase("completed")) {
             topView.setBackgroundColor(getResources().getColor(R.color.gray_completed));
             cancelBtn.setVisibility(View.GONE);
-            paymentBtn.setVisibility(View.VISIBLE);
+            viewPodBtn.setVisibility(View.VISIBLE);
         }
 
 
@@ -298,7 +301,7 @@ public class BookingDetailsActivity extends BaseActivity {
         }
         timeDropTxtView.setText(mMyBookingDataModel.dropOff.time);
         paymentModeTxtView.setText(mMyBookingDataModel.paymentMode);
-        totalCostTxtView.setText("₹ "+mMyBookingDataModel.acceptPrice);
+        totalCostTxtView.setText("₹ " + mMyBookingDataModel.acceptPrice);
 
         // Adding child data
         ArrayList<ExpandableChildItem> cargoDetails = new ArrayList<ExpandableChildItem>();
@@ -320,7 +323,7 @@ public class BookingDetailsActivity extends BaseActivity {
         mExpandableListView.setAdapter(listAdapter);
         setListViewHeight(mExpandableListView);
 //        chnageHieghtListView();
-        final ScrollView scrollview = (ScrollView)findViewById(R.id.mainscrollview);
+        final ScrollView scrollview = (ScrollView) findViewById(R.id.mainscrollview);
 
         scrollview.post(new Runnable() {
             public void run() {
@@ -329,7 +332,7 @@ public class BookingDetailsActivity extends BaseActivity {
         });
     }
 
-    private void getBookingDetails(String id){
+    private void getBookingDetails(String id) {
         Utils.loading_box(BookingDetailsActivity.this);
 
         RestClient.getApiService().getSingleOnGoingBookingTrack(mSessionManager.getAccessToken(), id, 100, 0, Constants.SORT, new Callback<String>() {
@@ -345,10 +348,10 @@ public class BookingDetailsActivity extends BaseActivity {
                         Gson gson = new Gson();
                         MyBookingModel mOnGoingShipper = gson.fromJson(s, MyBookingModel.class);
 
-                        if(mOnGoingShipper.mData.size()!=0){
+                        if (mOnGoingShipper.mData.size() != 0) {
                             mMyBookingDataModel = mOnGoingShipper.mData.get(0);
                             setValuesonViews();
-                        }else{
+                        } else {
                             finish();
                         }
 
