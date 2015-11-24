@@ -84,4 +84,5 @@
     <string name="nonotesfound">No note Found</string>
     <string name="ratingerror">Rating not zero</string>
     <string name="commentrequired">Comment must not be empty</string>
+    <string name="podnotfound">No POD found</string>
 </resources>

@@ -178,6 +178,8 @@ public class BookingDetailsActivity extends BaseActivity {
                     Intent mIntent = new Intent(BookingDetailsActivity.this, ShowPODActivity.class);
                     mIntent.putExtra("url", mMyBookingDataModel.doc.pod);
                     startActivity(mIntent);
+                }else{
+                    Toast.makeText(BookingDetailsActivity.this, getResources().getString(R.string.podnotfound), Toast.LENGTH_SHORT).show();
                 }
 
             }
