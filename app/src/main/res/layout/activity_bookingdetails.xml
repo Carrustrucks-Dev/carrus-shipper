@@ -229,6 +229,7 @@
             <ExpandableListView
                 android:id="@+id/recyclerview"
                 android:layout_width="fill_parent"
+                android:groupIndicator="@null"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true" />
 
