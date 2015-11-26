@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.carrus.carrusshipper.R;
 import com.carrus.carrusshipper.adapter.NavigationDrawerAdapter;
@@ -93,6 +94,19 @@ public class FragmentDrawer extends Fragment {
 
             }
         }));
+
+        LinearLayout mHeaderLayout=(LinearLayout) layout.findViewById(R.id.nav_header_container);
+
+        mHeaderLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawerListener.onHeaderSelected();
+                mDrawerLayout.closeDrawer(containerView);
+            }
+        });
+
+
+
 
         return layout;
     }
@@ -180,5 +194,6 @@ public class FragmentDrawer extends Fragment {
 
     public interface FragmentDrawerListener {
         public void onDrawerItemSelected(View view, int position);
+        public void onHeaderSelected();
     }
 }

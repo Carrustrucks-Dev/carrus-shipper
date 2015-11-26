@@ -139,7 +139,33 @@ public class UpComingBookingAdapter extends RecyclerView.Adapter {
             ((ViewHolder) holder).mNameTxtView.setText(myList.get(position).shipper.firstName + " " + myList.get(position).shipper.lastName);
             ((ViewHolder) holder).mCodeTxtView.setText(myList.get(position).truck.truckType.typeTruckName + ", " + myList.get(position).truck.truckNumber);
             ((ViewHolder) holder).mAddressTxtView.setText(myList.get(position).pickUp.city + " to " + myList.get(position).dropOff.city);
-            ((ViewHolder) holder).mStatusTxtView.setText(myList.get(position).bookingStatus);
+            ((ViewHolder) holder).mStatusTxtView.setText(myList.get(position).bookingStatus.replace("_", " "));
+
+            switch (myList.get(position).bookingStatus.toUpperCase()) {
+                case "REACHED_DESTINATION":
+                case "REACHED_PICKUP_LOCATION":
+                    ((ViewHolder) holder).mStatusTxtView.setTextColor(mActivity.getResources().getColor(R.color.tabcolor_dark));
+                    break;
+
+                case "ON_GOING":
+                case "UP_GOING":
+                    ((ViewHolder) holder).mStatusTxtView.setTextColor(mActivity.getResources().getColor(R.color.colorPrimary));
+                    break;
+
+                case "CONFIRMED":
+                    ((ViewHolder) holder).mStatusTxtView.setTextColor(mActivity.getResources().getColor(R.color.green));
+                    break;
+
+                case "HALT":
+                case "COMPLETED":
+                    ((ViewHolder) holder).mStatusTxtView.setTextColor(mActivity.getResources().getColor(R.color.gray_text));
+                    break;
+
+                case "CANCELED":
+                    ((ViewHolder) holder).mStatusTxtView.setTextColor(mActivity.getResources().getColor(R.color.red));
+                    break;
+
+            }
             try {
                 ((ViewHolder) holder).mTimeTxtView.setText(Utils.getDay(myList.get(position).pickUp.date) + ", " + myList.get(position).pickUp.time);
             } catch (ParseException e) {

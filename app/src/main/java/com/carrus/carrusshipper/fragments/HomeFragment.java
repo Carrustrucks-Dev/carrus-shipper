@@ -24,9 +24,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.carrus.carrusshipper.R;
+import com.carrus.carrusshipper.activity.BookingDetailsActivity;
 import com.carrus.carrusshipper.activity.MainActivity;
-import com.carrus.carrusshipper.model.OnGoingShipper;
-import com.carrus.carrusshipper.model.TrackingModel;
+import com.carrus.carrusshipper.model.MyBookingDataModel;
+import com.carrus.carrusshipper.model.MyBookingModel;
 import com.carrus.carrusshipper.retrofit.RestClient;
 import com.carrus.carrusshipper.services.MyService;
 import com.carrus.carrusshipper.utils.ApiResponseFlags;
@@ -78,20 +79,23 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
     private GoogleMap googleMap;
     //Markers List
     private ArrayList<Marker> mMarkerArray = new ArrayList<Marker>();
-    private ArrayList<TrackingModel> mTrackermodel = new ArrayList<>();
+//    private ArrayList<TrackingModel> mTrackermodel = new ArrayList<>();
+    private ArrayList<MyBookingDataModel> mTrackermodel = new ArrayList<>();
     private MainActivity mainActivity;
     private GMapV2GetRouteDirection v2GetRouteDirection;
     private ConnectionDetector mConnectionDetector;
     private SessionManager mSessionManager;
-    private OnGoingShipper mOnGoingShipper;
+//    private OnGoingShipper mOnGoingShipper;
+    private MyBookingModel mOnGoingShipper;
     private RelativeLayout mBottomView;
     private boolean isMarkerMatch = false;
     private ImageView mProfileIV;
-    private TextView nameTxtView, typeTxtView, locationTxtView;
+    private TextView nameTxtView, typeTxtView, locationTxtView, statusTxtView;
     private String selectedNumber = null;
     private IntentFilter mIntentFilter;
     private Marker now;
     private EditText mSearchEdtTxt;
+    private int selectedPos=0;
 
 
     public HomeFragment() {
@@ -148,6 +152,7 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
         nameTxtView = (TextView) view.findViewById(R.id.nameTxtView);
         typeTxtView = (TextView) view.findViewById(R.id.typeTxtView);
         locationTxtView = (TextView) view.findViewById(R.id.locationTxtView);
+        statusTxtView = (TextView) view.findViewById(R.id.statusTxtView);
         mSearchEdtTxt = (EditText) view.findViewById(R.id.searchEdtTxt);
 
 
@@ -181,6 +186,18 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
                     callIntent.setData(Uri.parse("tel:" + selectedNumber));
                     startActivity(callIntent);
                 }
+            }
+        });
+
+
+        mBottomView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("value", mTrackermodel.get(selectedPos));
+                Intent intent = new Intent(getActivity(), BookingDetailsActivity.class);
+                intent.putExtras(bundle);
+                startActivityForResult(intent, 600);
             }
         });
     }
@@ -341,6 +358,7 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
                     googleMap.addMarker(new MarkerOptions().position(new LatLng(marker.getPosition().latitude, marker.getPosition().longitude))
                             .title(marker.getTitle())
                             .snippet(marker.getSnippet()).icon(BitmapDescriptorFactory.fromResource(R.mipmap.icon_van)));
+                    selectedPos=i;
                     getDriectionToDestination(new LatLng(mTrackermodel.get(i).crruentTracking.get(0).lat, mTrackermodel.get(i).crruentTracking.get(0).longg), mTrackermodel.get(i).pickUp.coordinates.pickUpLat + ", " + mTrackermodel.get(i).pickUp.coordinates.pickUpLong, mTrackermodel.get(i).dropOff.coordinates.dropOffLat + ", " + mTrackermodel.get(i).dropOff.coordinates.dropOffLong, GMapV2GetRouteDirection.MODE_DRIVING, i);
                 }
                 break;
@@ -368,7 +386,7 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
             if (intent.getAction().equals(mBroadcastUiAction)) {
 
                 Bundle bundle = intent.getExtras();
-                TrackingModel mTrackingModel = (TrackingModel) bundle.getSerializable("data");
+                MyBookingDataModel mTrackingModel = (MyBookingDataModel) bundle.getSerializable("data");
                 if (now != null) {
                     now.remove();
                 }
@@ -414,6 +432,7 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
                     String[] ar = start.split("[,]");
                     String[] ad = end.split("[,]");
                     googleMap.addMarker(new MarkerOptions().title(mTrackermodel.get(pos).pickUp.name).snippet(mTrackermodel.get(pos).pickUp.companyName + ", " + mTrackermodel.get(pos).pickUp.address + ", " + mTrackermodel.get(pos).pickUp.city + "," + mTrackermodel.get(pos).pickUp.state + "\n" + mTrackermodel.get(pos).pickUp.contactNumber).position(new LatLng(Double.valueOf(ar[0]), Double.valueOf(ar[1]))).icon(BitmapDescriptorFactory.fromResource(R.mipmap.icon_location_blue)));
+                    googleMap.addMarker(new MarkerOptions().title(mTrackermodel.get(pos).dropOff.name).snippet(mTrackermodel.get(pos).dropOff.companyName + ", " + mTrackermodel.get(pos).dropOff.address + ", " + mTrackermodel.get(pos).dropOff.city + "," + mTrackermodel.get(pos).dropOff.state + "\n" + mTrackermodel.get(pos).dropOff.contactNumber).position(new LatLng(Double.valueOf(ad[0]), Double.valueOf(ad[1]))).icon(BitmapDescriptorFactory.fromResource(R.mipmap.icon_location_blue)));
 
 
                     LatLngBounds.Builder mbuilder = new LatLngBounds.Builder();
@@ -431,7 +450,33 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
                     typeTxtView.setText(mTrackermodel.get(pos).truck.truckType.typeTruckName + ", " + mTrackermodel.get(pos).truck.truckNumber);
                     locationTxtView.setText(mTrackermodel.get(pos).pickUp.city + " to " + mTrackermodel.get(pos).dropOff.city);
                     Picasso.with(getActivity()).load(R.mipmap.icon_placeholder).resize(100, 100).transform(new CircleTransform()).into(mProfileIV);
+                    statusTxtView.setText(mTrackermodel.get(pos).bookingStatus.replace("_", " "));
 
+                    switch (mTrackermodel.get(pos).bookingStatus.toUpperCase()) {
+                        case "REACHED_DESTINATION":
+                        case "REACHED_PICKUP_LOCATION":
+                            statusTxtView.setTextColor(getResources().getColor(R.color.tabcolor_dark));
+                            break;
+
+                        case "ON_GOING":
+                        case "UP_GOING":
+                            statusTxtView.setTextColor(getResources().getColor(R.color.colorPrimary));
+                            break;
+
+                        case "CONFIRMED":
+                            statusTxtView.setTextColor(getResources().getColor(R.color.green));
+                            break;
+
+                        case "HALT":
+                        case "COMPLETED":
+                            statusTxtView.setTextColor(getResources().getColor(R.color.gray_text));
+                            break;
+
+                        case "CANCELED":
+                            statusTxtView.setTextColor(getResources().getColor(R.color.red));
+                            break;
+
+                    }
                     showProfile();
 
                     Intent serviceIntent = new Intent(getActivity(), MyService.class);
@@ -483,7 +528,7 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
 
                     if (ApiResponseFlags.OK.getOrdinal() == status) {
                         Gson gson = new Gson();
-                        mOnGoingShipper = gson.fromJson(s, OnGoingShipper.class);
+                        mOnGoingShipper = gson.fromJson(s, MyBookingModel.class);
                         addmarkers();
                     } else {
 

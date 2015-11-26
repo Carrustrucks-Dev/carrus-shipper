@@ -15,7 +15,6 @@ import android.util.Log;
 
 import com.carrus.carrusshipper.R;
 import com.carrus.carrusshipper.activity.BookingDetailsActivity;
-import com.carrus.carrusshipper.activity.SplashActivity;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import org.json.JSONObject;

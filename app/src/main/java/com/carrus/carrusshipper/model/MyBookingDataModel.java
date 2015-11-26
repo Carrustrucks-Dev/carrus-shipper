@@ -3,6 +3,8 @@ package com.carrus.carrusshipper.model;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Sunny on 11/7/15.
@@ -61,5 +63,6 @@ public class MyBookingDataModel implements Serializable {
     @SerializedName("truckerNote")
     public String truckerNote;
 
-
+    @SerializedName("crruentTracking")
+    public List<TrackingDetails> crruentTracking = new ArrayList<TrackingDetails>();
 }

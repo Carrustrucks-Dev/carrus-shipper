@@ -10,6 +10,7 @@ public enum ApiResponseFlags {
     Bad_Request(400),
     Unauthorized(401),
     Not_Found(404),
+    Not_MORE_RESULT(405),
     Already_Exists(409),
     Internal_Server_Error(500);
 

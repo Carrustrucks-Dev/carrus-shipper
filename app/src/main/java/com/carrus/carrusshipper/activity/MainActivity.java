@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.carrus.carrusshipper.R;
+import com.carrus.carrusshipper.fragments.DriverProfileFragment;
 import com.carrus.carrusshipper.fragments.HomeFragment;
 import com.carrus.carrusshipper.fragments.MyBookingFragment;
 import com.carrus.carrusshipper.retrofit.RestClient;
@@ -105,6 +106,19 @@ public class MainActivity extends BaseActivity implements FragmentDrawer.Fragmen
         displayView(position);
     }
 
+    @Override
+    public void onHeaderSelected() {
+        selectedPos = -1;
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.container_body, new DriverProfileFragment());
+        fragmentTransaction.commit();
+
+        // set the toolbar title
+//            getSupportActionBar().setTitle(title);
+        mHeaderTextView.setText(getString(R.string.myprofile));
+    }
+
     private void displayView(int position) {
         Fragment fragment = null;
         String title = getString(R.string.app_name);
@@ -127,7 +141,7 @@ public class MainActivity extends BaseActivity implements FragmentDrawer.Fragmen
                 if (selectedPos != 2) {
 //                    selectedPos = 2;
                     Intent callIntent = new Intent(Intent.ACTION_CALL);
-                    callIntent.setData(Uri.parse("tel:"+ Constants .CONTACT_CARRUS));
+                    callIntent.setData(Uri.parse("tel:" + Constants.CONTACT_CARRUS));
                     startActivity(callIntent);
                 }
                 break;

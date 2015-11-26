@@ -45,10 +45,12 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void init() {
+
         mEmailidEdtTxt = (EditText) findViewById(R.id.emailLoginET);
         mPasswordEdtTxt = (EditText) findViewById(R.id.passwdLoginET);
         mSessionManager = new SessionManager(this);
         getDeviceToken();
+
     }
 
     private void initializeClickListners() {
@@ -112,10 +114,10 @@ public class LoginActivity extends BaseActivity {
                         Toast.makeText(LoginActivity.this, mObject.getString("message"), Toast.LENGTH_SHORT).show();
                         startActivityForResult(new Intent(LoginActivity.this, MainActivity.class), 500);
                         finish();
+
                     } else {
                         Toast.makeText(LoginActivity.this, mObject.getString("message"), Toast.LENGTH_SHORT).show();
                     }
-
 
                 } catch (JSONException e) {
                     e.printStackTrace();

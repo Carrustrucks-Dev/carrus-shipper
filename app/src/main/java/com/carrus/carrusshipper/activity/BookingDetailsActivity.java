@@ -364,10 +364,12 @@ public class BookingDetailsActivity extends BaseActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                Utils.loading_box_stop();
             }
 
             @Override
             public void failure(RetrofitError error) {
+                Utils.loading_box_stop();
                 try {
                     Log.v("error.getKind() >> " + error.getKind(), " MSg >> " + error.getResponse().getStatus());
 

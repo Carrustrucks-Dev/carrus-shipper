@@ -6,6 +6,7 @@
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
     <string name="home">Home</string>
+    <string name="myprofile">My Profile</string>
     <string name="ratetruck">Rate Trucker</string>
     <string name="my_bookings">My Bookings</string>
     <string name="payments">Payments</string>

@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import com.carrus.carrusshipper.R;
 import com.carrus.carrusshipper.fragments.HomeFragment;
-import com.carrus.carrusshipper.model.OnGoingShipper;
+import com.carrus.carrusshipper.model.MyBookingModel;
 import com.carrus.carrusshipper.retrofit.RestClient;
 import com.carrus.carrusshipper.utils.ApiResponseFlags;
 import com.carrus.carrusshipper.utils.Constants;
@@ -83,7 +83,7 @@ public class MyService extends Service {
 
                     if (ApiResponseFlags.OK.getOrdinal() == status) {
                         Gson gson = new Gson();
-                        OnGoingShipper  mOnGoingShipper = gson.fromJson(s, OnGoingShipper.class);
+                        MyBookingModel mOnGoingShipper = gson.fromJson(s, MyBookingModel.class);
 
                         Bundle bundle = new Bundle();
                         if(mOnGoingShipper.mData.size()!=0)
