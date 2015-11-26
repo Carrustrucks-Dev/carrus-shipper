@@ -14,6 +14,7 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.carrus.carrusshipper.R;
+import com.carrus.carrusshipper.activity.BookingDetailsActivity;
 import com.carrus.carrusshipper.activity.SplashActivity;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
@@ -63,7 +64,7 @@ public class GcmMessageHandler extends IntentService {
         mNotificationManager = (NotificationManager)
                 this.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        final Intent notificationIntent = new Intent(this, SplashActivity.class);
+        final Intent notificationIntent = new Intent(this, BookingDetailsActivity.class);
         notificationIntent.setAction(Intent.ACTION_MAIN);
         notificationIntent.addCategory(Intent.CATEGORY_LAUNCHER);
         notificationIntent.putExtra("id", id);

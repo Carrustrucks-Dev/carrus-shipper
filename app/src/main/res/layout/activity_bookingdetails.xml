@@ -232,7 +232,10 @@
                 android:groupIndicator="@null"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true" />
-
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/one"
+                android:background="@color/gray_text" />
             <RelativeLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -260,7 +263,7 @@
 
             <View
                 android:layout_width="fill_parent"
-                android:layout_height="1dp"
+                android:layout_height="@dimen/one"
                 android:background="@color/gray_text" />
 
             <RelativeLayout
