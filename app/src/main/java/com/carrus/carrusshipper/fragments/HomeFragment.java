@@ -80,7 +80,7 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
     //Markers List
     private ArrayList<Marker> mMarkerArray = new ArrayList<Marker>();
 //    private ArrayList<TrackingModel> mTrackermodel = new ArrayList<>();
-    private ArrayList<MyBookingDataModel> mTrackermodel = new ArrayList<>();
+    public ArrayList<MyBookingDataModel> mTrackermodel = new ArrayList<>();
     private MainActivity mainActivity;
     private GMapV2GetRouteDirection v2GetRouteDirection;
     private ConnectionDetector mConnectionDetector;
@@ -401,7 +401,7 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
     };
 
     //Path Direction Call
-    private void getDriectionToDestination(final LatLng currentposition, final String start, final String end, String mode, final int pos) {
+    public void getDriectionToDestination(final LatLng currentposition, final String start, final String end, String mode, final int pos) {
         Utils.loading_box(getActivity());
         RestClient.getGoogleApiService().getDriections(start, end, "false", "metric", mode, new Callback<String>() {
             @Override
@@ -449,7 +449,7 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
                     nameTxtView.setText(mTrackermodel.get(pos).shipper.firstName + " " + mTrackermodel.get(pos).shipper.lastName);
                     typeTxtView.setText(mTrackermodel.get(pos).truck.truckType.typeTruckName + ", " + mTrackermodel.get(pos).truck.truckNumber);
                     locationTxtView.setText(mTrackermodel.get(pos).pickUp.city + " to " + mTrackermodel.get(pos).dropOff.city);
-                    Picasso.with(getActivity()).load(R.mipmap.icon_placeholder).resize(100, 100).transform(new CircleTransform()).into(mProfileIV);
+//                    Picasso.with(getActivity()).load(R.mipmap.icon_placeholder).resize(100, 100).transform(new CircleTransform()).into(mProfileIV);
                     statusTxtView.setText(mTrackermodel.get(pos).bookingStatus.replace("_", " "));
 
                     switch (mTrackermodel.get(pos).bookingStatus.toUpperCase()) {
@@ -578,4 +578,5 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
         mBottomView.setAnimation(animationFadeOut);
         mBottomView.setVisibility(View.GONE);
     }
+
 }

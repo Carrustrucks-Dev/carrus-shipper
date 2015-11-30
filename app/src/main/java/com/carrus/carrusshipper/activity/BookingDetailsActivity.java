@@ -99,7 +99,7 @@ public class BookingDetailsActivity extends BaseActivity {
         mProfileIV = (ImageView) findViewById(R.id.profileIV);
         locationIV = (ImageView) findViewById(R.id.locationBtnIV);
 
-        Picasso.with(BookingDetailsActivity.this).load(R.mipmap.icon_placeholder).resize(100, 100).transform(new CircleTransform()).into(mProfileIV);
+//        Picasso.with(BookingDetailsActivity.this).load(R.mipmap.icon_placeholder).resize(100, 100).transform(new CircleTransform()).into(mProfileIV);
 
         // Listview Group click listener
         mExpandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
@@ -204,8 +204,13 @@ public class BookingDetailsActivity extends BaseActivity {
         locationIV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent myIntent=new Intent();
-//                myIntent.putExtra(selectedId,mMyBookingDataModel.);
+                Intent intent = new Intent();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("value", mMyBookingDataModel);
+                intent.putExtras(bundle);
+                intent.putExtra("edittextvalue",mMyBookingDataModel);
+                setResult(RESULT_OK, intent);
+                finish();
             }
         });
     }

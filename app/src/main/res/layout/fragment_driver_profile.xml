@@ -27,7 +27,7 @@
                     android:layout_marginTop="@dimen/twenty"
                     android:src="@mipmap/icon_placeholder"/>
 
-                <TextView
+                <com.carrus.carrusshipper.utils.CapitalizedTextView
                     android:id="@+id/driverName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -64,7 +64,7 @@
                     android:textColor="@color/gray_text"
                     android:textSize="@dimen/big_font" />
 
-                <TextView
+                <com.carrus.carrusshipper.utils.CapitalizedTextView
                     android:id="@+id/cmpanyNameTxtView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

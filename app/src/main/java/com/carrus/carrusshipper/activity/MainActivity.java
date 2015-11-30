@@ -1,9 +1,11 @@
 package com.carrus.carrusshipper.activity;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -17,15 +19,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.carrus.carrusshipper.R;
-import com.carrus.carrusshipper.fragments.ProfileFragment;
 import com.carrus.carrusshipper.fragments.HomeFragment;
 import com.carrus.carrusshipper.fragments.MyBookingFragment;
+import com.carrus.carrusshipper.fragments.ProfileFragment;
+import com.carrus.carrusshipper.model.MyBookingDataModel;
 import com.carrus.carrusshipper.retrofit.RestClient;
 import com.carrus.carrusshipper.services.MyService;
 import com.carrus.carrusshipper.utils.ApiResponseFlags;
 import com.carrus.carrusshipper.utils.Constants;
+import com.carrus.carrusshipper.utils.GMapV2GetRouteDirection;
 import com.carrus.carrusshipper.utils.SessionManager;
 import com.carrus.carrusshipper.utils.Utils;
+import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -245,5 +250,35 @@ public class MainActivity extends BaseActivity implements FragmentDrawer.Fragmen
                 }
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 500) {
+            if (resultCode == Activity.RESULT_OK) {
+                displayView(0);
+                Bundle bundle = data.getExtras();
+                final MyBookingDataModel mMyBookingDataModel =
+                        (MyBookingDataModel) bundle.getSerializable("value");
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        HomeFragment fragment = (HomeFragment) getSupportFragmentManager().findFragmentById(R.id.container_body);
+                        fragment.mTrackermodel.add(mMyBookingDataModel);
+                        fragment.getDriectionToDestination(new LatLng(mMyBookingDataModel.crruentTracking.get(0).lat, mMyBookingDataModel.crruentTracking.get(0).longg), mMyBookingDataModel.pickUp.coordinates.pickUpLat + ", " + mMyBookingDataModel.pickUp.coordinates.pickUpLong, mMyBookingDataModel.dropOff.coordinates.dropOffLat + ", " + mMyBookingDataModel.dropOff.coordinates.dropOffLong, GMapV2GetRouteDirection.MODE_DRIVING, 0);
+
+                    }
+                }, 2000);
+
+//                for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+//                    if (fragment != null)
+//                        fragment.onActivityResult(requestCode, resultCode, data);
+//                }
+//                String stredittext = data.getStringExtra("edittextvalue");
+            }
+        }
+
     }
 }

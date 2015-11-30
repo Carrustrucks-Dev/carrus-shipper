@@ -58,6 +58,7 @@
                     android:id="@+id/profileIV"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
+                    android:background="@mipmap/icon_placeholder"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true" />
 

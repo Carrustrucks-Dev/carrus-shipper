@@ -31,7 +31,7 @@ public interface ApiService {
     @POST("/api/v1/shipper/login")
     public void login(@Field("email") String email, @Field("password") String password, @Field("deviceType") String deviceType, @Field("deviceName") String deviceName, @Field("deviceToken") String deviceToken, Callback<String> callback);
 
-    @GET("/api/v1/shipper/getOnGoing")
+    @GET("/api/v1/shipper/getUpComingApp")
     public void getOnGoing(@Header(AUTHORIZATION) String authorization, @Query("limit") String limit, @Query("skip") String skip, @Query("sort") String sort, Callback<String> callback);
 
     @GET("/api/v1/shipper/getPast")
