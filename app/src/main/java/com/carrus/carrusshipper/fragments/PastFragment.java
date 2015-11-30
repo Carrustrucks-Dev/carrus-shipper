@@ -55,7 +55,6 @@ public class PastFragment extends Fragment {
     private boolean isRefreshView = false;
     private ConnectionDetector mConnectionDetector;
     private TextView mErrorTxtView;
-    private OnLoadMoreListener onLoadMoreListener;
     private List<MyBookingDataModel> bookingList;
     private MyBookingModel mMyBookingModel;
 

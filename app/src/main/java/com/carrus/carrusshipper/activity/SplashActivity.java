@@ -21,12 +21,16 @@ public class SplashActivity extends BaseActivity {
         setContentView(R.layout.activity_splash);
         mSessionManager = new SessionManager(this);
 
+        //force crash for cashlytics.....for testing purpose
+//        int i = 1 / 0;
+
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(mSessionManager.isLoggedIn()){
+                if (mSessionManager.isLoggedIn()) {
                     startActivityForResult(new Intent(SplashActivity.this, MainActivity.class), 500);
-                }else{
+                } else {
                     startActivityForResult(new Intent(SplashActivity.this, LoginActivity.class), 500);
                 }
 
