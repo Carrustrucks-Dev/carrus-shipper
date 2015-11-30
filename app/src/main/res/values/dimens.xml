@@ -18,10 +18,11 @@
     <dimen name="nine">9dp</dimen>
     <dimen name="ten">10dp</dimen>
     <dimen name="fifteen">15dp</dimen>
+    <dimen name="twenty">20dp</dimen>
     <dimen name="thirty">30dp</dimen>
     <dimen name="mediumhieght">70dp</dimen>
+    <dimen name="hundred">100dp</dimen>
     <dimen name="largehieght">150dp</dimen>
-
     <dimen name="ratingBarHeight">28dip</dimen>
 
     <!--Text Sizes-->

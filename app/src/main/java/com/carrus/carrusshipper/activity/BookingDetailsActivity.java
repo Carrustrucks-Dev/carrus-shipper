@@ -266,7 +266,7 @@ public class BookingDetailsActivity extends BaseActivity {
         locationDetailsTxtView.setText(mMyBookingDataModel.pickUp.city + " to " + mMyBookingDataModel.dropOff.city);
         trackDetailsIdTxtView.setText(mMyBookingDataModel.crn);
 
-        statusTxtView.setText(mMyBookingDataModel.bookingStatus);
+        statusTxtView.setText(mMyBookingDataModel.bookingStatus.replace("_", " "));
         if (mMyBookingDataModel.bookingStatus.equalsIgnoreCase("on_going")) {
             topView.setBackgroundColor(getResources().getColor(R.color.blue_ongoing));
             cancelBtn.setVisibility(View.VISIBLE);

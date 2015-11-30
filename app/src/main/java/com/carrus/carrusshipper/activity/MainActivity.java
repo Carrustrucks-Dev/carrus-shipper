@@ -17,7 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.carrus.carrusshipper.R;
-import com.carrus.carrusshipper.fragments.DriverProfileFragment;
+import com.carrus.carrusshipper.fragments.ProfileFragment;
 import com.carrus.carrusshipper.fragments.HomeFragment;
 import com.carrus.carrusshipper.fragments.MyBookingFragment;
 import com.carrus.carrusshipper.retrofit.RestClient;
@@ -111,7 +111,7 @@ public class MainActivity extends BaseActivity implements FragmentDrawer.Fragmen
         selectedPos = -1;
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.container_body, new DriverProfileFragment());
+        fragmentTransaction.replace(R.id.container_body, new ProfileFragment());
         fragmentTransaction.commit();
 
         // set the toolbar title

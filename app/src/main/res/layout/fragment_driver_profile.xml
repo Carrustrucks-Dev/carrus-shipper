@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.carrustruckerapp.fragments.DriverProfile">
+    tools:context="com.carrustruckerapp.fragments.ProfileFragment">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -22,16 +22,16 @@
 
                 <ImageView
                     android:id="@+id/driverImage"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_width="@dimen/hundred"
+                    android:layout_height="@dimen/hundred"
+                    android:layout_marginTop="@dimen/twenty"
                     android:src="@mipmap/icon_placeholder"/>
 
                 <TextView
                     android:id="@+id/driverName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="@dimen/ten"
                     android:textColor="@color/windowBackground"
                     android:textSize="22sp" />
 
@@ -40,9 +40,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="@dimen/ten"
                     android:isIndicator="true"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginBottom="@dimen/ten"
                     style="@style/ratingBar"/>
                     <!--android:progressDrawable="@drawable/ratingbarstars"-->
                     <!--/>-->
@@ -51,114 +51,123 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
+                android:layout_marginLeft="@dimen/big_font"
+                android:layout_marginRight="@dimen/big_font"
                 android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="@dimen/ten"
+                    android:text="@string/company_name"
                     android:textAppearance="@style/CustomTextAppearance"
                     android:textColor="@color/gray_text"
-                    android:textSize="16dp" />
+                    android:textSize="@dimen/big_font" />
 
                 <TextView
-                    android:id="@+id/tvDriverId"
+                    android:id="@+id/cmpanyNameTxtView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
+                    android:layout_marginTop="@dimen/six"
                     android:textAppearance="@style/CustomTextAppearance"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="16dp" />
+                    android:textSize="@dimen/big_font" />
+
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
+                    android:layout_height="@dimen/one"
                     android:background="@color/gray_text" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="@dimen/ten"
+                    android:text="@string/user_email"
                     android:textAppearance="@style/CustomTextAppearance"
                     android:textColor="@color/gray_text"
-                    android:textSize="16dp" />
+                    android:textSize="@dimen/big_font" />
 
                 <TextView
-                    android:id="@+id/tvDrivingLicense"
+                    android:id="@+id/emailTxtView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
+                    android:layout_marginTop="@dimen/six"
                     android:textAppearance="@style/CustomTextAppearance"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="16dp" />
+                    android:textSize="@dimen/big_font" />
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
+                    android:layout_height="@dimen/one"
                     android:background="@color/gray_text" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="@dimen/ten"
+                    android:text="@string/user_phn"
                     android:textAppearance="@style/CustomTextAppearance"
                     android:textColor="@color/gray_text"
-                    android:textSize="16dp" />
+                    android:textSize="@dimen/big_font" />
 
                 <TextView
-                    android:id="@+id/tvLicenseState"
+                    android:id="@+id/phoneTxtView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
+                    android:layout_marginTop="@dimen/six"
                     android:textAppearance="@style/CustomTextAppearance"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="16dp" />
+                    android:textSize="@dimen/big_font" />
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
+                    android:layout_height="@dimen/one"
                     android:background="@color/gray_text" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:text="@string/user_add"
+                    android:layout_marginTop="@dimen/ten"
                     android:textAppearance="@style/CustomTextAppearance"
                     android:textColor="@color/gray_text"
-                    android:textSize="16dp" />
+                    android:textSize="@dimen/big_font" />
 
                 <TextView
-                    android:id="@+id/tvExpiresOn"
+                    android:id="@+id/addressTxtView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
+                    android:layout_marginTop="@dimen/six"
                     android:textAppearance="@style/CustomTextAppearance"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="16dp" />
+                    android:textSize="@dimen/big_font" />
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
+                    android:visibility="gone"
+                    android:layout_height="@dimen/one"
                     android:background="@color/gray_text" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:text="@string/user_type_company"
+                    android:layout_marginTop="@dimen/ten"
+                    android:visibility="gone"
                     android:textAppearance="@style/CustomTextAppearance"
                     android:textColor="@color/gray_text"
-                    android:textSize="16dp" />
+                    android:textSize="@dimen/big_font" />
 
                 <TextView
-                    android:id="@+id/tvMobileNumber"
+                    android:id="@+id/companyTypeTxtView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
+                    android:visibility="gone"
+                    android:layout_marginTop="@dimen/six"
                     android:textAppearance="@style/CustomTextAppearance"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="16dp" />
+                    android:textSize="@dimen/big_font" />
 
             </LinearLayout>
         </LinearLayout>

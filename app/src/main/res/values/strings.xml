@@ -20,6 +20,15 @@
 
 
 
+    <!-- My Profile screen text-->
+    <string name="company_name">COMPANY NAME</string>
+    <string name="user_name">NAME</string>
+    <string name="user_email">EMAIL</string>
+    <string name="user_phn">PHONE NUMBER</string>
+    <string name="user_add">ADDRESS</string>
+    <string name="user_type_company">TYPE OF COMPANY</string>
+
+
     <!-- My booking screen text-->
     <string name="upcming">Upcoming</string>
     <string name="past">Past</string>
