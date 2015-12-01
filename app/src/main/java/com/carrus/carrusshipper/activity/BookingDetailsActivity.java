@@ -50,7 +50,7 @@ public class BookingDetailsActivity extends BaseActivity {
     private ImageView mBackBtn;
     //    private RecyclerView recyclerview;
     private MyBookingDataModel mMyBookingDataModel;
-    private TextView nameDetailTxtView, typeDetailTxtView, locationDetailsTxtView, trackDetailsIdTxtView, statusTxtView, addresPickupTxtView, datePickupTxtView, timePickupTxtView, addressDropTxtView, dateDropTxtview, timeDropTxtView, paymentModeTxtView, totalCostTxtView;
+    private TextView nameDetailTxtView, typeDetailTxtView, locationDetailsTxtView, trackDetailsIdTxtView, statusTxtView, addresPickupTxtView, datePickupTxtView, timePickupTxtView, addressDropTxtView, dateDropTxtview, timeDropTxtView, paymentModeTxtView, totalCostTxtView, namePickUpTxtView, phonePickUpTxtView, codePickUpTxtView, nameDropofTxtView, phoneDropofTxtView, codeDropofTxtView;
     private Button viewPodBtn, cancelBtn;
     private ExpandableListView mExpandableListView;
     private List<Header> listDataHeader;
@@ -96,6 +96,12 @@ public class BookingDetailsActivity extends BaseActivity {
         cancelBtn = (Button) findViewById(R.id.cancelBtn);
         mProfileIV = (ImageView) findViewById(R.id.profileIV);
         locationIV = (ImageView) findViewById(R.id.locationBtnIV);
+        namePickUpTxtView = (TextView) findViewById(R.id.namePickupTxtView);
+        phonePickUpTxtView = (TextView) findViewById(R.id.phonePickupTxtView);
+        codePickUpTxtView = (TextView) findViewById(R.id.codePickupTxtView);
+        nameDropofTxtView = (TextView) findViewById(R.id.nameDropTxtView);
+        phoneDropofTxtView = (TextView) findViewById(R.id.phoneDropTxtView);
+        codeDropofTxtView = (TextView) findViewById(R.id.codeDropTxtView);
 
 //        Picasso.with(BookingDetailsActivity.this).load(R.mipmap.icon_placeholder).resize(100, 100).transform(new CircleTransform()).into(mProfileIV);
 
@@ -353,6 +359,13 @@ public class BookingDetailsActivity extends BaseActivity {
         paymentModeTxtView.setText(mMyBookingDataModel.paymentMode);
         totalCostTxtView.setText("₹ " + mMyBookingDataModel.acceptPrice);
 
+        namePickUpTxtView.setText(mMyBookingDataModel.pickUp.companyName);
+        phonePickUpTxtView.setText(mMyBookingDataModel.pickUp.contactNumber);
+        codePickUpTxtView.setText(mMyBookingDataModel.pickUp.zipCode);
+        nameDropofTxtView.setText(mMyBookingDataModel.dropOff.companyName);
+        phoneDropofTxtView.setText(mMyBookingDataModel.dropOff.contactNumber);
+        codeDropofTxtView.setText(mMyBookingDataModel.dropOff.zipCode);
+
         // Adding child data
         ArrayList<ExpandableChildItem> cargoDetails = new ArrayList<ExpandableChildItem>();
         cargoDetails.add(new ExpandableChildItem(mMyBookingDataModel.cargo.cargoType.typeCargoName, mMyBookingDataModel.cargo.weight + "", 0));
@@ -448,11 +461,11 @@ public class BookingDetailsActivity extends BaseActivity {
                     int status = mObject.getInt("statusCode");
 
                     if (ApiResponseFlags.OK.getOrdinal() == status) {
-                        Constants.isPastUpdate=true;
-                        Constants.isUpComingUpdate=true;
+                        Constants.isPastUpdate = true;
+                        Constants.isUpComingUpdate = true;
 
                         Toast.makeText(BookingDetailsActivity.this, mObject.getString("message"), Toast.LENGTH_SHORT).show();
-                            finish();
+                        finish();
 
                     } else {
                         Toast.makeText(BookingDetailsActivity.this, mObject.getString("message"), Toast.LENGTH_SHORT).show();

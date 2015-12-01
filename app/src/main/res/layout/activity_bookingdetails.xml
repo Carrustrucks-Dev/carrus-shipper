@@ -128,6 +128,17 @@
                 android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/large_font" />
 
+            <TextView
+                android:id="@+id/namePickupTxtView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@mipmap/icon_shipment_detail"
+                android:drawablePadding="@dimen/ten"
+                android:paddingLeft="@dimen/ten"
+                android:paddingRight="@dimen/ten"
+                android:text="Name"
+                android:textColor="@color/gray_text"
+                android:textSize="@dimen/mid_fond" />
 
             <TextView
                 android:id="@+id/addresPickupTxtView"
@@ -136,6 +147,7 @@
                 android:drawableLeft="@mipmap/icon_shipment_detail"
                 android:drawablePadding="@dimen/ten"
                 android:paddingLeft="@dimen/ten"
+                android:paddingTop="@dimen/ten"
                 android:paddingRight="@dimen/ten"
                 android:text="Address"
                 android:textColor="@color/gray_text"
@@ -167,6 +179,33 @@
                 android:textColor="@color/gray_text"
                 android:textSize="@dimen/mid_fond" />
 
+            <TextView
+                android:id="@+id/phonePickupTxtView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@mipmap/icon_clock"
+                android:drawablePadding="@dimen/ten"
+                android:paddingLeft="@dimen/ten"
+                android:paddingRight="@dimen/ten"
+                android:paddingTop="@dimen/ten"
+                android:text="phone"
+                android:textColor="@color/gray_text"
+                android:textSize="@dimen/mid_fond" />
+
+
+            <TextView
+                android:id="@+id/codePickupTxtView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@mipmap/icon_clock"
+                android:drawablePadding="@dimen/ten"
+                android:paddingLeft="@dimen/ten"
+                android:paddingRight="@dimen/ten"
+                android:paddingTop="@dimen/ten"
+                android:text="code"
+                android:textColor="@color/gray_text"
+                android:textSize="@dimen/mid_fond" />
+
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="2dp"
@@ -185,6 +224,19 @@
 
 
             <TextView
+                android:id="@+id/nameDropTxtView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@mipmap/icon_shipment_detail"
+                android:drawablePadding="@dimen/ten"
+                android:paddingLeft="@dimen/ten"
+                android:paddingRight="@dimen/ten"
+                android:text="Name"
+                android:textColor="@color/gray_text"
+                android:textSize="@dimen/mid_fond" />
+
+
+            <TextView
                 android:id="@+id/addressDropTxtView"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -192,6 +244,7 @@
                 android:drawablePadding="@dimen/ten"
                 android:paddingLeft="@dimen/ten"
                 android:paddingRight="@dimen/ten"
+                android:paddingTop="@dimen/ten"
                 android:text="Address"
                 android:textColor="@color/gray_text"
                 android:textSize="@dimen/mid_fond" />
@@ -219,6 +272,33 @@
                 android:paddingRight="@dimen/ten"
                 android:paddingTop="@dimen/ten"
                 android:text="Time"
+                android:textColor="@color/gray_text"
+                android:textSize="@dimen/mid_fond" />
+
+            <TextView
+                android:id="@+id/phoneDropTxtView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@mipmap/icon_clock"
+                android:drawablePadding="@dimen/ten"
+                android:paddingLeft="@dimen/ten"
+                android:paddingRight="@dimen/ten"
+                android:paddingTop="@dimen/ten"
+                android:text="phone"
+                android:textColor="@color/gray_text"
+                android:textSize="@dimen/mid_fond" />
+
+
+            <TextView
+                android:id="@+id/codeDropTxtView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@mipmap/icon_clock"
+                android:drawablePadding="@dimen/ten"
+                android:paddingLeft="@dimen/ten"
+                android:paddingRight="@dimen/ten"
+                android:paddingTop="@dimen/ten"
+                android:text="code"
                 android:textColor="@color/gray_text"
                 android:textSize="@dimen/mid_fond" />
 
