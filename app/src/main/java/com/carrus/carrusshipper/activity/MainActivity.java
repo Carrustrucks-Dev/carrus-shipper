@@ -266,6 +266,8 @@ public class MainActivity extends BaseActivity implements FragmentDrawer.Fragmen
                     @Override
                     public void run() {
                         HomeFragment fragment = (HomeFragment) getSupportFragmentManager().findFragmentById(R.id.container_body);
+                        if(fragment.mTrackermodel!=null)
+                            fragment.mTrackermodel.clear();
                         fragment.mTrackermodel.add(mMyBookingDataModel);
                         if (mMyBookingDataModel.crruentTracking.size() != 0) {
                             onStopDrawerSwip();

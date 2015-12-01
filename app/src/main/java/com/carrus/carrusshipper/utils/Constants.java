@@ -14,6 +14,9 @@ public class Constants {
     public static final int LIMIT=10;
     public static final String SORT="ASC";
 //    public static final String SORT="DESC";
+    public static boolean isPastUpdate=false;
+    public static boolean isUpComingUpdate=false;
+
 
     public static final String CONTACT_CARRUS="0377778888";
     public static final String[] name = {"Atawa", "Atawa Choa", "Bahlāna", "Bajwara", "Bhagwanpura", "Bijwari", "Burail"};

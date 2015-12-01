@@ -23,6 +23,7 @@ import com.carrus.carrusshipper.model.MyBookingModel;
 import com.carrus.carrusshipper.retrofit.RestClient;
 import com.carrus.carrusshipper.utils.ApiResponseFlags;
 import com.carrus.carrusshipper.utils.ConnectionDetector;
+import com.carrus.carrusshipper.utils.Constants;
 import com.carrus.carrusshipper.utils.SessionManager;
 import com.carrus.carrusshipper.utils.Utils;
 import com.google.gson.Gson;
@@ -136,6 +137,17 @@ public class PastFragment extends Fragment {
                 getPastBookings();
             }
         });
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(Constants.isPastUpdate){
+            Constants.isPastUpdate=false;
+            isRefreshView = true;
+            getPastBookings();
+        }
     }
 
     private void getPastBookings() {

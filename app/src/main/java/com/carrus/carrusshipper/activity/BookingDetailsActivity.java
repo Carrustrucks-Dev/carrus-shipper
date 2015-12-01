@@ -24,12 +24,10 @@ import com.carrus.carrusshipper.model.MyBookingDataModel;
 import com.carrus.carrusshipper.model.MyBookingModel;
 import com.carrus.carrusshipper.retrofit.RestClient;
 import com.carrus.carrusshipper.utils.ApiResponseFlags;
-import com.carrus.carrusshipper.utils.CircleTransform;
 import com.carrus.carrusshipper.utils.Constants;
 import com.carrus.carrusshipper.utils.SessionManager;
 import com.carrus.carrusshipper.utils.Utils;
 import com.google.gson.Gson;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -178,7 +176,7 @@ public class BookingDetailsActivity extends BaseActivity {
                     Intent mIntent = new Intent(BookingDetailsActivity.this, ShowPODActivity.class);
                     mIntent.putExtra("url", mMyBookingDataModel.doc.pod);
                     startActivity(mIntent);
-                }else{
+                } else {
                     Toast.makeText(BookingDetailsActivity.this, getResources().getString(R.string.podnotfound), Toast.LENGTH_SHORT).show();
                 }
 
@@ -188,7 +186,7 @@ public class BookingDetailsActivity extends BaseActivity {
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                performCancelAction();
             }
         });
 
@@ -208,7 +206,7 @@ public class BookingDetailsActivity extends BaseActivity {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("value", mMyBookingDataModel);
                 intent.putExtras(bundle);
-                intent.putExtra("edittextvalue",mMyBookingDataModel);
+                intent.putExtra("edittextvalue", mMyBookingDataModel);
                 setResult(RESULT_OK, intent);
                 finish();
             }
@@ -272,23 +270,68 @@ public class BookingDetailsActivity extends BaseActivity {
         trackDetailsIdTxtView.setText(mMyBookingDataModel.crn);
 
         statusTxtView.setText(mMyBookingDataModel.bookingStatus.replace("_", " "));
-        if (mMyBookingDataModel.bookingStatus.equalsIgnoreCase("on_going")) {
-            topView.setBackgroundColor(getResources().getColor(R.color.blue_ongoing));
-            cancelBtn.setVisibility(View.VISIBLE);
-            viewPodBtn.setVisibility(View.GONE);
-            locationIV.setVisibility(View.VISIBLE);
-        } else if (mMyBookingDataModel.bookingStatus.equalsIgnoreCase("canceled")) {
-            topView.setBackgroundColor(getResources().getColor(R.color.red));
-            viewPodBtn.setVisibility(View.GONE);
-            cancelBtn.setVisibility(View.GONE);
-        } else if (mMyBookingDataModel.bookingStatus.equalsIgnoreCase("confirmed")) {
-            topView.setBackgroundColor(getResources().getColor(R.color.green));
-            cancelBtn.setVisibility(View.VISIBLE);
-            viewPodBtn.setVisibility(View.GONE);
-        } else if (mMyBookingDataModel.bookingStatus.equalsIgnoreCase("completed")) {
-            topView.setBackgroundColor(getResources().getColor(R.color.gray_completed));
-            cancelBtn.setVisibility(View.GONE);
-            viewPodBtn.setVisibility(View.VISIBLE);
+        switch (mMyBookingDataModel.bookingStatus.toLowerCase()) {
+            case "on_going":
+            case "halt":
+            case "on the way":
+            case "reached_destination":
+                topView.setBackgroundColor(getResources().getColor(R.color.blue_ongoing));
+                cancelBtn.setVisibility(View.GONE);
+                viewPodBtn.setVisibility(View.GONE);
+                locationIV.setVisibility(View.VISIBLE);
+                break;
+
+            case "canceled":
+                topView.setBackgroundColor(getResources().getColor(R.color.red));
+                viewPodBtn.setVisibility(View.GONE);
+                cancelBtn.setVisibility(View.GONE);
+                break;
+
+            case "confirmed":
+                topView.setBackgroundColor(getResources().getColor(R.color.green));
+                cancelBtn.setVisibility(View.VISIBLE);
+                viewPodBtn.setVisibility(View.GONE);
+                break;
+
+            case "completed":
+                topView.setBackgroundColor(getResources().getColor(R.color.gray_completed));
+                cancelBtn.setVisibility(View.GONE);
+                viewPodBtn.setVisibility(View.VISIBLE);
+                break;
+        }
+
+//        if (mMyBookingDataModel.bookingStatus.equalsIgnoreCase("on_going")) {
+//            topView.setBackgroundColor(getResources().getColor(R.color.blue_ongoing));
+//            cancelBtn.setVisibility(View.GONE);
+//            viewPodBtn.setVisibility(View.GONE);
+//            locationIV.setVisibility(View.VISIBLE);
+//        } else if (mMyBookingDataModel.bookingStatus.equalsIgnoreCase("canceled")) {
+//            topView.setBackgroundColor(getResources().getColor(R.color.red));
+//            viewPodBtn.setVisibility(View.GONE);
+//            cancelBtn.setVisibility(View.GONE);
+//        } else if (mMyBookingDataModel.bookingStatus.equalsIgnoreCase("confirmed")) {
+//            topView.setBackgroundColor(getResources().getColor(R.color.green));
+//            cancelBtn.setVisibility(View.VISIBLE);
+//            viewPodBtn.setVisibility(View.GONE);
+//        } else if (mMyBookingDataModel.bookingStatus.equalsIgnoreCase("completed")) {
+//            topView.setBackgroundColor(getResources().getColor(R.color.gray_completed));
+//            cancelBtn.setVisibility(View.GONE);
+//            viewPodBtn.setVisibility(View.VISIBLE);
+//        }
+
+        switch (mMyBookingDataModel.bookingStatus.toUpperCase()) {
+            case "ACCEPTED":
+                cancelBtn.setVisibility(View.VISIBLE);
+                break;
+
+            case "PENDING":
+                cancelBtn.setVisibility(View.VISIBLE);
+                break;
+
+
+            case "CONFIRMED":
+                cancelBtn.setVisibility(View.VISIBLE);
+                break;
         }
 
 
@@ -389,6 +432,53 @@ public class BookingDetailsActivity extends BaseActivity {
                     Toast.makeText(BookingDetailsActivity.this, getResources().getString(R.string.nointernetconnection), Toast.LENGTH_SHORT).show();
                 }
                 finish();
+            }
+        });
+    }
+
+    private void performCancelAction() {
+        Utils.loading_box(BookingDetailsActivity.this);
+        RestClient.getApiService().cancelBooking(mSessionManager.getAccessToken(), "CANCELED", mMyBookingDataModel.id, new Callback<String>() {
+            @Override
+            public void success(String s, Response response) {
+                Log.v("" + getClass().getSimpleName(), "Response> " + s);
+                try {
+                    JSONObject mObject = new JSONObject(s);
+
+                    int status = mObject.getInt("statusCode");
+
+                    if (ApiResponseFlags.OK.getOrdinal() == status) {
+                        Constants.isPastUpdate=true;
+                        Constants.isUpComingUpdate=true;
+
+                        Toast.makeText(BookingDetailsActivity.this, mObject.getString("message"), Toast.LENGTH_SHORT).show();
+                            finish();
+
+                    } else {
+                        Toast.makeText(BookingDetailsActivity.this, mObject.getString("message"), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Utils.loading_box_stop();
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Utils.loading_box_stop();
+                try {
+                    Log.v("error.getKind() >> " + error.getKind(), " MSg >> " + error.getResponse().getStatus());
+
+                    if (error.getKind().equals(RetrofitError.Kind.NETWORK)) {
+                        Toast.makeText(BookingDetailsActivity.this, getResources().getString(R.string.nointernetconnection), Toast.LENGTH_SHORT).show();
+                    } else if (error.getResponse().getStatus() == ApiResponseFlags.Unauthorized.getOrdinal()) {
+                        Utils.shopAlterDialog(BookingDetailsActivity.this, Utils.getErrorMsg(error), true);
+                    } else if (error.getResponse().getStatus() == ApiResponseFlags.Not_Found.getOrdinal()) {
+                        Toast.makeText(BookingDetailsActivity.this, Utils.getErrorMsg(error), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception ex) {
+                    Toast.makeText(BookingDetailsActivity.this, getResources().getString(R.string.nointernetconnection), Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

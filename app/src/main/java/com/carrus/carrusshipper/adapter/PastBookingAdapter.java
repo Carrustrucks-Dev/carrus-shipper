@@ -154,11 +154,14 @@ public class PastBookingAdapter extends RecyclerView.Adapter {
                     break;
 
                 case "CONFIRMED":
+                case "ACCEPTED":
+                case "ACTIVE":
                     ((ViewHolder) holder).mStatusTxtView.setTextColor(mActivity.getResources().getColor(R.color.green));
                     break;
 
                 case "HALT":
                 case "COMPLETED":
+                case "PENDING":
                     ((ViewHolder) holder).mStatusTxtView.setTextColor(mActivity.getResources().getColor(R.color.gray_text));
                     break;
 

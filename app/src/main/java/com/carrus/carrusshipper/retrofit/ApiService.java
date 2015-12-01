@@ -7,6 +7,7 @@ import retrofit.http.GET;
 import retrofit.http.Header;
 import retrofit.http.POST;
 import retrofit.http.PUT;
+import retrofit.http.Path;
 import retrofit.http.Query;
 
 /**
@@ -54,4 +55,9 @@ public interface ApiService {
     @FormUrlEncoded
     @PUT("/api/v1/shipper/addRating")
     public void setRating(@Header(AUTHORIZATION) String authorization, @Field("bookingId") String bookingId,@Field("rating") String rating,@Field("comment") String comment, Callback<String> callback);
+
+    @FormUrlEncoded
+    @PUT("/api/v1/shipper/cancelBooking/{bookingId}")
+    public void cancelBooking(@Header(AUTHORIZATION) String authorization, @Field("bookingStatus") String bookingStatus, @Path("bookingId") String bookingId,Callback<String> callback);
+
 }
