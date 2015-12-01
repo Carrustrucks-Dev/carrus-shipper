@@ -50,6 +50,7 @@ public class MainActivity extends BaseActivity implements FragmentDrawer.Fragmen
     private ImageView mMenuButton, mBackButton;
     private int selectedPos = -1;
     private SessionManager mSessionManager;
+    private Bundle bundle = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,7 +67,12 @@ public class MainActivity extends BaseActivity implements FragmentDrawer.Fragmen
         initializeClickListners();
 
         // display the first navigation drawer view on app launch
-        displayView(0);
+        if (getIntent().getBooleanExtra("fromNotification", false)) {
+            bundle = new Bundle();
+            bundle.putString("id", getIntent().getStringExtra("id"));
+            displayView(1);
+        } else
+            displayView(0);
 
 
     }
@@ -139,6 +145,8 @@ public class MainActivity extends BaseActivity implements FragmentDrawer.Fragmen
                 if (selectedPos != 1) {
                     selectedPos = 1;
                     fragment = new MyBookingFragment();
+                    if (bundle != null)
+                        fragment.setArguments(bundle);
                     title = getString(R.string.my_bookings);
                 }
                 break;
@@ -266,7 +274,7 @@ public class MainActivity extends BaseActivity implements FragmentDrawer.Fragmen
                     @Override
                     public void run() {
                         HomeFragment fragment = (HomeFragment) getSupportFragmentManager().findFragmentById(R.id.container_body);
-                        if(fragment.mTrackermodel!=null)
+                        if (fragment.mTrackermodel != null)
                             fragment.mTrackermodel.clear();
                         fragment.mTrackermodel.add(mMyBookingDataModel);
                         if (mMyBookingDataModel.crruentTracking.size() != 0) {
