@@ -223,6 +223,7 @@ public class BookingDetailsActivity extends BaseActivity {
         locationIV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent intent = new Intent();
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("value", mMyBookingDataModel);
@@ -230,6 +231,7 @@ public class BookingDetailsActivity extends BaseActivity {
                 intent.putExtra("edittextvalue", mMyBookingDataModel);
                 setResult(RESULT_OK, intent);
                 finish();
+
             }
         });
     }
