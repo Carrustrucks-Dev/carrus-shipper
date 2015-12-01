@@ -1,8 +1,14 @@
 package com.carrus.carrusshipper.activity;
 
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.pm.LabeledIntent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,7 +53,7 @@ import retrofit.client.Response;
 public class BookingDetailsActivity extends BaseActivity {
 
     private TextView headerTxtView;
-    private ImageView mBackBtn;
+    private ImageView mBackBtn, shareBtnIV;
     //    private RecyclerView recyclerview;
     private MyBookingDataModel mMyBookingDataModel;
     private TextView nameDetailTxtView, typeDetailTxtView, locationDetailsTxtView, trackDetailsIdTxtView, statusTxtView, addresPickupTxtView, datePickupTxtView, timePickupTxtView, addressDropTxtView, dateDropTxtview, timeDropTxtView, paymentModeTxtView, totalCostTxtView, namePickUpTxtView, phonePickUpTxtView, codePickUpTxtView, nameDropofTxtView, phoneDropofTxtView, codeDropofTxtView;
@@ -74,7 +80,9 @@ public class BookingDetailsActivity extends BaseActivity {
         headerTxtView = (TextView) findViewById(R.id.headerTxtView);
         headerTxtView.setText(getResources().getString(R.string.bookingdetails));
         mBackBtn = (ImageView) findViewById(R.id.menu_back_btn);
+        shareBtnIV = (ImageView) findViewById(R.id.shareBtnIV);
         mBackBtn.setVisibility(View.VISIBLE);
+        shareBtnIV.setVisibility(View.VISIBLE);
 //        recyclerview = (RecyclerView) findViewById(R.id.recyclerview);
 //        recyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         topView = (RelativeLayout) findViewById(R.id.topView);
@@ -172,6 +180,13 @@ public class BookingDetailsActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+
+        shareBtnIV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onShareClick();
             }
         });
 
@@ -306,24 +321,6 @@ public class BookingDetailsActivity extends BaseActivity {
                 break;
         }
 
-//        if (mMyBookingDataModel.bookingStatus.equalsIgnoreCase("on_going")) {
-//            topView.setBackgroundColor(getResources().getColor(R.color.blue_ongoing));
-//            cancelBtn.setVisibility(View.GONE);
-//            viewPodBtn.setVisibility(View.GONE);
-//            locationIV.setVisibility(View.VISIBLE);
-//        } else if (mMyBookingDataModel.bookingStatus.equalsIgnoreCase("canceled")) {
-//            topView.setBackgroundColor(getResources().getColor(R.color.red));
-//            viewPodBtn.setVisibility(View.GONE);
-//            cancelBtn.setVisibility(View.GONE);
-//        } else if (mMyBookingDataModel.bookingStatus.equalsIgnoreCase("confirmed")) {
-//            topView.setBackgroundColor(getResources().getColor(R.color.green));
-//            cancelBtn.setVisibility(View.VISIBLE);
-//            viewPodBtn.setVisibility(View.GONE);
-//        } else if (mMyBookingDataModel.bookingStatus.equalsIgnoreCase("completed")) {
-//            topView.setBackgroundColor(getResources().getColor(R.color.gray_completed));
-//            cancelBtn.setVisibility(View.GONE);
-//            viewPodBtn.setVisibility(View.VISIBLE);
-//        }
 
         switch (mMyBookingDataModel.bookingStatus.toUpperCase()) {
             case "ACCEPTED":
@@ -348,17 +345,19 @@ public class BookingDetailsActivity extends BaseActivity {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+
         timePickupTxtView.setText(mMyBookingDataModel.pickUp.time);
         addressDropTxtView.setText(mMyBookingDataModel.dropOff.address + ", " + mMyBookingDataModel.dropOff.city + ", " + mMyBookingDataModel.dropOff.state + ", " + mMyBookingDataModel.dropOff.zipCode);
+
         try {
             dateDropTxtview.setText(Utils.getFullDateTime(mMyBookingDataModel.dropOff.date));
         } catch (ParseException e) {
             e.printStackTrace();
         }
+
         timeDropTxtView.setText(mMyBookingDataModel.dropOff.time);
         paymentModeTxtView.setText(mMyBookingDataModel.paymentMode);
         totalCostTxtView.setText("₹ " + mMyBookingDataModel.acceptPrice);
-
         namePickUpTxtView.setText(mMyBookingDataModel.pickUp.companyName);
         phonePickUpTxtView.setText(mMyBookingDataModel.pickUp.contactNumber);
         codePickUpTxtView.setText(mMyBookingDataModel.pickUp.zipCode);
@@ -494,5 +493,59 @@ public class BookingDetailsActivity extends BaseActivity {
                 }
             }
         });
+    }
+
+    private void onShareClick() {
+        Resources resources = getResources();
+
+        Intent emailIntent = new Intent();
+        emailIntent.setAction(Intent.ACTION_SEND);
+        // Native email client doesn't currently support HTML, but it doesn't hurt to try in case they fix it
+        emailIntent.putExtra(Intent.EXTRA_TEXT, mMyBookingDataModel.crn);
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, resources.getString(R.string.crnsubject));
+        emailIntent.setType("message/rfc822");
+
+        PackageManager pm = getPackageManager();
+        Intent sendIntent = new Intent(Intent.ACTION_SEND);
+        sendIntent.setType("text/plain");
+
+
+        Intent openInChooser = Intent.createChooser(emailIntent, resources.getString(R.string.share_chooser_text));
+
+        List<ResolveInfo> resInfo = pm.queryIntentActivities(sendIntent, 0);
+        List<LabeledIntent> intentList = new ArrayList<LabeledIntent>();
+        for (int i = 0; i < resInfo.size(); i++) {
+            // Extract the label, append it, and repackage it in a LabeledIntent
+            ResolveInfo ri = resInfo.get(i);
+            String packageName = ri.activityInfo.packageName;
+//            if(packageName.contains("android.email")) {
+//                emailIntent.setPackage(packageName);
+//            }
+//            else
+            if(packageName.contains("mms") || packageName.contains("android.email")) {
+                Intent intent = new Intent();
+                intent.setComponent(new ComponentName(packageName, ri.activityInfo.name));
+                intent.setAction(Intent.ACTION_SEND);
+//                intent.setType("text/plain");
+                intent.setType("message/rfc822");
+
+
+                if(packageName.contains("android.email")) {
+                    intent.putExtra(Intent.EXTRA_TEXT, mMyBookingDataModel.crn);
+                    intent.putExtra(Intent.EXTRA_SUBJECT, resources.getString(R.string.crnsubject));
+                }
+
+                if(packageName.contains("mms")) {
+                    intent.putExtra(Intent.EXTRA_TEXT, mMyBookingDataModel.crn);
+                }
+                intentList.add(new LabeledIntent(intent, packageName, ri.loadLabel(pm), ri.icon));
+            }
+        }
+
+        // convert intentList to array
+        LabeledIntent[] extraIntents = intentList.toArray( new LabeledIntent[ intentList.size() ]);
+
+        openInChooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, extraIntents);
+        startActivity(openInChooser);
     }
 }

@@ -64,6 +64,8 @@
     <string name="viewpod">VIEW POD</string>
     <string name="typeofcargo">Type of Cargo</string>
     <string name="weight">Weight</string>
+    <string name="crnsubject">CRN Number</string>
+    <string name="share_chooser_text">Share using...</string>
 
 
     <!-- navigation drawer item labels  -->
