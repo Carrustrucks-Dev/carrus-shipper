@@ -42,7 +42,6 @@ public interface ApiService {
 
     @FormUrlEncoded
     @PUT(FORGETPASSWORD_URL)
-
     public void forgotPassword(@Field("email") String body, Callback<String> callback);
 
     @GET("/api/v1/shipper/getOnGoingBookingTrack")
