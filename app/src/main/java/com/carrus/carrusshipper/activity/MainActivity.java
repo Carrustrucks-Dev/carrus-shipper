@@ -219,6 +219,10 @@ public class MainActivity extends BaseActivity implements FragmentDrawer.Fragmen
         stopService(new Intent(MainActivity.this, MyService.class));
     }
 
+    @Override
+    public void stopService() {
+        stopService(new Intent(MainActivity.this, MyService.class));
+    }
 
     private void logout() {
         Utils.loading_box(MainActivity.this);

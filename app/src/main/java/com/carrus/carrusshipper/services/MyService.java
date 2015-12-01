@@ -112,11 +112,9 @@ public class MyService extends Service {
                        // Utils.shopAlterDialog(mContext, Utils.getErrorMsg(error), true);
                         Intent broadcastIntent = new Intent();
                         broadcastIntent.setAction(HomeFragment.mBroadcastAction);
-                        Bundle bundle = new Bundle();
-                        bundle.putString("data", Utils.getErrorMsg(error));
-                        broadcastIntent.putExtras(bundle);
+                        broadcastIntent.putExtra("data", Utils.getErrorMsg(error));
                         sendBroadcast(broadcastIntent);
-                        stopService(new Intent(mContext, MyService.class));
+                        //stopService(new Intent(mContext, MyService.class));
                     } else if (error.getResponse().getStatus() == ApiResponseFlags.Not_Found.getOrdinal()) {
                         Toast.makeText(mContext, Utils.getErrorMsg(error), Toast.LENGTH_SHORT).show();
                     }

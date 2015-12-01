@@ -117,6 +117,7 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
         mConnectionDetector = new ConnectionDetector(getActivity());
         mIntentFilter = new IntentFilter();
         mIntentFilter.addAction(mBroadcastUiAction);
+        mIntentFilter.addAction(mBroadcastAction);
     }
 
     @Override
@@ -378,15 +379,18 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
         void onStopDrawerSwip();
 
         void onStartDrawerSwipe();
+
+        void stopService();
+
     }
 
 
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Bundle bundle = intent.getExtras();
-            if (intent.getAction().equals(mBroadcastUiAction)) {
 
+            if (intent.getAction().equals(mBroadcastUiAction)) {
+                Bundle bundle = intent.getExtras();
 
                 MyBookingDataModel mTrackingModel = (MyBookingDataModel) bundle.getSerializable("data");
                 if (now != null) {
@@ -399,7 +403,8 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
                 now = googleMap.addMarker(markerOptions);
 
             }else if(intent.getAction().equals(mBroadcastAction)){
-                Utils.shopAlterDialog(getActivity(), bundle.getString("data"), true);
+                Utils.shopAlterDialog(getActivity(), intent.getStringExtra("data"), true);
+                mainActivity.stopService();
             }
         }
     };
