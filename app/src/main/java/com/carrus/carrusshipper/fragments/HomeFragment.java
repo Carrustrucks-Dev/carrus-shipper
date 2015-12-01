@@ -74,6 +74,7 @@ import retrofit.client.Response;
 public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickListener {
 
     public static final String mBroadcastUiAction = "com.carrus.carrusshipper.broadcast.UI";
+    public static final String mBroadcastAction = "com.carrus.carrusshipper.broadcast.AccessDenied";
 
     // Google Map
     private GoogleMap googleMap;
@@ -383,9 +384,10 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            Bundle bundle = intent.getExtras();
             if (intent.getAction().equals(mBroadcastUiAction)) {
 
-                Bundle bundle = intent.getExtras();
+
                 MyBookingDataModel mTrackingModel = (MyBookingDataModel) bundle.getSerializable("data");
                 if (now != null) {
                     now.remove();
@@ -396,6 +398,8 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
                 markerOptions.icon(BitmapDescriptorFactory.fromResource(R.mipmap.icon_van));
                 now = googleMap.addMarker(markerOptions);
 
+            }else if(intent.getAction().equals(mBroadcastAction)){
+                Utils.shopAlterDialog(getActivity(), bundle.getString("data"), true);
             }
         }
     };

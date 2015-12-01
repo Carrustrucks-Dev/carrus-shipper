@@ -7,8 +7,9 @@
     <LinearLayout
         android:id="@+id/nav_header_container"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:padding="@dimen/ten"
         android:gravity="center"
         android:layout_alignParentTop="true"
         android:background="@color/drawer_primary">
@@ -20,11 +21,26 @@
             android:background="@mipmap/icon_placeholder"
             android:layout_centerInParent="true" />
 
-        <TextView
+        <com.carrus.carrusshipper.utils.CapitalizedTextView
+            android:id="@+id/companyTxtView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/windowBackground"
-            android:padding="10dp"
+            android:paddingTop="@dimen/ten"
+            android:paddingBottom="@dimen/five"
+            android:paddingLeft="@dimen/ten"
+            android:paddingRight="@dimen/ten"
+            android:textSize="@dimen/mid_fond"
+            android:text="@string/app_name"/>
+
+        <com.carrus.carrusshipper.utils.CapitalizedTextView
+            android:id="@+id/usernameTxtView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/windowBackground"
+            android:paddingTop="@dimen/five"
+            android:paddingRight="@dimen/ten"
+            android:paddingLeft="@dimen/ten"
             android:textSize="@dimen/mid_fond"
             android:text="@string/app_name"/>
 

@@ -18,10 +18,12 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.carrus.carrusshipper.R;
 import com.carrus.carrusshipper.adapter.NavigationDrawerAdapter;
 import com.carrus.carrusshipper.model.NavDrawerItem;
+import com.carrus.carrusshipper.utils.SessionManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +40,7 @@ public class FragmentDrawer extends Fragment {
     private static String[] titles = null;
     private TypedArray icons=null;
     private FragmentDrawerListener drawerListener;
+    private SessionManager mSessionManager;
 
     public FragmentDrawer() {
 
@@ -78,7 +81,12 @@ public class FragmentDrawer extends Fragment {
                              Bundle savedInstanceState) {
         // Inflating view layout
         View layout = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
+        mSessionManager=new SessionManager(getActivity());
         recyclerView = (RecyclerView) layout.findViewById(R.id.drawerList);
+        final TextView mCompanyTxtView=(TextView) layout.findViewById(R.id.companyTxtView);
+        mCompanyTxtView.setText(mSessionManager.getCompanyName());
+        final TextView mUserNameTxtView=(TextView) layout.findViewById(R.id.usernameTxtView);
+        mUserNameTxtView.setText(mSessionManager.getName());
         adapter = new NavigationDrawerAdapter(getActivity(), getData());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

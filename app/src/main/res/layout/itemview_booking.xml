@@ -59,11 +59,20 @@
         android:paddingRight="@dimen/five"
         android:layout_weight="0.38">
         <com.carrus.carrusshipper.utils.CapitalizedTextView
+            android:id="@+id/addressTxtView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Address"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/low_font"
+            />
+
+        <com.carrus.carrusshipper.utils.CapitalizedTextView
             android:id="@+id/nameTxtView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Name"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/tabcolor_dark"
             android:textSize="@dimen/mid_fond"
             />
 
@@ -77,14 +86,7 @@
             android:textSize="@dimen/low_font"
             />
 
-        <com.carrus.carrusshipper.utils.CapitalizedTextView
-            android:id="@+id/addressTxtView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Address"
-            android:textColor="@color/tabcolor_dark"
-            android:textSize="@dimen/low_font"
-            />
+
     </LinearLayout>
 
     <LinearLayout

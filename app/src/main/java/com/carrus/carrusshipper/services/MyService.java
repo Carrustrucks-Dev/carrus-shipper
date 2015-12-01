@@ -109,7 +109,14 @@ public class MyService extends Service {
                     if (error.getKind().equals(RetrofitError.Kind.NETWORK)) {
                         Toast.makeText(mContext, getResources().getString(R.string.nointernetconnection), Toast.LENGTH_SHORT).show();
                     } else if (error.getResponse().getStatus() == ApiResponseFlags.Unauthorized.getOrdinal()) {
-                        Utils.shopAlterDialog(mContext, Utils.getErrorMsg(error), true);
+                       // Utils.shopAlterDialog(mContext, Utils.getErrorMsg(error), true);
+                        Intent broadcastIntent = new Intent();
+                        broadcastIntent.setAction(HomeFragment.mBroadcastAction);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("data", Utils.getErrorMsg(error));
+                        broadcastIntent.putExtras(bundle);
+                        sendBroadcast(broadcastIntent);
+                        stopService(new Intent(mContext, MyService.class));
                     } else if (error.getResponse().getStatus() == ApiResponseFlags.Not_Found.getOrdinal()) {
                         Toast.makeText(mContext, Utils.getErrorMsg(error), Toast.LENGTH_SHORT).show();
                     }
