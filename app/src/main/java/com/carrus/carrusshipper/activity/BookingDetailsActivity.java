@@ -320,7 +320,8 @@ public class BookingDetailsActivity extends BaseActivity {
         nameDetailTxtView.setText(mMyBookingDataModel.shipper.firstName + " " + mMyBookingDataModel.shipper.lastName);
         typeDetailTxtView.setText(mMyBookingDataModel.truck.truckType.typeTruckName + ", " + mMyBookingDataModel.truck.truckNumber);
         locationDetailsTxtView.setText(mMyBookingDataModel.pickUp.city + " to " + mMyBookingDataModel.dropOff.city);
-        trackDetailsIdTxtView.setText(mMyBookingDataModel.crn);
+        if (mMyBookingDataModel.crn!=null && !mMyBookingDataModel.crn.equalsIgnoreCase(""))
+            trackDetailsIdTxtView.setText("CRN-" + mMyBookingDataModel.crn);
 
         statusTxtView.setText(mMyBookingDataModel.bookingStatus.replace("_", " "));
         switch (mMyBookingDataModel.bookingStatus.toLowerCase()) {
@@ -359,21 +360,21 @@ public class BookingDetailsActivity extends BaseActivity {
                 viewInVoiceBtn.setVisibility(View.VISIBLE);
                 viewConsignmentBtn.setVisibility(View.VISIBLE);
 
-                if(mMyBookingDataModel.doc.pod!=null) {
+                if (mMyBookingDataModel.doc.pod != null) {
                     viewPodBtn.setBackgroundColor(getResources().getColor(R.color.tabcolor_dark));
-                }else{
+                } else {
                     viewPodBtn.setBackgroundColor(getResources().getColor(R.color.gray_completed));
                 }
 
-                if(mMyBookingDataModel.doc.invoice!=null) {
+                if (mMyBookingDataModel.doc.invoice != null) {
                     viewInVoiceBtn.setBackgroundColor(getResources().getColor(R.color.tabcolor_dark));
-                }else{
+                } else {
                     viewInVoiceBtn.setBackgroundColor(getResources().getColor(R.color.gray_completed));
                 }
 
-                if(mMyBookingDataModel.doc.consigmentNote!=null) {
+                if (mMyBookingDataModel.doc.consigmentNote != null) {
                     viewConsignmentBtn.setBackgroundColor(getResources().getColor(R.color.tabcolor_dark));
-                }else{
+                } else {
                     viewConsignmentBtn.setBackgroundColor(getResources().getColor(R.color.gray_completed));
                 }
 

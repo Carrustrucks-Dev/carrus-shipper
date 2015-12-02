@@ -30,7 +30,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/five"
-                    android:text="CRN-AP23097645E"
+                    android:text=""
                     android:textColor="@color/windowBackground"
                     android:textSize="@dimen/mid_fond" />
 
@@ -41,7 +41,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:padding="@dimen/five"
-                    android:text="@string/ongoing"
+                    android:text=""
                     android:textColor="@color/windowBackground"
                     android:textSize="@dimen/mid_fond" />
 

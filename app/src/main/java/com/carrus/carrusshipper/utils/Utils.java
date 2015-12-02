@@ -148,6 +148,16 @@ measures height of recyclerview when placed inside scrollview
         return date.format(d);
     }
 
+    public static String getDateMonth(String time) throws ParseException {
+        Calendar cal = Calendar.getInstance();
+        TimeZone tz = cal.getTimeZone();
+        DateFormat f = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        f.setTimeZone(TimeZone.getTimeZone("ISO"));
+        Date d = f.parse(String.valueOf(time));
+        DateFormat date = new SimpleDateFormat("dd MMM");
+        return date.format(d);
+    }
+
     public static String getMonth(String time) throws ParseException {
         Calendar cal = Calendar.getInstance();
         TimeZone tz = cal.getTimeZone();

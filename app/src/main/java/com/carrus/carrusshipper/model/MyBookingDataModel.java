@@ -53,6 +53,9 @@ public class MyBookingDataModel implements Serializable {
     @SerializedName("paymentStatus")
     public String paymentStatus;
 
+    @SerializedName("bookingUpdatedAt")
+    public String bookingUpdatedAt;
+
     public DropOffModel dropOff;
 
     public PickUpModel pickUp;

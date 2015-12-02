@@ -172,7 +172,17 @@ public class PastBookingAdapter extends RecyclerView.Adapter {
             }
 
             try {
-                ((ViewHolder) holder).mTimeTxtView.setText(Utils.getDay(myList.get(position).pickUp.date) + ", " + myList.get(position).pickUp.time);
+
+                if(myList.get(position).bookingStatus.equalsIgnoreCase("CANCELED")){
+                    ((ViewHolder) holder).mTimeTxtView.setVisibility(View.GONE);
+                }else{
+                    ((ViewHolder) holder).mTimeTxtView.setVisibility(View.VISIBLE);
+                    if(myList.get(position).bookingStatus.equalsIgnoreCase("COMPLETED")){
+                        ((ViewHolder) holder).mTimeTxtView.setText(Utils.getDateMonth(myList.get(position).bookingUpdatedAt));
+                    }else{
+                        ((ViewHolder) holder).mTimeTxtView.setText(Utils.getDay(myList.get(position).pickUp.date) + ", " + myList.get(position).pickUp.time);
+                    }
+                }
             } catch (ParseException e) {
                 e.printStackTrace();
             }
