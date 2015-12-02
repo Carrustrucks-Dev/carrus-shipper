@@ -37,7 +37,7 @@
     <string name="email">E-mail</string>
     <string name="password">Password</string>
     <string name="submit">SUBMIT</string>
-    <string name="forgotpasswd">FORGOT PASSWORD</string>
+    <string name="forgotpasswd">FORGOT PASSWORD ?</string>
 
 
 
@@ -62,6 +62,8 @@
     <string name="done">DONE</string>
     <string name="cancel">CANCEL</string>
     <string name="viewpod">VIEW POD</string>
+    <string name="viewinvoice">VIEW INVOICE</string>
+    <string name="viewconsignment">VIEW CONSIGNMENT NOTE</string>
     <string name="typeofcargo">Type of Cargo</string>
     <string name="weight">Weight</string>
     <string name="crnsubject">CRN Number</string>
@@ -97,6 +99,8 @@
     <string name="ratingerror">Rating not zero</string>
     <string name="commentrequired">Comment must not be empty</string>
     <string name="podnotfound">No POD found</string>
+    <string name="invoicenotfound">No invoice found</string>
+    <string name="consignmntnotfound">No consignment note found</string>
 
     <!--text-->
     <string name="forgetpasswddetails">Enter email address and link would be sent to you to reset your password</string>

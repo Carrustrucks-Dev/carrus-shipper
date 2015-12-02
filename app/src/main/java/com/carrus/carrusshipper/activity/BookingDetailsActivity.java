@@ -8,7 +8,6 @@ import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,7 +56,7 @@ public class BookingDetailsActivity extends BaseActivity {
     //    private RecyclerView recyclerview;
     private MyBookingDataModel mMyBookingDataModel;
     private TextView nameDetailTxtView, typeDetailTxtView, locationDetailsTxtView, trackDetailsIdTxtView, statusTxtView, addresPickupTxtView, datePickupTxtView, timePickupTxtView, addressDropTxtView, dateDropTxtview, timeDropTxtView, paymentModeTxtView, totalCostTxtView, namePickUpTxtView, phonePickUpTxtView, codePickUpTxtView, nameDropofTxtView, phoneDropofTxtView, codeDropofTxtView;
-    private Button viewPodBtn, cancelBtn;
+    private Button viewPodBtn, cancelBtn, viewInVoiceBtn, viewConsignmentBtn;
     private ExpandableListView mExpandableListView;
     private List<Header> listDataHeader;
     private HashMap<Header, List<ExpandableChildItem>> listDataChild;
@@ -102,6 +101,8 @@ public class BookingDetailsActivity extends BaseActivity {
         totalCostTxtView = (TextView) findViewById(R.id.totalCostTxtView);
         viewPodBtn = (Button) findViewById(R.id.viewPodBtn);
         cancelBtn = (Button) findViewById(R.id.cancelBtn);
+        viewInVoiceBtn = (Button) findViewById(R.id.viewInVoiceBtn);
+        viewConsignmentBtn = (Button) findViewById(R.id.viewConsignmentBtn);
         mProfileIV = (ImageView) findViewById(R.id.profileIV);
         locationIV = (ImageView) findViewById(R.id.locationBtnIV);
         namePickUpTxtView = (TextView) findViewById(R.id.namePickupTxtView);
@@ -204,6 +205,35 @@ public class BookingDetailsActivity extends BaseActivity {
             }
         });
 
+        viewInVoiceBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mMyBookingDataModel.doc.pod != null) {
+                    Intent mIntent = new Intent(BookingDetailsActivity.this, ShowPODActivity.class);
+                    mIntent.putExtra("url", mMyBookingDataModel.doc.invoice);
+                    startActivity(mIntent);
+                } else {
+                    Toast.makeText(BookingDetailsActivity.this, getResources().getString(R.string.invoicenotfound), Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
+
+        viewConsignmentBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mMyBookingDataModel.doc.pod != null) {
+                    Intent mIntent = new Intent(BookingDetailsActivity.this, ShowPODActivity.class);
+                    mIntent.putExtra("url", mMyBookingDataModel.doc.consigmentNote);
+                    startActivity(mIntent);
+                } else {
+                    Toast.makeText(BookingDetailsActivity.this, getResources().getString(R.string.consignmntnotfound), Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -301,12 +331,16 @@ public class BookingDetailsActivity extends BaseActivity {
                 topView.setBackgroundColor(getResources().getColor(R.color.blue_ongoing));
                 cancelBtn.setVisibility(View.GONE);
                 viewPodBtn.setVisibility(View.GONE);
+                viewInVoiceBtn.setVisibility(View.GONE);
+                viewConsignmentBtn.setVisibility(View.GONE);
                 locationIV.setVisibility(View.VISIBLE);
                 break;
 
             case "canceled":
                 topView.setBackgroundColor(getResources().getColor(R.color.red));
                 viewPodBtn.setVisibility(View.GONE);
+                viewInVoiceBtn.setVisibility(View.GONE);
+                viewConsignmentBtn.setVisibility(View.GONE);
                 cancelBtn.setVisibility(View.GONE);
                 break;
 
@@ -314,12 +348,35 @@ public class BookingDetailsActivity extends BaseActivity {
                 topView.setBackgroundColor(getResources().getColor(R.color.green));
                 cancelBtn.setVisibility(View.VISIBLE);
                 viewPodBtn.setVisibility(View.GONE);
+                viewInVoiceBtn.setVisibility(View.GONE);
+                viewConsignmentBtn.setVisibility(View.GONE);
                 break;
 
             case "completed":
                 topView.setBackgroundColor(getResources().getColor(R.color.gray_completed));
                 cancelBtn.setVisibility(View.GONE);
                 viewPodBtn.setVisibility(View.VISIBLE);
+                viewInVoiceBtn.setVisibility(View.VISIBLE);
+                viewConsignmentBtn.setVisibility(View.VISIBLE);
+
+                if(mMyBookingDataModel.doc.pod!=null) {
+                    viewPodBtn.setBackgroundColor(getResources().getColor(R.color.tabcolor_dark));
+                }else{
+                    viewPodBtn.setBackgroundColor(getResources().getColor(R.color.gray_completed));
+                }
+
+                if(mMyBookingDataModel.doc.invoice!=null) {
+                    viewInVoiceBtn.setBackgroundColor(getResources().getColor(R.color.tabcolor_dark));
+                }else{
+                    viewInVoiceBtn.setBackgroundColor(getResources().getColor(R.color.gray_completed));
+                }
+
+                if(mMyBookingDataModel.doc.consigmentNote!=null) {
+                    viewConsignmentBtn.setBackgroundColor(getResources().getColor(R.color.tabcolor_dark));
+                }else{
+                    viewConsignmentBtn.setBackgroundColor(getResources().getColor(R.color.gray_completed));
+                }
+
                 break;
         }
 
@@ -362,10 +419,10 @@ public class BookingDetailsActivity extends BaseActivity {
         totalCostTxtView.setText("₹ " + mMyBookingDataModel.acceptPrice);
         namePickUpTxtView.setText(mMyBookingDataModel.pickUp.companyName);
         phonePickUpTxtView.setText(mMyBookingDataModel.pickUp.contactNumber);
-        codePickUpTxtView.setText(mMyBookingDataModel.pickUp.zipCode);
+        codePickUpTxtView.setText(mMyBookingDataModel.pickUp.tin);
         nameDropofTxtView.setText(mMyBookingDataModel.dropOff.companyName);
         phoneDropofTxtView.setText(mMyBookingDataModel.dropOff.contactNumber);
-        codeDropofTxtView.setText(mMyBookingDataModel.dropOff.zipCode);
+        codeDropofTxtView.setText(mMyBookingDataModel.dropOff.tin);
 
         // Adding child data
         ArrayList<ExpandableChildItem> cargoDetails = new ArrayList<ExpandableChildItem>();
@@ -524,7 +581,7 @@ public class BookingDetailsActivity extends BaseActivity {
 //                emailIntent.setPackage(packageName);
 //            }
 //            else
-            if(packageName.contains("mms") || packageName.contains("android.email")) {
+            if (packageName.contains("mms") || packageName.contains("android.email")) {
                 Intent intent = new Intent();
                 intent.setComponent(new ComponentName(packageName, ri.activityInfo.name));
                 intent.setAction(Intent.ACTION_SEND);
@@ -532,12 +589,12 @@ public class BookingDetailsActivity extends BaseActivity {
                 intent.setType("message/rfc822");
 
 
-                if(packageName.contains("android.email")) {
+                if (packageName.contains("android.email")) {
                     intent.putExtra(Intent.EXTRA_TEXT, mMyBookingDataModel.crn);
                     intent.putExtra(Intent.EXTRA_SUBJECT, resources.getString(R.string.crnsubject));
                 }
 
-                if(packageName.contains("mms")) {
+                if (packageName.contains("mms")) {
                     intent.putExtra(Intent.EXTRA_TEXT, mMyBookingDataModel.crn);
                 }
                 intentList.add(new LabeledIntent(intent, packageName, ri.loadLabel(pm), ri.icon));
@@ -545,7 +602,7 @@ public class BookingDetailsActivity extends BaseActivity {
         }
 
         // convert intentList to array
-        LabeledIntent[] extraIntents = intentList.toArray( new LabeledIntent[ intentList.size() ]);
+        LabeledIntent[] extraIntents = intentList.toArray(new LabeledIntent[intentList.size()]);
 
         openInChooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, extraIntents);
         startActivity(openInChooser);

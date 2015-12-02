@@ -117,9 +117,9 @@ public class PastFragment extends Fragment {
         mErrorTxtView = (TextView) view.findViewById(R.id.errorTxtView);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
-        swipeRefreshLayout.setColorSchemeColors(
-                Color.RED, Color.GREEN, Color.BLUE, Color.CYAN);
-
+//        swipeRefreshLayout.setColorSchemeColors(
+//                Color.RED, Color.GREEN, Color.BLUE, Color.CYAN);
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
         mRecyclerView.setHasFixedSize(true);

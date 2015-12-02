@@ -24,14 +24,14 @@
                     android:id="@+id/driverImage"
                     android:layout_width="@dimen/hundred"
                     android:layout_height="@dimen/hundred"
-                    android:layout_marginTop="@dimen/twenty"
+                    android:layout_marginTop="@dimen/ten"
                     android:src="@mipmap/icon_placeholder"/>
 
                 <com.carrus.carrusshipper.utils.CapitalizedTextView
                     android:id="@+id/driverName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/ten"
+                    android:layout_marginTop="@dimen/five"
                     android:textColor="@color/windowBackground"
                     android:textSize="22sp" />
 
@@ -40,7 +40,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/ten"
                     android:isIndicator="true"
                     android:layout_marginBottom="@dimen/ten"
                     style="@style/ratingBar"/>
@@ -145,7 +144,6 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:visibility="gone"
                     android:layout_height="@dimen/one"
                     android:background="@color/gray_text" />
 
@@ -168,6 +166,7 @@
                     android:textAppearance="@style/CustomTextAppearance"
                     android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/big_font" />
+
 
             </LinearLayout>
         </LinearLayout>

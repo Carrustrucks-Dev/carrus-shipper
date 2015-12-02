@@ -58,9 +58,9 @@
                     android:id="@+id/profileIV"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
-                    android:background="@mipmap/icon_placeholder"
                     android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true" />
+                    android:layout_centerVertical="true"
+                    android:background="@mipmap/icon_placeholder" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -105,9 +105,9 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toLeftOf="@+id/callBtnIV"
-                    android:visibility="gone"
                     android:padding="@dimen/ten"
-                    android:src="@mipmap/icon_track" />
+                    android:src="@mipmap/icon_track"
+                    android:visibility="gone" />
 
 
                 <ImageView
@@ -128,7 +128,7 @@
                 android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/large_font" />
 
-            <TextView
+            <com.carrus.carrusshipper.utils.CapitalizedTextView
                 android:id="@+id/namePickupTxtView"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -147,8 +147,8 @@
                 android:drawableLeft="@mipmap/icon_shipment_detail"
                 android:drawablePadding="@dimen/ten"
                 android:paddingLeft="@dimen/ten"
-                android:paddingTop="@dimen/ten"
                 android:paddingRight="@dimen/ten"
+                android:paddingTop="@dimen/ten"
                 android:text="Address"
                 android:textColor="@color/gray_text"
                 android:textSize="@dimen/mid_fond" />
@@ -223,7 +223,7 @@
                 android:textSize="@dimen/large_font" />
 
 
-            <TextView
+            <com.carrus.carrusshipper.utils.CapitalizedTextView
                 android:id="@+id/nameDropTxtView"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -303,20 +303,22 @@
                 android:textSize="@dimen/mid_fond" />
 
             <!--<android.support.v7.widget.RecyclerView-->
-                <!--android:id="@+id/recyclerview"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content" />-->
+            <!--android:id="@+id/recyclerview"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content" />-->
 
             <ExpandableListView
                 android:id="@+id/recyclerview"
                 android:layout_width="fill_parent"
-                android:groupIndicator="@null"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true" />
+                android:layout_alignParentRight="true"
+                android:groupIndicator="@null" />
+
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/one"
                 android:background="@color/gray_text" />
+
             <RelativeLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -375,28 +377,56 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                >
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/cancelBtn"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/gray_text"
+                    android:text="@string/cancel"
+                    android:textColor="@color/windowBackground"
+                    android:visibility="gone" />
 
                 <Button
                     android:id="@+id/viewPodBtn"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:background="@color/tabcolor_dark"
-                    android:visibility="gone"
                     android:text="@string/viewpod"
-                    android:textColor="@color/windowBackground" />
+                    android:textColor="@color/windowBackground"
+                    android:visibility="gone" />
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/one"
+                    android:background="@color/windowBackground" />
+
 
                 <Button
-                    android:id="@+id/cancelBtn"
+                    android:id="@+id/viewInVoiceBtn"
                     android:layout_width="fill_parent"
-                    android:visibility="gone"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@color/gray_text"
-                    android:text="@string/cancel"
-                    android:textColor="@color/windowBackground" />
+                    android:background="@color/tabcolor_dark"
+                    android:text="@string/viewinvoice"
+                    android:textColor="@color/windowBackground"
+                    android:visibility="gone" />
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/one"
+                    android:background="@color/windowBackground" />
+
+                <Button
+                    android:id="@+id/viewConsignmentBtn"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/tabcolor_dark"
+                    android:text="@string/viewconsignment"
+                    android:textColor="@color/windowBackground"
+                    android:visibility="gone" />
+
+
             </LinearLayout>
         </LinearLayout>
 

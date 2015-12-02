@@ -41,7 +41,7 @@ public class RatingDialogActivity extends BaseActivity {
     }
 
     private void init() {
-        bookingId=getIntent().getStringExtra("bookingid");
+        bookingId = getIntent().getStringExtra("bookingid");
         ratingStars = (RatingBar) findViewById(R.id.ratingStars);
         feedbackEdtxt = (EditText) findViewById(R.id.feedbackEdtxt);
     }
@@ -74,10 +74,13 @@ public class RatingDialogActivity extends BaseActivity {
                 // Close dialog
                 if (userRating == 0) {
                     Toast.makeText(RatingDialogActivity.this, getResources().getString(R.string.ratingerror), Toast.LENGTH_SHORT).show();
-                } else if (feedbackEdtxt.getText().toString().trim().isEmpty()) {
-                    feedbackEdtxt.setError(getResources().getString(R.string.commentrequired));
-                    feedbackEdtxt.requestFocus();
-                } else {
+                }
+                //Not mendatory
+//                else if (feedbackEdtxt.getText().toString().trim().isEmpty()) {
+//                    feedbackEdtxt.setError(getResources().getString(R.string.commentrequired));
+//                    feedbackEdtxt.requestFocus();
+//                }
+                else {
                     if (mConnectionDetector.isConnectingToInternet()) {
                         addRating();
                     } else {

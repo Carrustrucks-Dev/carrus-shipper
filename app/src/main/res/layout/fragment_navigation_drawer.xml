@@ -27,10 +27,9 @@
             android:layout_height="wrap_content"
             android:textColor="@color/windowBackground"
             android:paddingTop="@dimen/ten"
-            android:paddingBottom="@dimen/five"
             android:paddingLeft="@dimen/ten"
             android:paddingRight="@dimen/ten"
-            android:textSize="@dimen/mid_fond"
+            android:textSize="@dimen/big_font_eighteen"
             android:text="@string/app_name"/>
 
         <com.carrus.carrusshipper.utils.CapitalizedTextView
@@ -38,7 +37,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/windowBackground"
-            android:paddingTop="@dimen/five"
             android:paddingRight="@dimen/ten"
             android:paddingLeft="@dimen/ten"
             android:textSize="@dimen/mid_fond"

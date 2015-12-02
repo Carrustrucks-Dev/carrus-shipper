@@ -45,7 +45,7 @@ public class ShowPODActivity extends BaseActivity {
         if (extension.equals(".pdf")) {
             mWebView.setVisibility(View.VISIBLE);
             imageView.setVisibility(View.GONE);
-            mWebView.loadUrl("https://docs.google.com/gview?embedded=true&url=" + url);
+            mWebView.loadUrl("http://drive.google.com/viewerng/viewer?embedded=true&url=" + url);
         } else {
             mWebView.setVisibility(View.GONE);
             imageView.setVisibility(View.VISIBLE);

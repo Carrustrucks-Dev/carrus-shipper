@@ -177,7 +177,6 @@ public class PastBookingAdapter extends RecyclerView.Adapter {
                 e.printStackTrace();
             }
 
-
             ((ViewHolder) holder).itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
