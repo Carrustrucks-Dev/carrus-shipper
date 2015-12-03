@@ -569,7 +569,6 @@ public class BookingDetailsActivity extends BaseActivity {
         Intent sendIntent = new Intent(Intent.ACTION_SEND);
         sendIntent.setType("text/plain");
 
-
         Intent openInChooser = Intent.createChooser(emailIntent, resources.getString(R.string.share_chooser_text));
 
         List<ResolveInfo> resInfo = pm.queryIntentActivities(sendIntent, 0);

@@ -209,6 +209,8 @@ public class PastBookingAdapter extends RecyclerView.Adapter {
     public int getItemCount() {
         return myList != null ? myList.size() : 0;
     }
+
+
     @Override
     public int getItemViewType(int position) {
         return myList.get(position) != null ? VIEW_ITEM : VIEW_PROG;

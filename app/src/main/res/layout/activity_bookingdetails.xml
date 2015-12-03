@@ -106,7 +106,7 @@
                     android:layout_centerVertical="true"
                     android:layout_toLeftOf="@+id/callBtnIV"
                     android:padding="@dimen/ten"
-                    android:src="@mipmap/icon_track"
+                    android:src="@drawable/location_btn_selector"
                     android:visibility="gone" />
 
 
@@ -116,7 +116,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:src="@mipmap/icon_call_filled" />
+                    android:src="@drawable/call_fill_btn_selector" />
 
             </RelativeLayout>
 
@@ -132,7 +132,7 @@
                 android:id="@+id/namePickupTxtView"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@mipmap/icon_shipment_detail"
+                android:drawableLeft="@mipmap/company"
                 android:drawablePadding="@dimen/ten"
                 android:paddingLeft="@dimen/ten"
                 android:paddingRight="@dimen/ten"
@@ -145,6 +145,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@mipmap/icon_shipment_detail"
+
                 android:drawablePadding="@dimen/ten"
                 android:paddingLeft="@dimen/ten"
                 android:paddingRight="@dimen/ten"
@@ -183,7 +184,7 @@
                 android:id="@+id/phonePickupTxtView"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@mipmap/icon_clock"
+                android:drawableLeft="@mipmap/phone"
                 android:drawablePadding="@dimen/ten"
                 android:paddingLeft="@dimen/ten"
                 android:paddingRight="@dimen/ten"
@@ -197,7 +198,7 @@
                 android:id="@+id/codePickupTxtView"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@mipmap/icon_clock"
+                android:drawableLeft="@mipmap/hash"
                 android:drawablePadding="@dimen/ten"
                 android:paddingLeft="@dimen/ten"
                 android:paddingRight="@dimen/ten"
@@ -227,7 +228,7 @@
                 android:id="@+id/nameDropTxtView"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@mipmap/icon_shipment_detail"
+                android:drawableLeft="@mipmap/company"
                 android:drawablePadding="@dimen/ten"
                 android:paddingLeft="@dimen/ten"
                 android:paddingRight="@dimen/ten"
@@ -279,7 +280,7 @@
                 android:id="@+id/phoneDropTxtView"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@mipmap/icon_clock"
+                android:drawableLeft="@mipmap/phone"
                 android:drawablePadding="@dimen/ten"
                 android:paddingLeft="@dimen/ten"
                 android:paddingRight="@dimen/ten"
@@ -293,7 +294,7 @@
                 android:id="@+id/codeDropTxtView"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@mipmap/icon_clock"
+                android:drawableLeft="@mipmap/hash"
                 android:drawablePadding="@dimen/ten"
                 android:paddingLeft="@dimen/ten"
                 android:paddingRight="@dimen/ten"
