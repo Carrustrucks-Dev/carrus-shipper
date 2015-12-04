@@ -6,10 +6,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.Display;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -209,7 +211,8 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
         for (int i = 0; i < mOnGoingShipper.mData.size(); i++) {
 
             if (mOnGoingShipper.mData.get(i).tracking.equalsIgnoreCase("yes")) {
-                if (mOnGoingShipper.mData.get(i).crruentTracking.size() != 0 && mSearchEdtTxt.getText().toString().trim().equals(mOnGoingShipper.mData.get(i).crruentTracking.get(0)._id)) {
+                if (mSearchEdtTxt.getText().toString().trim().equals(mOnGoingShipper.mData.get(i).crn)) {
+                    googleMap.clear();
                     LatLng location = new LatLng(mOnGoingShipper.mData.get(i).crruentTracking.get(0).lat, mOnGoingShipper.mData.get(i).crruentTracking.get(0).longg);
 
                     Marker marker = googleMap.addMarker(new MarkerOptions().position(location)
@@ -217,6 +220,7 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
                                     .snippet(mOnGoingShipper.mData.get(i).shipper.firstName)
                                     .icon(BitmapDescriptorFactory.fromResource(R.mipmap.icon_van))
                     );
+
                     CameraUpdate center =
                             CameraUpdateFactory.newLatLng(location);
                     mMarkerArray.add(marker);
@@ -448,11 +452,28 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
                     mbuilder.include(new LatLng(Double.valueOf(ar[0]), Double.valueOf(ar[1])));
                     mbuilder.include(new LatLng(Double.valueOf(ad[0]), Double.valueOf(ad[1])));
 
+                    Display display = getActivity().getWindowManager().getDefaultDisplay();
+                    Point size = new Point();
+                    display.getSize(size);
+                    int width = size.x;
+//                    int height = size.y;
+
+
+
                     LatLngBounds bounds = mbuilder.build();
-                    int padding = 250; // offset from edges of the map in pixels
+//                    int padding = 250; // offset from edges of the map in pixels
+                    int padding = ((width * 10) / 40); // offset from edges of the map
+                    // in pixels
                     CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
 
-                    googleMap.animateCamera(cu);
+                    try {
+                        googleMap.animateCamera(cu);
+                    } catch (Exception e) {
+                        padding=0;
+                        cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+                        googleMap.animateCamera(cu);
+                        e.printStackTrace();
+                    }
 
                     selectedNumber = mTrackermodel.get(pos).shipper.phoneNumber;
                     nameTxtView.setText(mTrackermodel.get(pos).shipper.firstName + " " + mTrackermodel.get(pos).shipper.lastName);

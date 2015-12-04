@@ -254,9 +254,14 @@ public class PastFragment extends Fragment {
             @Override
             public void onLoadMore() {
                 //add null , so the adapter will check view_type and show progress bar at bottom
-                bookingList.add(null);
-                mAdapter.notifyItemInserted(bookingList.size() - 1);
-                getPastBookings();
+                try {
+                    bookingList.add(null);
+                    mAdapter.notifyItemInserted(bookingList.size() - 1);
+                    getPastBookings();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
             }
         });
     }
