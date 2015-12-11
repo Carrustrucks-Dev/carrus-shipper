@@ -286,7 +286,6 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
         googleMap.clear();
         mMarkerArray.clear();
         mTrackermodel.clear();
-        CameraUpdate center = null;
         isMarkerMatch = false;
         for (int i = 0; i < mOnGoingShipper.mData.size(); i++) {
 
@@ -299,8 +298,16 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
                                     .snippet(mOnGoingShipper.mData.get(i).shipper.firstName)
                                     .icon(BitmapDescriptorFactory.fromResource(R.mipmap.icon_van))
                     );
-                    center =
-                            CameraUpdateFactory.newLatLng(location);
+                    mMarkerArray.add(marker);
+                    mTrackermodel.add(mOnGoingShipper.mData.get(i));
+                }else{
+                    LatLng location = new LatLng(mOnGoingShipper.mData.get(i).pickUp.coordinates.pickUpLat, mOnGoingShipper.mData.get(i).pickUp.coordinates.pickUpLong);
+
+                    Marker marker = googleMap.addMarker(new MarkerOptions().position(location)
+                                    .title(mOnGoingShipper.mData.get(i).shipper.firstName)
+                                    .snippet(mOnGoingShipper.mData.get(i).shipper.firstName)
+                                    .icon(BitmapDescriptorFactory.fromResource(R.mipmap.icon_van))
+                    );
                     mMarkerArray.add(marker);
                     mTrackermodel.add(mOnGoingShipper.mData.get(i));
                 }
@@ -313,13 +320,20 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
         for (Marker marker : mMarkerArray) {
             builder.include(marker.getPosition());
         }
-        LatLngBounds bounds = builder.build();
-        int padding = 200; // offset from edges of the map in pixels
-        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+
+        LatLngBounds bounds = null;
+        try {
+            bounds = builder.build();
+            int padding = 200; // offset from edges of the map in pixels
+            CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
 
 //        googleMap.moveCamera(cu);
 
-        googleMap.animateCamera(cu);
+            googleMap.animateCamera(cu);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
 //        if (center != null)
 //            googleMap.moveCamera(center);

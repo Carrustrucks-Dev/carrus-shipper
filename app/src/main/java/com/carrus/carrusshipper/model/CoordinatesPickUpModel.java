@@ -13,6 +13,6 @@ public class CoordinatesPickUpModel implements Serializable{
     public Double pickUpLat;
 
     @SerializedName("pickUpLong")
-    public String pickUpLong;
+    public Double pickUpLong;
 
 }
