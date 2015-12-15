@@ -15,10 +15,9 @@
         android:background="@color/drawer_primary">
 
         <ImageView
+            android:id="@+id/profileIV"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:scaleType="fitCenter"
-            android:background="@mipmap/icon_placeholder"
             android:layout_centerInParent="true" />
 
         <com.carrus.carrusshipper.utils.CapitalizedTextView

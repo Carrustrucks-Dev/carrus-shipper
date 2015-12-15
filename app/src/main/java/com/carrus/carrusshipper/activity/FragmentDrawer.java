@@ -17,13 +17,16 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.carrus.carrusshipper.R;
 import com.carrus.carrusshipper.adapter.NavigationDrawerAdapter;
 import com.carrus.carrusshipper.model.NavDrawerItem;
+import com.carrus.carrusshipper.utils.CircleTransform;
 import com.carrus.carrusshipper.utils.SessionManager;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,6 +84,8 @@ public class FragmentDrawer extends Fragment {
                              Bundle savedInstanceState) {
         // Inflating view layout
         View layout = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
+        final ImageView mProfileIV=(ImageView) layout.findViewById(R.id.profileIV);
+        Picasso.with(getActivity()).load(R.mipmap.ic_launcher).transform(new CircleTransform()).into(mProfileIV);
         mSessionManager=new SessionManager(getActivity());
         recyclerView = (RecyclerView) layout.findViewById(R.id.drawerList);
         final TextView mCompanyTxtView=(TextView) layout.findViewById(R.id.companyTxtView);

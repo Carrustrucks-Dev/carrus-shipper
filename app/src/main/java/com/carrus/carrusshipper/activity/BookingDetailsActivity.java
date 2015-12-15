@@ -208,7 +208,7 @@ public class BookingDetailsActivity extends BaseActivity {
         viewInVoiceBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mMyBookingDataModel.doc.pod != null) {
+                if (mMyBookingDataModel.doc.invoice != null) {
                     Intent mIntent = new Intent(BookingDetailsActivity.this, ShowPODActivity.class);
                     mIntent.putExtra("url", mMyBookingDataModel.doc.invoice);
                     startActivity(mIntent);
@@ -223,7 +223,7 @@ public class BookingDetailsActivity extends BaseActivity {
         viewConsignmentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mMyBookingDataModel.doc.pod != null) {
+                if (mMyBookingDataModel.doc.consigmentNote != null) {
                     Intent mIntent = new Intent(BookingDetailsActivity.this, ShowPODActivity.class);
                     mIntent.putExtra("url", mMyBookingDataModel.doc.consigmentNote);
                     startActivity(mIntent);

@@ -11,7 +11,9 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.carrus.carrusshipper.R;
+import com.carrus.carrusshipper.utils.CircleTransform;
 import com.carrus.carrusshipper.utils.SessionManager;
+import com.squareup.picasso.Picasso;
 
 
 /**
@@ -49,7 +51,9 @@ public class ProfileFragment extends Fragment {
 
     private void init(View v) {
 
+
         driverImage = (ImageView) v.findViewById(R.id.driverImage);
+        Picasso.with(getActivity()).load(R.mipmap.ic_launcher).transform(new CircleTransform()).into(driverImage);
         driverName = (TextView) v.findViewById(R.id.driverName);
         driverRating = (RatingBar) v.findViewById(R.id.driverRating);
         cmpanyNameTxtView = (TextView) v.findViewById(R.id.cmpanyNameTxtView);
