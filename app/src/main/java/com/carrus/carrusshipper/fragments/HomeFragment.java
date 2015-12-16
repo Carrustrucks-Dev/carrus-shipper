@@ -33,7 +33,6 @@ import com.carrus.carrusshipper.model.MyBookingModel;
 import com.carrus.carrusshipper.retrofit.RestClient;
 import com.carrus.carrusshipper.services.MyService;
 import com.carrus.carrusshipper.utils.ApiResponseFlags;
-import com.carrus.carrusshipper.utils.CircleTransform;
 import com.carrus.carrusshipper.utils.ConnectionDetector;
 import com.carrus.carrusshipper.utils.Constants;
 import com.carrus.carrusshipper.utils.GMapV2GetRouteDirection;
@@ -50,7 +49,6 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.gson.Gson;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -82,13 +80,13 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
     private GoogleMap googleMap;
     //Markers List
     private ArrayList<Marker> mMarkerArray = new ArrayList<Marker>();
-//    private ArrayList<TrackingModel> mTrackermodel = new ArrayList<>();
+    //    private ArrayList<TrackingModel> mTrackermodel = new ArrayList<>();
     public ArrayList<MyBookingDataModel> mTrackermodel = new ArrayList<>();
     private MainActivity mainActivity;
     private GMapV2GetRouteDirection v2GetRouteDirection;
     private ConnectionDetector mConnectionDetector;
     private SessionManager mSessionManager;
-//    private OnGoingShipper mOnGoingShipper;
+    //    private OnGoingShipper mOnGoingShipper;
     private MyBookingModel mOnGoingShipper;
     private RelativeLayout mBottomView;
     private boolean isMarkerMatch = false;
@@ -98,7 +96,7 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
     private IntentFilter mIntentFilter;
     private Marker now;
     private EditText mSearchEdtTxt;
-    private int selectedPos=0;
+    private int selectedPos = 0;
 
 
     public HomeFragment() {
@@ -208,33 +206,36 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
 
 
     private boolean searchTrackingId() {
-        if(mOnGoingShipper!=null)
-        for (int i = 0; i < mOnGoingShipper.mData.size(); i++) {
+        if (mOnGoingShipper != null)
+            for (int i = 0; i < mOnGoingShipper.mData.size(); i++) {
+                try {
+                    if (mOnGoingShipper.mData.get(i).tracking.equalsIgnoreCase("yes")) {
+                        if (mSearchEdtTxt.getText().toString().trim().equals(mOnGoingShipper.mData.get(i).crn)) {
+                            googleMap.clear();
+                            LatLng location = new LatLng(mOnGoingShipper.mData.get(i).crruentTracking.get(0).lat, mOnGoingShipper.mData.get(i).crruentTracking.get(0).longg);
 
-            if (mOnGoingShipper.mData.get(i).tracking.equalsIgnoreCase("yes")) {
-                if (mSearchEdtTxt.getText().toString().trim().equals(mOnGoingShipper.mData.get(i).crn)) {
-                    googleMap.clear();
-                    LatLng location = new LatLng(mOnGoingShipper.mData.get(i).crruentTracking.get(0).lat, mOnGoingShipper.mData.get(i).crruentTracking.get(0).longg);
+                            Marker marker = googleMap.addMarker(new MarkerOptions().position(location)
+                                            .title(mOnGoingShipper.mData.get(i).shipper.firstName)
+                                            .snippet(mOnGoingShipper.mData.get(i).shipper.firstName)
+                                            .icon(BitmapDescriptorFactory.fromResource(R.mipmap.icon_van))
+                            );
 
-                    Marker marker = googleMap.addMarker(new MarkerOptions().position(location)
-                                    .title(mOnGoingShipper.mData.get(i).shipper.firstName)
-                                    .snippet(mOnGoingShipper.mData.get(i).shipper.firstName)
-                                    .icon(BitmapDescriptorFactory.fromResource(R.mipmap.icon_van))
-                    );
+                            CameraUpdate center =
+                                    CameraUpdateFactory.newLatLng(location);
+                            mMarkerArray.add(marker);
+                            mTrackermodel.add(mOnGoingShipper.mData.get(i));
+                            CameraUpdate zoom = CameraUpdateFactory.zoomTo(7);
 
-                    CameraUpdate center =
-                            CameraUpdateFactory.newLatLng(location);
-                    mMarkerArray.add(marker);
-                    mTrackermodel.add(mOnGoingShipper.mData.get(i));
-                    CameraUpdate zoom = CameraUpdateFactory.zoomTo(7);
-
-                    googleMap.moveCamera(center);
-                    googleMap.animateCamera(zoom);
-                    return false;
+                            googleMap.moveCamera(center);
+                            googleMap.animateCamera(zoom);
+                            return false;
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            }
 
-        }
+            }
 
         return true;
     }
@@ -303,7 +304,7 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
                     );
                     mMarkerArray.add(marker);
                     mTrackermodel.add(mOnGoingShipper.mData.get(i));
-                }else{
+                } else {
                     LatLng location = new LatLng(mOnGoingShipper.mData.get(i).pickUp.coordinates.pickUpLat, mOnGoingShipper.mData.get(i).pickUp.coordinates.pickUpLong);
 
                     Marker marker = googleMap.addMarker(new MarkerOptions().position(location)
@@ -382,7 +383,7 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
                     googleMap.addMarker(new MarkerOptions().position(new LatLng(marker.getPosition().latitude, marker.getPosition().longitude))
                             .title(marker.getTitle())
                             .snippet(marker.getSnippet()).icon(BitmapDescriptorFactory.fromResource(R.mipmap.icon_van)));
-                    selectedPos=i;
+                    selectedPos = i;
                     mSearchEdtTxt.setText(mTrackermodel.get(i).crn);
                     mSearchEdtTxt.setEnabled(false);
                     getDriectionToDestination(new LatLng(mTrackermodel.get(i).crruentTracking.get(0).lat, mTrackermodel.get(i).crruentTracking.get(0).longg), mTrackermodel.get(i).pickUp.coordinates.pickUpLat + ", " + mTrackermodel.get(i).pickUp.coordinates.pickUpLong, mTrackermodel.get(i).dropOff.coordinates.dropOffLat + ", " + mTrackermodel.get(i).dropOff.coordinates.dropOffLong, GMapV2GetRouteDirection.MODE_DRIVING, i);
@@ -426,7 +427,7 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
                 markerOptions.icon(BitmapDescriptorFactory.fromResource(R.mipmap.icon_van));
                 now = googleMap.addMarker(markerOptions);
 
-            }else if(intent.getAction().equals(mBroadcastAction)){
+            } else if (intent.getAction().equals(mBroadcastAction)) {
                 Utils.shopAlterDialog(getActivity(), intent.getStringExtra("data"), true);
                 mainActivity.stopService();
             }
@@ -479,7 +480,6 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
 //                    int height = size.y;
 
 
-
                     LatLngBounds bounds = mbuilder.build();
 //                    int padding = 250; // offset from edges of the map in pixels
                     int padding = ((width * 10) / 40); // offset from edges of the map
@@ -489,7 +489,7 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
                     try {
                         googleMap.animateCamera(cu);
                     } catch (Exception e) {
-                        padding=0;
+                        padding = 0;
                         cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
                         googleMap.animateCamera(cu);
                         e.printStackTrace();
