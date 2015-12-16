@@ -387,7 +387,21 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
                     mSearchEdtTxt.setText(mTrackermodel.get(i).crn);
                     mSearchEdtTxt.setEnabled(false);
                     getDriectionToDestination(new LatLng(mTrackermodel.get(i).crruentTracking.get(0).lat, mTrackermodel.get(i).crruentTracking.get(0).longg), mTrackermodel.get(i).pickUp.coordinates.pickUpLat + ", " + mTrackermodel.get(i).pickUp.coordinates.pickUpLong, mTrackermodel.get(i).dropOff.coordinates.dropOffLat + ", " + mTrackermodel.get(i).dropOff.coordinates.dropOffLong, GMapV2GetRouteDirection.MODE_DRIVING, i);
+                }else{
+                    isMarkerMatch = true;
+                    googleMap.clear();
+
+                    mainActivity.onStopDrawerSwip();
+                    googleMap.addMarker(new MarkerOptions().position(new LatLng(marker.getPosition().latitude, marker.getPosition().longitude))
+                            .title(marker.getTitle())
+                            .snippet(marker.getSnippet()).icon(BitmapDescriptorFactory.fromResource(R.mipmap.icon_van)));
+                    selectedPos = i;
+                    mSearchEdtTxt.setText(mTrackermodel.get(i).crn);
+                    mSearchEdtTxt.setEnabled(false);
+                    getDriectionToDestination(new LatLng(mTrackermodel.get(i).pickUp.coordinates.pickUpLat, mTrackermodel.get(i).pickUp.coordinates.pickUpLong), mTrackermodel.get(i).pickUp.coordinates.pickUpLat + ", " + mTrackermodel.get(i).pickUp.coordinates.pickUpLong, mTrackermodel.get(i).dropOff.coordinates.dropOffLat + ", " + mTrackermodel.get(i).dropOff.coordinates.dropOffLong, GMapV2GetRouteDirection.MODE_DRIVING, i);
+
                 }
+
                 break;
             }
         }
@@ -539,6 +553,8 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
                     e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
+                }catch (IndexOutOfBoundsException e){
+                    e.printStackTrace();
                 }
 
                 Utils.loading_box_stop();
@@ -567,7 +583,7 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
     private void getOnGoingBookingTrack() {
         Utils.loading_box(getActivity());
 
-        RestClient.getApiService().getAllOnGoingBookingTrack(mSessionManager.getAccessToken(), Constants.LIMIT, 0, Constants.SORT, new Callback<String>() {
+        RestClient.getApiService().getAllOnGoingBookingTrack(mSessionManager.getAccessToken(), 0, 0, Constants.SORT, new Callback<String>() {
             @Override
             public void success(String s, Response response) {
                 Log.v("" + getClass().getSimpleName(), "Response> " + s);

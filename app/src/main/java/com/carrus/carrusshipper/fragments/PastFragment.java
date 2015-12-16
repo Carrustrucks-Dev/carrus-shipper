@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.carrus.carrusshipper.R;
@@ -55,6 +56,7 @@ public class PastFragment extends Fragment {
     private ConnectionDetector mConnectionDetector;
     private List<MyBookingDataModel> bookingList;
     private MyBookingModel mMyBookingModel;
+    private TextView mErrorTxtView;
 
 
     /**
@@ -96,6 +98,7 @@ public class PastFragment extends Fragment {
     }
 
     private void init(View view) {
+        mErrorTxtView=(TextView) view.findViewById(R.id.errorTxtView);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
 //        swipeRefreshLayout.setColorSchemeColors(
@@ -132,6 +135,7 @@ public class PastFragment extends Fragment {
     }
 
     private void getPastBookings() {
+        mErrorTxtView.setVisibility(View.GONE);
         if (isRefreshView) {
             swipeRefreshLayout.setRefreshing(true);
             skip = 0;
@@ -209,6 +213,8 @@ public class PastFragment extends Fragment {
                         Utils.shopAlterDialog(getActivity(), Utils.getErrorMsg(error), true);
                     } else if (error.getResponse().getStatus() == ApiResponseFlags.Not_Found.getOrdinal()) {
                         Utils.shopAlterDialog(getActivity(), Utils.getErrorMsg(error), false);
+                        mErrorTxtView.setText(Utils.getErrorMsg(error));
+                        mErrorTxtView.setVisibility(View.VISIBLE);
                     } else if (error.getResponse().getStatus() == ApiResponseFlags.Not_MORE_RESULT.getOrdinal()) {
                         Toast.makeText(getActivity(), Utils.getErrorMsg(error), Toast.LENGTH_SHORT).show();
                         try {

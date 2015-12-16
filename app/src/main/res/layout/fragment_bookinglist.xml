@@ -15,4 +15,13 @@
         android:paddingRight="@dimen/ten" />
     </android.support.v4.widget.SwipeRefreshLayout>
 
+    <TextView
+        android:id="@+id/errorTxtView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="Dummy"
+        android:textColor="@color/gray_text"
+        android:visibility="gone" />
+
 </RelativeLayout>

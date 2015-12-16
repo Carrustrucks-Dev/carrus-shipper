@@ -57,7 +57,7 @@ public class UpComingFragment extends Fragment {
     private ConnectionDetector mConnectionDetector;
     private List<MyBookingDataModel> bookingList;
     private MyBookingModel mMyBookingModel;
-
+    private TextView mErrorTxtView;
     /**
      * Static factory method that takes an int parameter,
      * initializes the fragment's arguments, and returns the
@@ -100,7 +100,7 @@ public class UpComingFragment extends Fragment {
     }
 
     private void init(View view) {
-
+        mErrorTxtView=(TextView) view.findViewById(R.id.errorTxtView);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
 //        swipeRefreshLayout.setColorSchemeColors(
 //                Color.RED, Color.GREEN, Color.BLUE, Color.CYAN);
@@ -137,6 +137,7 @@ public class UpComingFragment extends Fragment {
     }
 
     private void getMyBooking() {
+        mErrorTxtView.setVisibility(View.GONE);
         if (isRefreshView) {
             swipeRefreshLayout.setRefreshing(true);
             skip=0;
@@ -214,6 +215,8 @@ public class UpComingFragment extends Fragment {
                         Utils.shopAlterDialog(getActivity(), Utils.getErrorMsg(error), true);
                     } else if (error.getResponse().getStatus() == ApiResponseFlags.Not_Found.getOrdinal()) {
                         Utils.shopAlterDialog(getActivity(), Utils.getErrorMsg(error), false);
+                        mErrorTxtView.setText(Utils.getErrorMsg(error));
+                        mErrorTxtView.setVisibility(View.VISIBLE);
                     }else if (error.getResponse().getStatus() == ApiResponseFlags.Not_MORE_RESULT.getOrdinal()) {
                         Toast.makeText(getActivity(), Utils.getErrorMsg(error), Toast.LENGTH_SHORT).show();
                         try {
