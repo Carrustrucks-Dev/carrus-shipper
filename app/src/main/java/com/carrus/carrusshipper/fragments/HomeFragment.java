@@ -208,6 +208,7 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
 
 
     private boolean searchTrackingId() {
+        if(mOnGoingShipper!=null)
         for (int i = 0; i < mOnGoingShipper.mData.size(); i++) {
 
             if (mOnGoingShipper.mData.get(i).tracking.equalsIgnoreCase("yes")) {
@@ -286,6 +287,8 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
         googleMap.clear();
         mMarkerArray.clear();
         mTrackermodel.clear();
+        mSearchEdtTxt.setText("");
+        mSearchEdtTxt.setEnabled(true);
         isMarkerMatch = false;
         for (int i = 0; i < mOnGoingShipper.mData.size(); i++) {
 
@@ -374,11 +377,14 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
                 if (mTrackermodel.get(i).crruentTracking.size() != 0) {
                     isMarkerMatch = true;
                     googleMap.clear();
+
                     mainActivity.onStopDrawerSwip();
                     googleMap.addMarker(new MarkerOptions().position(new LatLng(marker.getPosition().latitude, marker.getPosition().longitude))
                             .title(marker.getTitle())
                             .snippet(marker.getSnippet()).icon(BitmapDescriptorFactory.fromResource(R.mipmap.icon_van)));
                     selectedPos=i;
+                    mSearchEdtTxt.setText(mTrackermodel.get(i).crn);
+                    mSearchEdtTxt.setEnabled(false);
                     getDriectionToDestination(new LatLng(mTrackermodel.get(i).crruentTracking.get(0).lat, mTrackermodel.get(i).crruentTracking.get(0).longg), mTrackermodel.get(i).pickUp.coordinates.pickUpLat + ", " + mTrackermodel.get(i).pickUp.coordinates.pickUpLong, mTrackermodel.get(i).dropOff.coordinates.dropOffLat + ", " + mTrackermodel.get(i).dropOff.coordinates.dropOffLong, GMapV2GetRouteDirection.MODE_DRIVING, i);
                 }
                 break;

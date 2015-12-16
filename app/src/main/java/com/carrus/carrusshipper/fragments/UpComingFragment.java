@@ -164,6 +164,7 @@ public class UpComingFragment extends Fragment {
                             bookingList.addAll(mMyBookingModel.mData);
                             mAdapter = new UpComingBookingAdapter(getActivity(), bookingList, mRecyclerView);
                             mRecyclerView.setAdapter(mAdapter);
+                            if (mMyBookingModel.mData.size() == LIMIT)
                             setonScrollListener();
                         } else {
                             bookingList.remove(bookingList.size() - 1);
@@ -179,7 +180,7 @@ public class UpComingFragment extends Fragment {
                             }
                             mAdapter.setLoaded();
                         }
-                        skip = skip + LIMIT;
+                        skip = skip + mMyBookingModel.mData.size();
                     } else {
                         if (ApiResponseFlags.Not_Found.getOrdinal() == status) {
                             bookingList.remove(bookingList.size() - 1);
@@ -188,7 +189,7 @@ public class UpComingFragment extends Fragment {
                             Utils.shopAlterDialog(getActivity(), mObject.getString("message"), false);
                         }
 
-                        Toast.makeText(getActivity(), mObject.getString("message"), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getActivity(), mObject.getString("message"), Toast.LENGTH_SHORT).show();
 
                     }
                 } catch (JSONException e) {
@@ -212,8 +213,7 @@ public class UpComingFragment extends Fragment {
                     } else if (error.getResponse().getStatus() == ApiResponseFlags.Unauthorized.getOrdinal()) {
                         Utils.shopAlterDialog(getActivity(), Utils.getErrorMsg(error), true);
                     } else if (error.getResponse().getStatus() == ApiResponseFlags.Not_Found.getOrdinal()) {
-                        Toast.makeText(getActivity(), Utils.getErrorMsg(error), Toast.LENGTH_SHORT).show();
-
+                        Utils.shopAlterDialog(getActivity(), Utils.getErrorMsg(error), true);
                     }else if (error.getResponse().getStatus() == ApiResponseFlags.Not_MORE_RESULT.getOrdinal()) {
                         Toast.makeText(getActivity(), Utils.getErrorMsg(error), Toast.LENGTH_SHORT).show();
                         try {
