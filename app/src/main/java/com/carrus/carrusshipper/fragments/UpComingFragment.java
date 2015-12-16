@@ -55,7 +55,6 @@ public class UpComingFragment extends Fragment {
     private SwipeRefreshLayout swipeRefreshLayout;
     private boolean isRefreshView = false;
     private ConnectionDetector mConnectionDetector;
-    private TextView mErrorTxtView;
     private List<MyBookingDataModel> bookingList;
     private MyBookingModel mMyBookingModel;
 
@@ -92,30 +91,16 @@ public class UpComingFragment extends Fragment {
         if (mConnectionDetector.isConnectingToInternet())
             getMyBooking();
         else {
-            mErrorTxtView.setText(getResources().getString(R.string.nointernetconnection));
-            mErrorTxtView.setVisibility(View.VISIBLE);
             Utils.shopAlterDialog(getActivity(), getResources().getString(R.string.nointernetconnection), false);
         }
     }
 
     private void intializeListners() {
-        mErrorTxtView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mErrorTxtView.setVisibility(View.GONE);
-                if (mConnectionDetector.isConnectingToInternet())
-                    getMyBooking();
-                else {
-                    mErrorTxtView.setText(getResources().getString(R.string.nointernetconnection));
-                    mErrorTxtView.setVisibility(View.VISIBLE);
-                    Utils.shopAlterDialog(getActivity(), getResources().getString(R.string.nointernetconnection), false);
-                }
-            }
-        });
+
     }
 
     private void init(View view) {
-        mErrorTxtView = (TextView) view.findViewById(R.id.errorTxtView);
+
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
 //        swipeRefreshLayout.setColorSchemeColors(
 //                Color.RED, Color.GREEN, Color.BLUE, Color.CYAN);
@@ -200,8 +185,7 @@ public class UpComingFragment extends Fragment {
                             bookingList.remove(bookingList.size() - 1);
                             mAdapter.notifyItemRemoved(bookingList.size());
                         } else {
-                            mErrorTxtView.setText(mObject.getString("message"));
-                            mErrorTxtView.setVisibility(View.VISIBLE);
+                            Utils.shopAlterDialog(getActivity(), mObject.getString("message"), false);
                         }
 
                         Toast.makeText(getActivity(), mObject.getString("message"), Toast.LENGTH_SHORT).show();
@@ -224,9 +208,7 @@ public class UpComingFragment extends Fragment {
                     Log.v("error.getKind() >> " + error.getKind(), " MSg >> " + error.getResponse().getStatus());
 
                     if (error.getKind().equals(RetrofitError.Kind.NETWORK)) {
-                        Toast.makeText(getActivity(), getResources().getString(R.string.nointernetconnection), Toast.LENGTH_SHORT).show();
-                        mErrorTxtView.setText(getResources().getString(R.string.nointernetconnection));
-                        mErrorTxtView.setVisibility(View.VISIBLE);
+                        Utils.shopAlterDialog(getActivity(), getResources().getString(R.string.nointernetconnection), false);
                     } else if (error.getResponse().getStatus() == ApiResponseFlags.Unauthorized.getOrdinal()) {
                         Utils.shopAlterDialog(getActivity(), Utils.getErrorMsg(error), true);
                     } else if (error.getResponse().getStatus() == ApiResponseFlags.Not_Found.getOrdinal()) {
@@ -244,9 +226,7 @@ public class UpComingFragment extends Fragment {
                     }
 
                 } catch (Exception ex) {
-                    Toast.makeText(getActivity(), getResources().getString(R.string.nointernetconnection), Toast.LENGTH_SHORT).show();
-                    mErrorTxtView.setText(getResources().getString(R.string.nointernetconnection));
-                    mErrorTxtView.setVisibility(View.VISIBLE);
+                    Utils.shopAlterDialog(getActivity(), getResources().getString(R.string.nointernetconnection), false);
                 }
             }
         });

@@ -105,9 +105,15 @@ public class MainActivity extends BaseActivity implements FragmentDrawer.Fragmen
         mBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HomeFragment fragment = (HomeFragment) getSupportFragmentManager().findFragmentById(R.id.container_body);
-                fragment.addmarkers();
-                onStartDrawerSwipe();
+
+                try {
+                    HomeFragment fragment = (HomeFragment) getSupportFragmentManager().findFragmentById(R.id.container_body);
+                    fragment.addmarkers();
+                    onStartDrawerSwipe();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
             }
         });
     }
