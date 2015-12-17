@@ -31,43 +31,6 @@ public class ImageChooserDialog {
         return new ImageChooserDialog(activity);
     }
 
-
-    /**
-     * @param message
-     */
-    public void Show(String message) {
-        try {
-
-            final Dialog dialog = new Dialog(activity,
-                    R.style.Theme_AppCompat_Translucent);
-            dialog.setContentView(R.layout.dialog_custom_msg);
-            WindowManager.LayoutParams layoutParams = dialog.getWindow()
-                    .getAttributes();
-            layoutParams.dimAmount = 0.6f;
-            dialog.getWindow().addFlags(
-                    WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-            dialog.setCancelable(false);
-            dialog.setCanceledOnTouchOutside(false);
-            TextView textMessage = (TextView) dialog
-                    .findViewById(R.id.textMessage);
-            textMessage.setMovementMethod(new ScrollingMovementMethod());
-            textMessage.setText(message);
-            Button btnOk = (Button) dialog.findViewById(R.id.btnOk);
-
-            btnOk.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    dialog.dismiss();
-                }
-
-            });
-
-            dialog.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     /**
      * @param message
      */

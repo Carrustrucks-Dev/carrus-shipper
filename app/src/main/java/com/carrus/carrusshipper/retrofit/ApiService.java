@@ -63,7 +63,6 @@ public interface ApiService {
     @PUT("/api/v1/shipper/cancelBooking/{bookingId}")
     public void cancelBooking(@Header(AUTHORIZATION) String authorization, @Field("bookingStatus") String bookingStatus, @Path("bookingId") String bookingId,Callback<String> callback);
 
-
     @Multipart
     @PUT("/api/v1/shipper/uploadProfilePic")
     public void uploadProfilePic(@Header(AUTHORIZATION) String authorization,@Part("image") TypedFile body, Callback<String> callback);
