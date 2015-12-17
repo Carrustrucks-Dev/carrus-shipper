@@ -53,7 +53,6 @@ public class ProfileFragment extends Fragment {
 
 
         driverImage = (ImageView) v.findViewById(R.id.driverImage);
-        Picasso.with(getActivity()).load(R.mipmap.notification_icon).transform(new CircleTransform()).into(driverImage);
         driverName = (TextView) v.findViewById(R.id.driverName);
         driverRating = (RatingBar) v.findViewById(R.id.driverRating);
         cmpanyNameTxtView = (TextView) v.findViewById(R.id.cmpanyNameTxtView);
@@ -65,6 +64,8 @@ public class ProfileFragment extends Fragment {
     }
 
     private void setData() {
+        if (mSessionManager.getProfilePic() != null)
+            Picasso.with(getActivity()).load(mSessionManager.getProfilePic()).placeholder(R.mipmap.notification_icon).resize(300,300).transform(new CircleTransform()).into(driverImage);
 
         cmpanyNameTxtView.setText(mSessionManager.getCompanyName());
         driverName.setText(mSessionManager.getName());

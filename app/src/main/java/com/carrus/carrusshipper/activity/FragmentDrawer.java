@@ -85,8 +85,9 @@ public class FragmentDrawer extends Fragment {
         // Inflating view layout
         View layout = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
         final ImageView mProfileIV=(ImageView) layout.findViewById(R.id.profileIV);
-        Picasso.with(getActivity()).load(R.mipmap.ic_launcher).transform(new CircleTransform()).into(mProfileIV);
         mSessionManager=new SessionManager(getActivity());
+        if (mSessionManager.getProfilePic() != null)
+            Picasso.with(getActivity()).load(mSessionManager.getProfilePic()).placeholder(R.mipmap.ic_launcher).resize(300, 300).transform(new CircleTransform()).into(mProfileIV);
         recyclerView = (RecyclerView) layout.findViewById(R.id.drawerList);
         final TextView mCompanyTxtView=(TextView) layout.findViewById(R.id.companyTxtView);
         mCompanyTxtView.setText(mSessionManager.getCompanyName());
