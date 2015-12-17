@@ -119,12 +119,11 @@ public class FragmentDrawer extends Fragment {
             }
         });
 
-
         return layout;
     }
 
     public void loadImage() {
-        if (mSessionManager.getProfilePic() != null)
+        if (mSessionManager.getProfilePic() != null && !mSessionManager.getProfilePic().isEmpty())
             Picasso.with(getActivity()).load(mSessionManager.getProfilePic()).placeholder(R.mipmap.ic_launcher).skipMemoryCache().resize(300, 300).transform(new CircleTransform()).into(mProfileIV);
     }
 

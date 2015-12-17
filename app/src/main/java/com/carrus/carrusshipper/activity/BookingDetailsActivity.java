@@ -244,9 +244,13 @@ public class BookingDetailsActivity extends BaseActivity {
         findViewById(R.id.callBtnIV).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent callIntent = new Intent(Intent.ACTION_CALL);
-                callIntent.setData(Uri.parse("tel:" + mMyBookingDataModel.shipper.phoneNumber));
-                startActivity(callIntent);
+                try {
+                    Intent callIntent = new Intent(Intent.ACTION_CALL);
+                    callIntent.setData(Uri.parse("tel:" + mMyBookingDataModel.shipper.phoneNumber));
+                    startActivity(callIntent);
+                }catch (Exception ex){
+                    ex.printStackTrace();
+                }
             }
         });
 
