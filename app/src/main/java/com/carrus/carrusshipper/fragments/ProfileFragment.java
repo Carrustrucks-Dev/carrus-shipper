@@ -120,7 +120,7 @@ public class ProfileFragment extends Fragment implements
 
     private void setData() {
         if (mSessionManager.getProfilePic() != null)
-            Picasso.with(getActivity()).load(mSessionManager.getProfilePic()).placeholder(R.mipmap.notification_icon).resize(300, 300).transform(new CircleTransform()).into(driverImage);
+            Picasso.with(getActivity()).load(mSessionManager.getProfilePic()).placeholder(R.mipmap.notification_icon).skipMemoryCache().resize(300, 300).transform(new CircleTransform()).into(driverImage);
 
         cmpanyNameTxtView.setText(mSessionManager.getCompanyName());
         driverName.setText(mSessionManager.getName());
@@ -212,7 +212,7 @@ public class ProfileFragment extends Fragment implements
     }
 
 
-    private void uploadImage(String path) {
+    private void uploadImage(final String path) {
         Utils.loading_box(getActivity());
         RestClient.getApiService().uploadProfilePic(mSessionManager.getAccessToken(), new TypedFile("image/*", new File(path)), new Callback<String>() {
             @Override
@@ -225,10 +225,23 @@ public class ProfileFragment extends Fragment implements
                     int status = mObject.getInt("statusCode");
 
                     if (ApiResponseFlags.OK.getOrdinal() == status) {
+                        Log.e("<<>>>>",">> "+mSessionManager.getProfilePic());
                         Toast.makeText(getActivity(), mObject.getString("message"), Toast.LENGTH_SHORT).show();
                         mSessionManager.setProfilePic(mObject.getJSONObject("data").getJSONObject("profilePicture").getString("original"));
+                        Log.e("<<>>>>", ">> " + mSessionManager.getProfilePic());
+                        driverImage.setBackgroundResource(0);
                         if (mSessionManager.getProfilePic() != null)
-                            Picasso.with(getActivity()).load(mSessionManager.getProfilePic()).placeholder(R.mipmap.notification_icon).resize(300, 300).transform(new CircleTransform()).into(driverImage);
+                            Picasso.with(getActivity()).load(mSessionManager.getProfilePic()).placeholder(R.mipmap.notification_icon).skipMemoryCache().resize(300, 300).transform(new CircleTransform()).into(driverImage, new com.squareup.picasso.Callback() {
+                                @Override
+                                public void onSuccess() {
+                                    Log.i("TAG", "Picasso Success Loading Thumbnail - " + path);
+                                }
+
+                                @Override
+                                public void onError() {
+                                    Log.i("TAG", "Picasso Error Loading Thumbnail Small - " + path);
+                                }
+                            });
                         ((MainActivity) getActivity()).onRefreshImageView();
                     } else {
                         Utils.shopAlterDialog(getActivity(), mObject.getString("message"), false);

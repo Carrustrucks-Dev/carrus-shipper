@@ -163,6 +163,7 @@ public class SessionManager {
     }
 
     public void setProfilePic(String profilepic) {
+        editor = pref.edit();
         editor.putString(PROFILEPIC, profilepic);
 
         // commit changes
