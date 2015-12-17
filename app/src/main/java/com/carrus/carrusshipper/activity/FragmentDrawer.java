@@ -123,8 +123,13 @@ public class FragmentDrawer extends Fragment {
     }
 
     public void loadImage() {
-        if (mSessionManager.getProfilePic() != null && !mSessionManager.getProfilePic().isEmpty())
-            Picasso.with(getActivity()).load(mSessionManager.getProfilePic()).placeholder(R.mipmap.ic_launcher).skipMemoryCache().resize(300, 300).transform(new CircleTransform()).into(mProfileIV);
+
+        try {
+            if (mProfileIV != null && getActivity() != null && mSessionManager.getProfilePic() != null && !mSessionManager.getProfilePic().isEmpty())
+                Picasso.with(getActivity()).load(mSessionManager.getProfilePic()).placeholder(R.mipmap.ic_launcher).skipMemoryCache().resize(300, 300).transform(new CircleTransform()).into(mProfileIV);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void setUp(int fragmentId, DrawerLayout drawerLayout) {
