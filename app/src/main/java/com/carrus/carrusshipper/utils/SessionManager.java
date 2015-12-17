@@ -162,6 +162,13 @@ public class SessionManager {
         return pref.getString(PROFILEPIC, "");
     }
 
+    public void setProfilePic(String profilepic) {
+        editor.putString(PROFILEPIC, profilepic);
+
+        // commit changes
+        editor.commit();
+    }
+
     public String getCompanyType() {
         return pref.getString(KEY_COMPANY_TYPE, "Private");
     }

@@ -36,14 +36,15 @@ public class FragmentDrawer extends Fragment {
     private static String TAG = FragmentDrawer.class.getSimpleName();
 
     private RecyclerView recyclerView;
-//    private ActionBarDrawerToggle mDrawerToggle;
+    //    private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
     private NavigationDrawerAdapter adapter;
     private View containerView;
     private static String[] titles = null;
-    private TypedArray icons=null;
+    private TypedArray icons = null;
     private FragmentDrawerListener drawerListener;
     private SessionManager mSessionManager;
+    private ImageView mProfileIV;
 
     public FragmentDrawer() {
 
@@ -84,14 +85,13 @@ public class FragmentDrawer extends Fragment {
                              Bundle savedInstanceState) {
         // Inflating view layout
         View layout = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
-        final ImageView mProfileIV=(ImageView) layout.findViewById(R.id.profileIV);
-        mSessionManager=new SessionManager(getActivity());
-        if (mSessionManager.getProfilePic() != null)
-            Picasso.with(getActivity()).load(mSessionManager.getProfilePic()).placeholder(R.mipmap.ic_launcher).resize(300, 300).transform(new CircleTransform()).into(mProfileIV);
+        mProfileIV = (ImageView) layout.findViewById(R.id.profileIV);
+        mSessionManager = new SessionManager(getActivity());
+        loadImage();
         recyclerView = (RecyclerView) layout.findViewById(R.id.drawerList);
-        final TextView mCompanyTxtView=(TextView) layout.findViewById(R.id.companyTxtView);
+        final TextView mCompanyTxtView = (TextView) layout.findViewById(R.id.companyTxtView);
         mCompanyTxtView.setText(mSessionManager.getCompanyName());
-        final TextView mUserNameTxtView=(TextView) layout.findViewById(R.id.usernameTxtView);
+        final TextView mUserNameTxtView = (TextView) layout.findViewById(R.id.usernameTxtView);
         mUserNameTxtView.setText(mSessionManager.getName());
         adapter = new NavigationDrawerAdapter(getActivity(), getData());
         recyclerView.setAdapter(adapter);
@@ -109,7 +109,7 @@ public class FragmentDrawer extends Fragment {
             }
         }));
 
-        LinearLayout mHeaderLayout=(LinearLayout) layout.findViewById(R.id.nav_header_container);
+        LinearLayout mHeaderLayout = (LinearLayout) layout.findViewById(R.id.nav_header_container);
 
         mHeaderLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,11 +120,13 @@ public class FragmentDrawer extends Fragment {
         });
 
 
-
-
         return layout;
     }
 
+    public void loadImage() {
+        if (mSessionManager.getProfilePic() != null)
+            Picasso.with(getActivity()).load(mSessionManager.getProfilePic()).placeholder(R.mipmap.ic_launcher).resize(300, 300).transform(new CircleTransform()).into(mProfileIV);
+    }
 
     public void setUp(int fragmentId, DrawerLayout drawerLayout) {
         containerView = getActivity().findViewById(fragmentId);
@@ -203,11 +205,11 @@ public class FragmentDrawer extends Fragment {
         }
 
 
-
     }
 
     public interface FragmentDrawerListener {
         public void onDrawerItemSelected(View view, int position);
+
         public void onHeaderSelected();
     }
 }

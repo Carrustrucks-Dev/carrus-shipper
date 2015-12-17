@@ -17,6 +17,7 @@
     <string name="bookingdetails">Booking Details</string>
     <string name="searchshipment">Track Your Shipment</string>
     <string name="addfeedback">Add feedback here...</string>
+    <string name="choose_image">Choose image from...</string>
 
 
 
@@ -27,6 +28,8 @@
     <string name="user_phn">PHONE NUMBER</string>
     <string name="user_add">ADDRESS</string>
     <string name="user_type_company">TYPE OF COMPANY</string>
+    <string name="galery">Galery</string>
+    <string name="camera">Camera</string>
 
 
     <!-- My booking screen text-->

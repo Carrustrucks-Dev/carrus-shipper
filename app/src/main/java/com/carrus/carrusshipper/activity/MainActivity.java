@@ -118,6 +118,10 @@ public class MainActivity extends BaseActivity implements FragmentDrawer.Fragmen
         });
     }
 
+    public void onRefreshImageView(){
+        drawerFragment.loadImage();
+    }
+
     @Override
     public void onDrawerItemSelected(View view, int position) {
         displayView(position);
