@@ -23,7 +23,7 @@ import org.json.JSONObject;
 
 
 public class GcmMessageHandler extends IntentService {
-    public static final int MESSAGE_NOTIFICATION_ID = 435345;
+//    public static final int MESSAGE_NOTIFICATION_ID = 435345;
     private NotificationManager mNotificationManager;
 
     //Device Token:  APA91bG8ySyWfcLn1txW873blkcAWJMbLsBcN4Xy7t03NiPEkkAPVYWgYEOu4O-tEmi_7YWj3Njc-soMYuaY3nNjleBunExvow8BHhYDtd457Zumy-XrU2mylYXJPTevhcHSDVNtQp6k
@@ -89,6 +89,7 @@ public class GcmMessageHandler extends IntentService {
         mBuilder.setSound(uri);
         mBuilder.setVibrate(new long[]{1000, 1000});
         mBuilder.setLights(Color.BLUE, 300, 300);
+        int MESSAGE_NOTIFICATION_ID = (int) System.currentTimeMillis();
         mNotificationManager.notify(MESSAGE_NOTIFICATION_ID, mBuilder.build());
     }
 
@@ -118,6 +119,7 @@ public class GcmMessageHandler extends IntentService {
         mBuilder.setSound(uri);
         mBuilder.setVibrate(new long[]{1000, 1000});
         mBuilder.setLights(Color.BLUE, 300, 300);
+        int MESSAGE_NOTIFICATION_ID = (int) System.currentTimeMillis();
         mNotificationManager.notify(MESSAGE_NOTIFICATION_ID, mBuilder.build());
     }
 

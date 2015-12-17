@@ -216,6 +216,7 @@ public class MainActivity extends BaseActivity implements FragmentDrawer.Fragmen
 
     @Override
     public void onStopDrawerSwip() {
+        mHeaderTextView.setText(getString(R.string.home));
         mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         mMenuButton.setVisibility(View.GONE);
         mBackButton.setVisibility(View.VISIBLE);
@@ -223,6 +224,7 @@ public class MainActivity extends BaseActivity implements FragmentDrawer.Fragmen
 
     @Override
     public void onStartDrawerSwipe() {
+        mHeaderTextView.setText(getResources().getString(R.string.trackshipment));
         mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
         mMenuButton.setVisibility(View.VISIBLE);
         mBackButton.setVisibility(View.GONE);

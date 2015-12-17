@@ -149,7 +149,8 @@ measures height of recyclerview when placed inside scrollview
         Calendar cal = Calendar.getInstance();
         TimeZone tz = cal.getTimeZone();
         DateFormat f = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-        f.setTimeZone(TimeZone.getTimeZone("ISO"));
+//        f.setTimeZone(TimeZone.getTimeZone("ISO"));
+        f.setTimeZone(tz);
         Date d = f.parse(String.valueOf(time));
         DateFormat date = new SimpleDateFormat("dd");
         DateFormat month = new SimpleDateFormat("MMM");
@@ -160,7 +161,8 @@ measures height of recyclerview when placed inside scrollview
         Calendar cal = Calendar.getInstance();
         TimeZone tz = cal.getTimeZone();
         DateFormat f = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-        f.setTimeZone(TimeZone.getTimeZone("ISO"));
+//        f.setTimeZone(TimeZone.getTimeZone("ISO"));
+        f.setTimeZone(tz);
         Date d = f.parse(String.valueOf(time));
         DateFormat date = new SimpleDateFormat("dd MMM");
         return date.format(d);
@@ -170,7 +172,8 @@ measures height of recyclerview when placed inside scrollview
         Calendar cal = Calendar.getInstance();
         TimeZone tz = cal.getTimeZone();
         DateFormat f = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-        f.setTimeZone(TimeZone.getTimeZone("ISO"));
+//        f.setTimeZone(TimeZone.getTimeZone("ISO"));
+        f.setTimeZone(tz);
         Date d = f.parse(String.valueOf(time));
         DateFormat date = new SimpleDateFormat("dd");
         DateFormat month = new SimpleDateFormat("MMM");
@@ -181,7 +184,8 @@ measures height of recyclerview when placed inside scrollview
         Calendar cal = Calendar.getInstance();
         TimeZone tz = cal.getTimeZone();
         DateFormat f = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-        f.setTimeZone(TimeZone.getTimeZone("ISO"));
+//        f.setTimeZone(TimeZone.getTimeZone("ISO"));
+        f.setTimeZone(tz);
         Date d = f.parse(String.valueOf(time));
         DateFormat day = new SimpleDateFormat("EEE");
         return day.format(d);
@@ -191,7 +195,8 @@ measures height of recyclerview when placed inside scrollview
         Calendar cal = Calendar.getInstance();
         TimeZone tz = cal.getTimeZone();
         DateFormat f = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-        f.setTimeZone(TimeZone.getTimeZone("ISO"));
+        f.setTimeZone(tz);
+//        f.setTimeZone(TimeZone.getTimeZone("ISO"));
         Date d = f.parse(String.valueOf(time));
         DateFormat day = new SimpleDateFormat("EEEE, dd MMMM yyyy");
         return day.format(d);
