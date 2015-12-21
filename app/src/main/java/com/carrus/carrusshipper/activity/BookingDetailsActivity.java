@@ -1,7 +1,10 @@
 package com.carrus.carrusshipper.activity;
 
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.LabeledIntent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -51,6 +54,8 @@ import retrofit.client.Response;
  */
 public class BookingDetailsActivity extends BaseActivity {
 
+    public static final String mBroadcastAction = "com.carrus.carrusshipper.broadcast.Details";
+
     private TextView headerTxtView;
     private ImageView mBackBtn, shareBtnIV;
     //    private RecyclerView recyclerview;
@@ -64,6 +69,7 @@ public class BookingDetailsActivity extends BaseActivity {
     private ImageView mProfileIV, locationIV;
     private RelativeLayout topView;
     private SessionManager mSessionManager;
+    private IntentFilter mIntentFilter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -75,6 +81,8 @@ public class BookingDetailsActivity extends BaseActivity {
     }
 
     private void init() {
+        mIntentFilter = new IntentFilter();
+        mIntentFilter.addAction(mBroadcastAction);
         mSessionManager = new SessionManager(this);
         headerTxtView = (TextView) findViewById(R.id.headerTxtView);
         headerTxtView.setText(getResources().getString(R.string.bookingdetails));
@@ -176,6 +184,34 @@ public class BookingDetailsActivity extends BaseActivity {
         }
     }
 
+    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            if (intent.getAction().equals(mBroadcastAction)) {
+                Bundle bundle = intent.getExtras();
+                try {
+                    getBookingDetails(bundle.getString("id"));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
+    };
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        registerReceiver(mReceiver, mIntentFilter);
+    }
+
+    @Override
+    public void onPause() {
+        unregisterReceiver(mReceiver);
+        super.onPause();
+    }
+
     private void initializeClickListner() {
         mBackBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -248,7 +284,7 @@ public class BookingDetailsActivity extends BaseActivity {
                     Intent callIntent = new Intent(Intent.ACTION_CALL);
                     callIntent.setData(Uri.parse("tel:" + mMyBookingDataModel.shipper.phoneNumber));
                     startActivity(callIntent);
-                }catch (Exception ex){
+                } catch (Exception ex) {
                     ex.printStackTrace();
                 }
             }
@@ -324,7 +360,7 @@ public class BookingDetailsActivity extends BaseActivity {
         nameDetailTxtView.setText(mMyBookingDataModel.shipper.firstName + " " + mMyBookingDataModel.shipper.lastName);
         typeDetailTxtView.setText(mMyBookingDataModel.truck.truckType.typeTruckName + ", " + mMyBookingDataModel.truck.truckNumber);
         locationDetailsTxtView.setText(mMyBookingDataModel.pickUp.city + " to " + mMyBookingDataModel.dropOff.city);
-        if (mMyBookingDataModel.crn!=null && !mMyBookingDataModel.crn.equalsIgnoreCase(""))
+        if (mMyBookingDataModel.crn != null && !mMyBookingDataModel.crn.equalsIgnoreCase(""))
             trackDetailsIdTxtView.setText("CRN-" + mMyBookingDataModel.crn);
 
         statusTxtView.setText(mMyBookingDataModel.bookingStatus.replace("_", " "));

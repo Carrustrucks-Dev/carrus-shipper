@@ -16,14 +16,14 @@ import android.util.Log;
 import com.carrus.carrusshipper.R;
 import com.carrus.carrusshipper.activity.BookingDetailsActivity;
 import com.carrus.carrusshipper.activity.MainActivity;
-import com.carrus.carrusshipper.activity.SplashActivity;
+import com.carrus.carrusshipper.fragments.HomeFragment;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import org.json.JSONObject;
 
 
 public class GcmMessageHandler extends IntentService {
-//    public static final int MESSAGE_NOTIFICATION_ID = 435345;
+    //    public static final int MESSAGE_NOTIFICATION_ID = 435345;
     private NotificationManager mNotificationManager;
 
     //Device Token:  APA91bG8ySyWfcLn1txW873blkcAWJMbLsBcN4Xy7t03NiPEkkAPVYWgYEOu4O-tEmi_7YWj3Njc-soMYuaY3nNjleBunExvow8BHhYDtd457Zumy-XrU2mylYXJPTevhcHSDVNtQp6k
@@ -56,6 +56,14 @@ public class GcmMessageHandler extends IntentService {
             } else
                 sendNotification(extras.getString("message").toString(), extras.getString("brand_name").toString(), myObject.getString("bookingId"));
 
+            Bundle bundle = new Bundle();
+            // Storing data into bundle
+            bundle.putString("id", myObject.getString("bookingId"));
+            Intent broadcastIntent = new Intent();
+            broadcastIntent.setAction(BookingDetailsActivity.mBroadcastAction);
+            broadcastIntent.putExtras(bundle);
+            sendBroadcast(broadcastIntent);
+
         } catch (Exception e) {
             sendNotification("", "Carrus Shipper", "");
         }
@@ -78,7 +86,7 @@ public class GcmMessageHandler extends IntentService {
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(getNotificationIcon()).setLargeIcon(BitmapFactory.decodeResource(getResources(),
-                        getNotificationIcon()))
+                        R.mipmap.ic_launcher))
                         .setContentTitle(title)
                         .setStyle(new NotificationCompat.BigTextStyle()
                                 .bigText(msg)).setAutoCancel(true)
