@@ -532,6 +532,7 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
                             break;
 
                         case "CONFIRMED":
+                        case "ON_THE_WAY":
                             statusTxtView.setTextColor(getResources().getColor(R.color.green));
                             break;
 

@@ -331,7 +331,7 @@ public class BookingDetailsActivity extends BaseActivity {
         switch (mMyBookingDataModel.bookingStatus.toLowerCase()) {
             case "on_going":
             case "halt":
-            case "on the way":
+            case "on_the_way":
             case "reached_destination":
                 topView.setBackgroundColor(getResources().getColor(R.color.blue_ongoing));
                 cancelBtn.setVisibility(View.GONE);
