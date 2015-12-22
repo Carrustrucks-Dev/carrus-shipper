@@ -112,12 +112,7 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        v2GetRouteDirection = new GMapV2GetRouteDirection();
-        mSessionManager = new SessionManager(getActivity());
-        mConnectionDetector = new ConnectionDetector(getActivity());
-        mIntentFilter = new IntentFilter();
-        mIntentFilter.addAction(mBroadcastUiAction);
-        mIntentFilter.addAction(mBroadcastAction);
+
     }
 
     @Override
@@ -150,6 +145,12 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
     }
 
     private void init(View view) {
+        v2GetRouteDirection = new GMapV2GetRouteDirection();
+        mSessionManager = new SessionManager(getActivity());
+        mConnectionDetector = new ConnectionDetector(getActivity());
+        mIntentFilter = new IntentFilter();
+        mIntentFilter.addAction(mBroadcastUiAction);
+        mIntentFilter.addAction(mBroadcastAction);
         mProfileIV = (ImageView) view.findViewById(R.id.profileIV);
         nameTxtView = (TextView) view.findViewById(R.id.nameTxtView);
         typeTxtView = (TextView) view.findViewById(R.id.typeTxtView);
