@@ -361,7 +361,7 @@ public class BookingDetailsActivity extends BaseActivity {
         typeDetailTxtView.setText(mMyBookingDataModel.truck.truckType.typeTruckName + ", " + mMyBookingDataModel.truck.truckNumber);
         locationDetailsTxtView.setText(mMyBookingDataModel.pickUp.city + " to " + mMyBookingDataModel.dropOff.city);
         if (mMyBookingDataModel.crn != null && !mMyBookingDataModel.crn.equalsIgnoreCase(""))
-            trackDetailsIdTxtView.setText("CRN-" + mMyBookingDataModel.crn);
+            trackDetailsIdTxtView.setText("CRN - " + mMyBookingDataModel.crn);
 
         statusTxtView.setText(mMyBookingDataModel.bookingStatus.replace("_", " "));
         switch (mMyBookingDataModel.bookingStatus.toLowerCase()) {
