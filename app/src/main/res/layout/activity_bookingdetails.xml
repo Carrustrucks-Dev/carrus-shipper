@@ -35,7 +35,7 @@
                     android:textSize="@dimen/mid_fond" />
 
 
-                <TextView
+                <com.carrus.carrusshipper.utils.CapitalizedTextView
                     android:id="@+id/statusTxtView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

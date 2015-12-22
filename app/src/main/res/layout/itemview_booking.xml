@@ -108,7 +108,7 @@
             android:textSize="@dimen/low_font"
             />
 
-        <TextView
+        <com.carrus.carrusshipper.utils.CapitalizedTextView
             android:id="@+id/statusTxtView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
