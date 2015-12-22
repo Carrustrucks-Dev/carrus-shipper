@@ -12,6 +12,7 @@
         android:background="@color/windowBackground"
         android:drawableLeft="@mipmap/icon_search"
         android:hint="@string/searchshipment"
+        android:cursorVisible="false"
         android:drawablePadding="@dimen/five"
         android:imeOptions="actionSearch"
         android:textSize="@dimen/mid_fond"

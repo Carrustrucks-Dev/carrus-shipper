@@ -156,7 +156,12 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
         locationTxtView = (TextView) view.findViewById(R.id.locationTxtView);
         statusTxtView = (TextView) view.findViewById(R.id.statusTxtView);
         mSearchEdtTxt = (EditText) view.findViewById(R.id.searchEdtTxt);
-
+        mSearchEdtTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mSearchEdtTxt.setCursorVisible(true);
+            }
+        });
 
         mSearchEdtTxt.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
