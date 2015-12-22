@@ -125,13 +125,13 @@ public class UpComingBookingAdapter extends RecyclerView.Adapter {
 //        holder.mTextView.setText(mDataset[position
         if (holder instanceof ViewHolder) {
             try {
-                ((ViewHolder) holder).mDatetxtView.setText(Utils.getDate(myList.get(position).bookingCreatedAt));
+                ((ViewHolder) holder).mDatetxtView.setText(Utils.getDate(myList.get(position).pickUp.date));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
 
             try {
-                ((ViewHolder) holder).mMonthTxtView.setText(Utils.getMonth(myList.get(position).bookingCreatedAt));
+                ((ViewHolder) holder).mMonthTxtView.setText(Utils.getMonth(myList.get(position).pickUp.date));
             } catch (ParseException e) {
                 e.printStackTrace();
             }

@@ -32,7 +32,7 @@
                 android:id="@+id/dateTxtView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="05"
+                android:text=""
                 android:layout_marginBottom="-12dp"
                 android:textColor="@color/windowBackground"
                 android:textSize="@dimen/toolarge_font"
@@ -42,7 +42,7 @@
                 android:id="@+id/monthTxtView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="OCT"
+                android:text=""
                 android:textColor="@color/windowBackground"
                 android:textSize="@dimen/mid_fond"
                 />
