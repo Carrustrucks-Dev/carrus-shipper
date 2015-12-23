@@ -621,6 +621,7 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
             @Override
             public void failure(RetrofitError error) {
                 Utils.loading_box_stop();
+
                 try {
                     Log.v("error.getKind() >> " + error.getKind(), " MSg >> " + error.getResponse().getStatus());
 
@@ -632,6 +633,7 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
                         Toast.makeText(getActivity(), Utils.getErrorMsg(error), Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception ex) {
+                    if(getActivity()!=null)
                     Toast.makeText(getActivity(), getResources().getString(R.string.nointernetconnection), Toast.LENGTH_SHORT).show();
                 }
             }
