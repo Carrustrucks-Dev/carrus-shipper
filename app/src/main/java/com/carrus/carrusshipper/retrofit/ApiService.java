@@ -55,6 +55,7 @@ public interface ApiService {
     @GET("/api/v1/shipper/getOnGoingBookingTrack")
     public void getSingleOnGoingBookingTrack(@Header(AUTHORIZATION) String authorization,  @Query("bookingId") String bookingId, @Query("limit") Integer limit, @Query("skip") Integer skip, @Query("sort") String sort, Callback<String> callback);
 
+
     @FormUrlEncoded
     @PUT("/api/v1/shipper/addRating")
     public void setRating(@Header(AUTHORIZATION) String authorization, @Field("bookingId") String bookingId,@Field("rating") String rating,@Field("comment") String comment, Callback<String> callback);

@@ -14,6 +14,9 @@ import com.carrus.carrusshipper.utils.ConnectionDetector;
 import com.carrus.carrusshipper.utils.SessionManager;
 import com.carrus.carrusshipper.utils.Utils;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -100,7 +103,22 @@ public class RatingDialogActivity extends BaseActivity {
             @Override
             public void success(String s, Response response) {
                 Log.v("" + getClass().getSimpleName(), "Response> " + s);
+                try {
+                    JSONObject mObject = new JSONObject(s);
 
+                    int status = mObject.getInt("statusCode");
+
+                    if (ApiResponseFlags.OK.getOrdinal() == status) {
+                        Toast.makeText(RatingDialogActivity.this, mObject.getString("message"), Toast.LENGTH_SHORT).show();
+                        finish();
+
+                    } else {
+                        Toast.makeText(RatingDialogActivity.this, mObject.getString("message"), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Utils.loading_box_stop();
             }
 
             @Override

@@ -52,7 +52,7 @@ public class GcmMessageHandler extends IntentService {
 //            sendNotification(extras.getString("message").toString(), extras.getString("gcm.notification.title").toString());
             JSONObject myObject = new JSONObject(extras.getString("flag"));
             if (myObject.has("bookingStatus")) {
-
+                sendRatingNotification(extras.getString("message").toString(), extras.getString("brand_name").toString(), myObject.getString("bookingId"));
             } else
                 sendNotification(extras.getString("message").toString(), extras.getString("brand_name").toString(), myObject.getString("bookingId"));
 
@@ -116,7 +116,7 @@ public class GcmMessageHandler extends IntentService {
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(getNotificationIcon()).setLargeIcon(BitmapFactory.decodeResource(getResources(),
-                        getNotificationIcon()))
+                        R.mipmap.ic_launcher))
                         .setContentTitle(title)
                         .setStyle(new NotificationCompat.BigTextStyle()
                                 .bigText(msg)).setAutoCancel(true)
