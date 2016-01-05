@@ -11,11 +11,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.carrus.carrusshipper.R;
 import com.carrus.carrusshipper.adapter.DividerItemDecoration;
+import com.carrus.carrusshipper.adapter.PastBookingAdapter;
 import com.carrus.carrusshipper.adapter.UpComingBookingAdapter;
 import com.carrus.carrusshipper.interfaces.OnLoadMoreListener;
 import com.carrus.carrusshipper.model.MyBookingDataModel;
@@ -58,6 +60,7 @@ public class UpComingFragment extends Fragment {
     private List<MyBookingDataModel> bookingList;
     private MyBookingModel mMyBookingModel;
     private TextView mErrorTxtView;
+    private LinearLayout mErrorLayout;
     /**
      * Static factory method that takes an int parameter,
      * initializes the fragment's arguments, and returns the
@@ -101,6 +104,7 @@ public class UpComingFragment extends Fragment {
 
     private void init(View view) {
         mErrorTxtView=(TextView) view.findViewById(R.id.errorTxtView);
+        mErrorLayout =(LinearLayout) view.findViewById(R.id.errorLayout);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
 //        swipeRefreshLayout.setColorSchemeColors(
 //                Color.RED, Color.GREEN, Color.BLUE, Color.CYAN);
@@ -137,7 +141,7 @@ public class UpComingFragment extends Fragment {
     }
 
     private void getMyBooking() {
-        mErrorTxtView.setVisibility(View.GONE);
+        mErrorLayout.setVisibility(View.GONE);
         if (isRefreshView) {
             swipeRefreshLayout.setRefreshing(true);
             skip=0;
@@ -210,13 +214,17 @@ public class UpComingFragment extends Fragment {
                     Log.v("error.getKind() >> " + error.getKind(), " MSg >> " + error.getResponse().getStatus());
 
                     if (error.getKind().equals(RetrofitError.Kind.NETWORK)) {
-                        Utils.shopAlterDialog(getActivity(), getResources().getString(R.string.nointernetconnection), false);
+//                        Utils.shopAlterDialog(getActivity(), getResources().getString(R.string.nointernetconnection), false);
+                        mAdapter = new UpComingBookingAdapter(getActivity(), bookingList, mRecyclerView);
+                        mRecyclerView.setAdapter(mAdapter);
+                        mErrorTxtView.setText(getResources().getString(R.string.nointernetconnection));
+                        mErrorLayout.setVisibility(View.VISIBLE);
                     } else if (error.getResponse().getStatus() == ApiResponseFlags.Unauthorized.getOrdinal()) {
                         Utils.shopAlterDialog(getActivity(), Utils.getErrorMsg(error), true);
                     } else if (error.getResponse().getStatus() == ApiResponseFlags.Not_Found.getOrdinal()) {
-                        Utils.shopAlterDialog(getActivity(), Utils.getErrorMsg(error), false);
-                        mErrorTxtView.setText(Utils.getErrorMsg(error));
-                        mErrorTxtView.setVisibility(View.VISIBLE);
+                        //Utils.shopAlterDialog(getActivity(), Utils.getErrorMsg(error), false);
+                        mErrorTxtView.setText(getResources().getString(R.string.noupcmingfound));
+                        mErrorLayout.setVisibility(View.VISIBLE);
                     }else if (error.getResponse().getStatus() == ApiResponseFlags.Not_MORE_RESULT.getOrdinal()) {
                         Toast.makeText(getActivity(), Utils.getErrorMsg(error), Toast.LENGTH_SHORT).show();
                         try {
@@ -229,7 +237,10 @@ public class UpComingFragment extends Fragment {
                     }
 
                 } catch (Exception ex) {
-                    Utils.shopAlterDialog(getActivity(), getResources().getString(R.string.nointernetconnection), false);
+                    mAdapter = new UpComingBookingAdapter(getActivity(), bookingList, mRecyclerView);
+                    mRecyclerView.setAdapter(mAdapter);
+                    mErrorTxtView.setText(getResources().getString(R.string.nointernetconnection));
+                    mErrorLayout.setVisibility(View.VISIBLE);
                 }
             }
         });

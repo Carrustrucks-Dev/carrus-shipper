@@ -126,11 +126,9 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter{
 //            btn_expand_toggle.setImageResource(R.mipmap.circle_plus);
 //        }
 
-        int imageResourceId = isExpanded ? R.mipmap.circle_minus
-                : R.mipmap.circle_plus;
+        int imageResourceId = isExpanded ? R.mipmap.btn_minus
+                : R.mipmap.btn_plus;
         btn_expand_toggle.setImageResource(imageResourceId);
-
-
 
         return convertView;
     }
