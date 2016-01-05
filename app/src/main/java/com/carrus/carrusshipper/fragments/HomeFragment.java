@@ -189,15 +189,15 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
         (view.findViewById(R.id.callBtnIV)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-             try{
-                if (selectedNumber != null) {
-                    Intent callIntent = new Intent(Intent.ACTION_CALL);
-                    callIntent.setData(Uri.parse("tel:" + selectedNumber));
-                    startActivity(callIntent);
+                try {
+                    if (selectedNumber != null) {
+                        Intent callIntent = new Intent(Intent.ACTION_CALL);
+                        callIntent.setData(Uri.parse("tel:" + selectedNumber));
+                        startActivity(callIntent);
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
                 }
-            }catch (Exception ex){
-                ex.printStackTrace();
-            }
             }
         });
 
@@ -329,26 +329,28 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
 
         }
 
+        if (mMarkerArray.size() == 1) {
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mMarkerArray.get(0).getPosition(), 6));
+        } else {
+            LatLngBounds.Builder builder = new LatLngBounds.Builder();
+            for (Marker marker : mMarkerArray) {
+                builder.include(marker.getPosition());
+            }
 
-        LatLngBounds.Builder builder = new LatLngBounds.Builder();
-        for (Marker marker : mMarkerArray) {
-            builder.include(marker.getPosition());
-        }
-
-        LatLngBounds bounds = null;
-        try {
-            bounds = builder.build();
-            int padding = 200; // offset from edges of the map in pixels
-            CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+            LatLngBounds bounds = null;
+            try {
+                bounds = builder.build();
+                int padding = 200; // offset from edges of the map in pixels
+                CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
 
 //        googleMap.moveCamera(cu);
 
-            googleMap.animateCamera(cu);
-        } catch (Exception e) {
-            e.printStackTrace();
+                googleMap.animateCamera(cu);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
         }
-
-
 //        if (center != null)
 //            googleMap.moveCamera(center);
 
@@ -397,7 +399,7 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
                     mSearchEdtTxt.setText(mTrackermodel.get(i).crn);
                     mSearchEdtTxt.setEnabled(false);
                     getDriectionToDestination(new LatLng(mTrackermodel.get(i).crruentTracking.get(0).lat, mTrackermodel.get(i).crruentTracking.get(0).longg), mTrackermodel.get(i).pickUp.coordinates.pickUpLat + ", " + mTrackermodel.get(i).pickUp.coordinates.pickUpLong, mTrackermodel.get(i).dropOff.coordinates.dropOffLat + ", " + mTrackermodel.get(i).dropOff.coordinates.dropOffLong, GMapV2GetRouteDirection.MODE_DRIVING, i);
-                }else{
+                } else {
                     isMarkerMatch = true;
                     googleMap.clear();
 
@@ -564,7 +566,7 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
                     e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
-                }catch (IndexOutOfBoundsException e){
+                } catch (IndexOutOfBoundsException e) {
                     e.printStackTrace();
                 }
 
@@ -633,8 +635,8 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
                         Toast.makeText(getActivity(), Utils.getErrorMsg(error), Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception ex) {
-                    if(getActivity()!=null)
-                    Toast.makeText(getActivity(), getResources().getString(R.string.nointernetconnection), Toast.LENGTH_SHORT).show();
+                    if (getActivity() != null)
+                        Toast.makeText(getActivity(), getResources().getString(R.string.nointernetconnection), Toast.LENGTH_SHORT).show();
                 }
             }
         });
