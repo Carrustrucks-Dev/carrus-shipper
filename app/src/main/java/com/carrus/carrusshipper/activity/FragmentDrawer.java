@@ -126,7 +126,7 @@ public class FragmentDrawer extends Fragment {
 
         try {
             if (mProfileIV != null && getActivity() != null && mSessionManager.getProfilePic() != null && !mSessionManager.getProfilePic().isEmpty())
-                Picasso.with(getActivity()).load(mSessionManager.getProfilePic()).placeholder(R.mipmap.ic_launcher).skipMemoryCache().resize(300, 300).transform(new CircleTransform()).into(mProfileIV);
+                Picasso.with(getActivity()).load(mSessionManager.getProfilePic()).placeholder(R.mipmap.icon_placeholder).skipMemoryCache().resize(300, 300).transform(new CircleTransform()).into(mProfileIV);
         } catch (Exception e) {
             e.printStackTrace();
         }

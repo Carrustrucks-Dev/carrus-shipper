@@ -120,7 +120,7 @@ public class ProfileFragment extends Fragment implements
 
     private void setData() {
         if (mSessionManager.getProfilePic() != null)
-            Picasso.with(getActivity()).load(mSessionManager.getProfilePic()).placeholder(R.mipmap.notification_icon).skipMemoryCache().resize(300, 300).transform(new CircleTransform()).into(driverImage);
+            Picasso.with(getActivity()).load(mSessionManager.getProfilePic()).placeholder(R.mipmap.icon_placeholder).skipMemoryCache().resize(300, 300).transform(new CircleTransform()).into(driverImage);
 
         cmpanyNameTxtView.setText(mSessionManager.getCompanyName());
         driverName.setText(mSessionManager.getName());
