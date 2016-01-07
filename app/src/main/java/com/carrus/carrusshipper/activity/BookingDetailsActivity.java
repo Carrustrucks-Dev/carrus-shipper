@@ -475,7 +475,7 @@ public class BookingDetailsActivity extends BaseActivity {
 
         // Adding child data
         ArrayList<ExpandableChildItem> fleetowner = new ArrayList<ExpandableChildItem>();
-        fleetowner.add(new ExpandableChildItem("", mMyBookingDataModel.truckerNote, 1));
+        fleetowner.add(new ExpandableChildItem("", mMyBookingDataModel.quoteNote, 1));
 
         listDataChild.put(listDataHeader.get(0), cargoDetails); // Header, Child data
         listDataChild.put(listDataHeader.get(1), notes);

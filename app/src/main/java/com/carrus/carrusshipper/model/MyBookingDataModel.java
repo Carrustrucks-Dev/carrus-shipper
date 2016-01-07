@@ -28,6 +28,9 @@ public class MyBookingDataModel implements Serializable {
     @SerializedName("jobNote")
     public String jobNote;
 
+    @SerializedName("quoteNote")
+    public String quoteNote;
+
     @SerializedName("bookingStatus")
     public String bookingStatus;
 
