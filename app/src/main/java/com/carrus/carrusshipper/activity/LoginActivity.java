@@ -26,7 +26,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 import static com.carrus.carrusshipper.utils.Constants.DEVICE_TYPE;
-import static com.carrus.carrusshipper.utils.Constants.ISREMEMBER;
+import static com.carrus.carrusshipper.utils.Constants.REMEMBERME;
 import static com.carrus.carrusshipper.utils.Constants.PASSWORD;
 import static com.carrus.carrusshipper.utils.Constants.SENDER_ID;
 import static com.carrus.carrusshipper.utils.Constants.USERNAME;
@@ -39,7 +39,7 @@ public class LoginActivity extends BaseActivity {
     private EditText mEmailidEdtTxt, mPasswordEdtTxt;
     private SessionManager mSessionManager;
     private ConnectionDetector mConnectionDetector;
-    private CheckBox mRemembermeChkbox;
+    private CheckBox mRememberCheckbox;
 
 
     @Override
@@ -56,7 +56,7 @@ public class LoginActivity extends BaseActivity {
 
         mEmailidEdtTxt = (EditText) findViewById(R.id.emailLoginET);
         mPasswordEdtTxt = (EditText) findViewById(R.id.passwdLoginET);
-        mRemembermeChkbox = (CheckBox) findViewById(R.id.remembermeChkBox);
+        mRememberCheckbox = (CheckBox) findViewById(R.id.remembermeChkBox);
         mSessionManager = new SessionManager(this);
         getDeviceToken();
         getRememberMe();
@@ -117,7 +117,7 @@ public class LoginActivity extends BaseActivity {
                     int status = mObject.getInt("statusCode");
 
                     if (ApiResponseFlags.OK.getOrdinal() == status) {
-                        if (mRemembermeChkbox.isChecked())
+                        if (mRememberCheckbox.isChecked())
                             setRememberMe();
                         else
                             clearRememberMe();
@@ -163,7 +163,7 @@ public class LoginActivity extends BaseActivity {
     private void setRememberMe() {
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SharedPreferences.Editor mEditor = prefs.edit();
-        mEditor.putBoolean(ISREMEMBER, true);
+        mEditor.putBoolean(REMEMBERME, true);
         mEditor.putString(USERNAME, mEmailidEdtTxt.getText().toString().trim());
         mEditor.putString(PASSWORD, mPasswordEdtTxt.getText().toString().trim());
         mEditor.commit();
@@ -172,8 +172,8 @@ public class LoginActivity extends BaseActivity {
 
     private void getRememberMe() {
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        if (prefs.getBoolean(ISREMEMBER, false)) {
-            mRemembermeChkbox.setChecked(true);
+        if (prefs.getBoolean(REMEMBERME, false)) {
+            mRememberCheckbox.setChecked(true);
             mEmailidEdtTxt.setText(prefs.getString(USERNAME, ""));
             mPasswordEdtTxt.setText(prefs.getString(PASSWORD, ""));
         }
