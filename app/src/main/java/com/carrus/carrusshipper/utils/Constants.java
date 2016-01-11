@@ -12,6 +12,9 @@ public class Constants {
     public static final String SENDER_ID="57143499411";
     public static final String DEVICE_TYPE="ANDROID";
     public static final String selectedId="selectedTrackingId";
+    public static final String ISREMEMBER = "isRemember";
+    public static final String USERNAME = "username";
+    public static final String PASSWORD = "password";
     public static final int LIMIT=10;
 //    public static final String SORT="ASC";
     public static final String SORT="DESC";
