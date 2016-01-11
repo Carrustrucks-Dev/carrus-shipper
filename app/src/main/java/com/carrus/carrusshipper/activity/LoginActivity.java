@@ -36,7 +36,7 @@ import static com.carrus.carrusshipper.utils.Constants.USERNAME;
  */
 public class LoginActivity extends BaseActivity {
 
-    private EditText mEmailidEdtTxt, mPasswordEdtTxt;
+    private EditText mEmailEdtTxt, mPasswordEdtTxt;
     private SessionManager mSessionManager;
     private ConnectionDetector mConnectionDetector;
     private CheckBox mRememberCheckbox;
@@ -54,7 +54,7 @@ public class LoginActivity extends BaseActivity {
 
     private void init() {
 
-        mEmailidEdtTxt = (EditText) findViewById(R.id.emailLoginET);
+        mEmailEdtTxt = (EditText) findViewById(R.id.emailLoginET);
         mPasswordEdtTxt = (EditText) findViewById(R.id.passwdLoginET);
         mRememberCheckbox = (CheckBox) findViewById(R.id.remembermeChkBox);
         mSessionManager = new SessionManager(this);
@@ -69,15 +69,15 @@ public class LoginActivity extends BaseActivity {
                 if (mSessionManager.getDeviceToken().isEmpty()) {
                     getDeviceToken();
                 }
-                if (mEmailidEdtTxt.getText().toString().trim().isEmpty()) {
-                    mEmailidEdtTxt.setError(getResources().getString(R.string.email_required));
-                    mEmailidEdtTxt.requestFocus();
+                if (mEmailEdtTxt.getText().toString().trim().isEmpty()) {
+                    mEmailEdtTxt.setError(getResources().getString(R.string.email_required));
+                    mEmailEdtTxt.requestFocus();
                 } else if (mPasswordEdtTxt.getText().toString().trim().isEmpty()) {
                     mPasswordEdtTxt.setError(getResources().getString(R.string.passwd_required));
                     mPasswordEdtTxt.requestFocus();
-                } else if (!Utils.isValidEmail(mEmailidEdtTxt.getText().toString().trim())) {
-                    mEmailidEdtTxt.setError(getResources().getString(R.string.validemail_required));
-                    mEmailidEdtTxt.requestFocus();
+                } else if (!Utils.isValidEmail(mEmailEdtTxt.getText().toString().trim())) {
+                    mEmailEdtTxt.setError(getResources().getString(R.string.validemail_required));
+                    mEmailEdtTxt.requestFocus();
                 } else {
                     if (mConnectionDetector.isConnectingToInternet())
                         verifyLoggedIn();
@@ -107,7 +107,7 @@ public class LoginActivity extends BaseActivity {
 
     private void verifyLoggedIn() {
         Utils.loading_box(LoginActivity.this);
-        RestClient.getApiService().login(mEmailidEdtTxt.getText().toString().trim(), mPasswordEdtTxt.getText().toString().trim(), DEVICE_TYPE, Utils.getDeviceName(), mSessionManager.getDeviceToken(), new Callback<String>() {
+        RestClient.getApiService().login(mEmailEdtTxt.getText().toString().trim(), mPasswordEdtTxt.getText().toString().trim(), DEVICE_TYPE, Utils.getDeviceName(), mSessionManager.getDeviceToken(), new Callback<String>() {
             @Override
             public void success(String s, Response response) {
                 Log.v("" + getClass().getSimpleName(), "Response> " + s);
@@ -164,7 +164,7 @@ public class LoginActivity extends BaseActivity {
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SharedPreferences.Editor mEditor = prefs.edit();
         mEditor.putBoolean(REMEMBERME, true);
-        mEditor.putString(USERNAME, mEmailidEdtTxt.getText().toString().trim());
+        mEditor.putString(USERNAME, mEmailEdtTxt.getText().toString().trim());
         mEditor.putString(PASSWORD, mPasswordEdtTxt.getText().toString().trim());
         mEditor.commit();
 
@@ -174,7 +174,7 @@ public class LoginActivity extends BaseActivity {
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         if (prefs.getBoolean(REMEMBERME, false)) {
             mRememberCheckbox.setChecked(true);
-            mEmailidEdtTxt.setText(prefs.getString(USERNAME, ""));
+            mEmailEdtTxt.setText(prefs.getString(USERNAME, ""));
             mPasswordEdtTxt.setText(prefs.getString(PASSWORD, ""));
         }
     }
