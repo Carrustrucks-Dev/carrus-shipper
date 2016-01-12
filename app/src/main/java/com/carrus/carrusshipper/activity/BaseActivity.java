@@ -14,7 +14,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 /**
  * Created by Muddassir on 6/10/15.
  */
-public class BaseActivity extends FragmentActivity {
+public abstract class BaseActivity extends FragmentActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
