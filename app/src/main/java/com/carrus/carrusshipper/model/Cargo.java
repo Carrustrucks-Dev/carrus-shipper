@@ -10,7 +10,7 @@ import java.io.Serializable;
 public class Cargo implements Serializable {
 
     @SerializedName("weight")
-    public Long weight;
+    public String weight;
 
     public CargoDetails cargoType;
 
