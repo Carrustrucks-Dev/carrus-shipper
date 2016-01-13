@@ -3,8 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:paddingTop="@dimen/ten"
-    android:paddingBottom="@dimen/ten"
+    android:layout_marginTop="@dimen/ten"
+    android:layout_marginBottom="@dimen/ten"
     android:orientation="horizontal"
     android:weightSum="1">
 
@@ -25,14 +25,13 @@
             android:gravity="center"
             android:layout_centerInParent="true"
             android:layout_height="wrap_content"
-
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/dateTxtView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=""
+                android:text="25"
                 android:layout_marginBottom="-12dp"
                 android:textColor="@color/windowBackground"
                 android:textSize="@dimen/toolarge_font"
@@ -42,7 +41,7 @@
                 android:id="@+id/monthTxtView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=""
+                android:text="Mar"
                 android:textColor="@color/windowBackground"
                 android:textSize="@dimen/mid_fond"
                 />
@@ -53,7 +52,7 @@
 
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:paddingLeft="@dimen/five"
         android:paddingRight="@dimen/five"

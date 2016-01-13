@@ -239,7 +239,7 @@ public class ProfileFragment extends Fragment implements
                         Log.e("<<>>>>", ">> " + mSessionManager.getProfilePic());
                         driverImage.setBackgroundResource(0);
                         if (mSessionManager.getProfilePic() != null)
-                            Picasso.with(getActivity()).load(mSessionManager.getProfilePic()).placeholder(R.mipmap.notification_icon).skipMemoryCache().resize(300, 300).transform(new CircleTransform()).into(driverImage, new com.squareup.picasso.Callback() {
+                            Picasso.with(getActivity()).load(mSessionManager.getProfilePic()).placeholder(R.mipmap.icon_placeholder).skipMemoryCache().resize(300, 300).transform(new CircleTransform()).into(driverImage, new com.squareup.picasso.Callback() {
                                 @Override
                                 public void onSuccess() {
                                     Log.i("TAG", "Picasso Success Loading Thumbnail - " + path);

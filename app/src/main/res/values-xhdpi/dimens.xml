@@ -1,0 +1,5 @@
+<resources>
+       <!--Text Sizes-->
+    <dimen name="big_font">14sp</dimen>
+    <dimen name="toolarge_font">25sp</dimen>
+</resources>
