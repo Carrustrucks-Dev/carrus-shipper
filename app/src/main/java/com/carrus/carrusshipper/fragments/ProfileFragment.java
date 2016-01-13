@@ -43,7 +43,7 @@ import retrofit.mime.TypedFile;
  * A simple {@link Fragment} subclass.
  */
 public class ProfileFragment extends Fragment implements
-        ImageChooserListener {
+        ImageChooserListener, View.OnClickListener {
 
     private ImageView driverImage;
     private TextView driverName;
@@ -66,7 +66,7 @@ public class ProfileFragment extends Fragment implements
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_driver_profile, container, false);
         init(v);
-        initlializeListener(v);
+        initializeListener(v);
         return v;
     }
 
@@ -99,21 +99,22 @@ public class ProfileFragment extends Fragment implements
 
     }
 
-    private void initlializeListener(View v) {
-        v.findViewById(R.id.changeProfileImageBtn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ImageChooserDialog.With(getActivity()).Show(getResources().getString(R.string.choose_image), new ImageChooserDialog.OnButtonClicked() {
-                    @Override
-                    public void onGaleryClicked() {
-                        chooseImage();
-                    }
+    private void initializeListener(View v) {
+        v.findViewById(R.id.changeProfileImageBtn).setOnClickListener(this);
+        v.findViewById(R.id.imgLayout).setOnClickListener(this);
+    }
 
-                    @Override
-                    public void onCameraClicked() {
-                        takePicture();
-                    }
-                });
+    @Override
+    public void onClick(View v) {
+        ImageChooserDialog.With(getActivity()).Show(getResources().getString(R.string.choose_image), new ImageChooserDialog.OnButtonClicked() {
+            @Override
+            public void onGaleryClicked() {
+                chooseImage();
+            }
+
+            @Override
+            public void onCameraClicked() {
+                takePicture();
             }
         });
     }
