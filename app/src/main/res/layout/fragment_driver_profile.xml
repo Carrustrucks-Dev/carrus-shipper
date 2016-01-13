@@ -29,7 +29,7 @@
                         android:id="@+id/driverImage"
                         android:layout_width="120dp"
                         android:layout_height="120dp"
-                        android:background="@mipmap/notification_icon" />
+                         />
 
                     <Button
                         android:id="@+id/changeProfileImageBtn"
