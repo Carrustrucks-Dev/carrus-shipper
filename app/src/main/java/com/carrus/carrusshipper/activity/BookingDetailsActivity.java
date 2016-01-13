@@ -40,6 +40,7 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -457,7 +458,7 @@ public class BookingDetailsActivity extends BaseActivity {
 
         timeDropTxtView.setText(mMyBookingDataModel.dropOff.time);
         paymentModeTxtView.setText(mMyBookingDataModel.paymentMode);
-        totalCostTxtView.setText("₹ " + mMyBookingDataModel.acceptPrice);
+        totalCostTxtView.setText("₹ " + NumberFormat.getInstance().format(Long.valueOf(mMyBookingDataModel.acceptPrice)));
         namePickUpTxtView.setText(mMyBookingDataModel.pickUp.companyName);
         phonePickUpTxtView.setText(mMyBookingDataModel.pickUp.contactNumber);
         codePickUpTxtView.setText(mMyBookingDataModel.pickUp.tin);

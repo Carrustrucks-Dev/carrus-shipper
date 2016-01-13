@@ -42,7 +42,7 @@
     <string name="password">Password</string>
     <string name="submit">SUBMIT</string>
     <string name="forgotpasswd">FORGOT PASSWORD ?</string>
-    <string name="rememberme">Remember me</string>
+    <string name="rememberme">&#160;&#160;Remember me</string>
 
 
 
