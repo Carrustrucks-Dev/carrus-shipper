@@ -163,7 +163,7 @@ public class MainActivity extends BaseActivity implements FragmentDrawer.Fragmen
             case 2:
                 if (selectedPos != 2) {
 //                    selectedPos = 2;
-                    Intent callIntent = new Intent(Intent.ACTION_CALL);
+                    Intent callIntent = new Intent(Intent.ACTION_DIAL);
                     callIntent.setData(Uri.parse("tel:" + Constants.CONTACT_CARRUS));
                     startActivity(callIntent);
                 }
