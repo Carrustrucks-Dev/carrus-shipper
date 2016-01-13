@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,6 +54,7 @@ public class ProfileFragment extends Fragment implements
     private ImageChooserManager imageChooserManager;
     private int chooserType;
     private String mediaPath;
+    private ProgressBar progressBar;
 
 
     public ProfileFragment() {
@@ -96,6 +98,10 @@ public class ProfileFragment extends Fragment implements
         phoneTxtView = (TextView) v.findViewById(R.id.phoneTxtView);
         addressTxtView = (TextView) v.findViewById(R.id.addressTxtView);
         companyTypeTxtView = (TextView) v.findViewById(R.id.companyTypeTxtView);
+        progressBar=(ProgressBar) v.findViewById(R.id.pBar);
+        progressBar.getIndeterminateDrawable().setColorFilter(
+                getResources().getColor(R.color.windowBackground),
+                android.graphics.PorterDuff.Mode.SRC_IN);
 
     }
 
@@ -214,7 +220,8 @@ public class ProfileFragment extends Fragment implements
 
 
     private void uploadImage(final String path) {
-        Utils.loading_box(getActivity());
+        progressBar.setVisibility(View.VISIBLE);
+//        Utils.loading_box(getActivity());
         RestClient.getApiService().uploadProfilePic(mSessionManager.getAccessToken(), new TypedFile("image/*", new File(path)), new Callback<String>() {
             @Override
             public void success(String s, Response response) {
@@ -250,13 +257,14 @@ public class ProfileFragment extends Fragment implements
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
-                Utils.loading_box_stop();
+                progressBar.setVisibility(View.GONE);
+//                Utils.loading_box_stop();
             }
 
             @Override
             public void failure(RetrofitError error) {
-                Utils.loading_box_stop();
+                progressBar.setVisibility(View.GONE);
+//                Utils.loading_box_stop();
                 try {
                     Log.v("error.getKind() >> " + error.getKind(), " MSg >> " + error.getResponse().getStatus());
 
