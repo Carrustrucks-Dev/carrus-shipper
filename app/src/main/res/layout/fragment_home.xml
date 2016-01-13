@@ -107,4 +107,26 @@
 
     </RelativeLayout>
 
+    <LinearLayout
+        android:id="@+id/errorLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:visibility="gone"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/errorTxtView"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="left|center_vertical"
+            android:padding="@dimen/ten"
+            android:text=""
+            android:textColor="@color/windowBackground"
+            android:textSize="@dimen/big_font" />
+
+    </LinearLayout>
+
 </RelativeLayout>

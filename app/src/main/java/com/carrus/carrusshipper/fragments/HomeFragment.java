@@ -21,6 +21,7 @@ import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -91,12 +92,13 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
     private RelativeLayout mBottomView;
     private boolean isMarkerMatch = false;
     private ImageView mProfileIV;
-    private TextView nameTxtView, typeTxtView, locationTxtView, statusTxtView;
+    private TextView nameTxtView, typeTxtView, locationTxtView, statusTxtView, errorTxtView;
     private String selectedNumber = null;
     private IntentFilter mIntentFilter;
     private Marker now;
     private EditText mSearchEdtTxt;
     private int selectedPos = 0;
+    private LinearLayout mErrorLayout;
 
 
     public HomeFragment() {
@@ -157,6 +159,8 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
         locationTxtView = (TextView) view.findViewById(R.id.locationTxtView);
         statusTxtView = (TextView) view.findViewById(R.id.statusTxtView);
         mSearchEdtTxt = (EditText) view.findViewById(R.id.searchEdtTxt);
+        mErrorLayout=(LinearLayout) view.findViewById(R.id.errorLayout);
+        errorTxtView=(TextView) view.findViewById(R.id.errorTxtView);
         mSearchEdtTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -594,6 +598,7 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
     }
 
     private void getOnGoingBookingTrack() {
+        mErrorLayout.setVisibility(View.GONE);
         Utils.loading_box(getActivity());
 
         RestClient.getApiService().getAllOnGoingBookingTrack(mSessionManager.getAccessToken(), 0, 0, Constants.SORT, new Callback<String>() {
@@ -632,7 +637,9 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
                     } else if (error.getResponse().getStatus() == ApiResponseFlags.Unauthorized.getOrdinal()) {
                         Utils.shopAlterDialog(getActivity(), Utils.getErrorMsg(error), true);
                     } else if (error.getResponse().getStatus() == ApiResponseFlags.Not_Found.getOrdinal()) {
-                        Toast.makeText(getActivity(), Utils.getErrorMsg(error), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getActivity(), Utils.getErrorMsg(error), Toast.LENGTH_SHORT).show();
+                        mErrorLayout.setVisibility(View.VISIBLE);
+                        errorTxtView.setText(Utils.getErrorMsg(error));
                     }
                 } catch (Exception ex) {
                     if (getActivity() != null)
