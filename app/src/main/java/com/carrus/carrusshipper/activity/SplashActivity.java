@@ -80,8 +80,8 @@ public class SplashActivity extends BaseActivity {
                                 alertDialog.setMessage(getString(R.string.critical_update_message));
                                 alertDialog.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
-                                        goToAppStore();
                                         dialog.dismiss();
+                                        goToAppStore();
                                     }
                                 });
                                 alertDialog.show();
@@ -93,8 +93,8 @@ public class SplashActivity extends BaseActivity {
                             alertDialog.setMessage(getString(R.string.update_message));
                             alertDialog.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
-                                    goToAppStore();
                                     dialog.dismiss();
+                                    goToAppStore();
                                 }
                             });
                             alertDialog.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
