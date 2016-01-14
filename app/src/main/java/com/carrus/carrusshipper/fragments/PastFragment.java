@@ -17,7 +17,6 @@ import android.widget.Toast;
 import com.carrus.carrusshipper.R;
 import com.carrus.carrusshipper.adapter.DividerItemDecoration;
 import com.carrus.carrusshipper.adapter.PastBookingAdapter;
-import com.carrus.carrusshipper.adapter.UpComingBookingAdapter;
 import com.carrus.carrusshipper.interfaces.OnLoadMoreListener;
 import com.carrus.carrusshipper.model.MyBookingDataModel;
 import com.carrus.carrusshipper.model.MyBookingModel;

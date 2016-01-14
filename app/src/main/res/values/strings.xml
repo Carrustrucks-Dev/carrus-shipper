@@ -19,6 +19,8 @@
     <string name="searchshipment">Track Your Shipment</string>
     <string name="addfeedback">Add feedback here...</string>
     <string name="choose_image">Choose image from...</string>
+    <string name="update_message">Do you want to update the app?</string>
+    <string name="critical_update_message">Critical update found, you have to update the app</string>
 
 
 

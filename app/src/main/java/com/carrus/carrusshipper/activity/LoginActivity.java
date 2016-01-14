@@ -26,8 +26,8 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 import static com.carrus.carrusshipper.utils.Constants.DEVICE_TYPE;
-import static com.carrus.carrusshipper.utils.Constants.REMEMBERME;
 import static com.carrus.carrusshipper.utils.Constants.PASSWORD;
+import static com.carrus.carrusshipper.utils.Constants.REMEMBERME;
 import static com.carrus.carrusshipper.utils.Constants.SENDER_ID;
 import static com.carrus.carrusshipper.utils.Constants.USERNAME;
 

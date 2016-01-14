@@ -67,4 +67,8 @@ public interface ApiService {
     @Multipart
     @PUT("/api/v1/shipper/uploadProfilePic")
     public void uploadProfilePic(@Header(AUTHORIZATION) String authorization,@Part("image") TypedFile body, Callback<String> callback);
+
+    @GET("/api/v1/appVersion")
+    void getAppVersion(@Query("appType") String appType, Callback<String> callback);
+
 }

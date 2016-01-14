@@ -2,8 +2,8 @@ package com.carrus.carrusshipper.utils;
 
 
 import com.carrus.carrusshipper.R;
-
 import com.crashlytics.android.Crashlytics;
+
 import io.fabric.sdk.android.Fabric;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 

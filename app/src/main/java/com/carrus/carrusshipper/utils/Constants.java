@@ -5,6 +5,7 @@ package com.carrus.carrusshipper.utils;
  */
 public class Constants {
 
+    public static final String APPTYPE="SHIPPER";
     public static String ROOT ="http://52.25.204.93:8080";
 //    public static String ROOT ="http://52.25.204.93:3005";
 //    public static String ROOT ="http://52.25.204.93:3006";

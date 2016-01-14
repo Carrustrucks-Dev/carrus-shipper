@@ -1,6 +1,5 @@
 package com.carrus.carrusshipper.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
