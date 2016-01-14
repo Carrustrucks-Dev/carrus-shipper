@@ -100,7 +100,7 @@ public class ProfileFragment extends Fragment implements
         companyTypeTxtView = (TextView) v.findViewById(R.id.companyTypeTxtView);
         progressBar=(ProgressBar) v.findViewById(R.id.pBar);
         progressBar.getIndeterminateDrawable().setColorFilter(
-                getResources().getColor(R.color.windowBackground),
+                getResources().getColor(R.color.colorPrimary),
                 android.graphics.PorterDuff.Mode.SRC_IN);
 
     }
