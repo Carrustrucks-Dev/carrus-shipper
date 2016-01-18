@@ -24,7 +24,6 @@
     <string name="critical_update_message">Critical update found, you have to update the app</string>
 
 
-
     <!-- My Profile screen text-->
     <string name="company_name">COMPANY NAME</string>
     <string name="user_name">NAME</string>
@@ -49,7 +48,6 @@
     <string name="forgotpasswd">FORGOT PASSWORD ?</string>
     <string name="rememberme">&#160;&#160;Remember me</string>
     <string name="signup">NOT A MEMBER YET? SIGN UP</string>
-
 
 
     <!-- Signout Dialog-->
@@ -112,7 +110,8 @@
     <string name="podnotfound">No POD found</string>
     <string name="invoicenotfound">No invoice found</string>
     <string name="consignmntnotfound">No consignment note found</string>
-
+    <string name="fieldnotempty">Field cann\'t be empty</string>
+    <string name="select_value">Please select one value</string>
     <string name="noupcmingfound">No upcoming booking found</string>
     <string name="nopastfound">No past booking found</string>
 

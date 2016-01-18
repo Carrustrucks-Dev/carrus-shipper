@@ -107,6 +107,8 @@
                 <TextView
                     android:id="@+id/typeOfCompanyTV"
                     style="@style/App_EditTextStyle"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
                     android:text="@string/typecompany"
                     android:textColor="@color/gray_text" />
 
@@ -134,7 +136,7 @@
                 android:id="@+id/addressET"
                 style="@style/App_EditTextStyle"
                 android:hint="@string/address"
-                android:inputType="number" />
+                android:inputType="text" />
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -153,6 +155,8 @@
                     android:id="@+id/stateTV"
                     style="@style/App_EditTextStyle"
                     android:text="@string/state"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
                     android:textColor="@color/gray_text" />
 
             </RelativeLayout>
@@ -173,6 +177,8 @@
                 <TextView
                     android:id="@+id/cityTxtView"
                     style="@style/App_EditTextStyle"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
                     android:text="@string/city"
                     android:textColor="@color/gray_text" />
 

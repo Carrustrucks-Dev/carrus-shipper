@@ -42,6 +42,7 @@ import java.util.Set;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+
 import static com.carrus.carrusshipper.utils.Constants.COUNTRYNAME;
 
 /**
@@ -60,7 +61,7 @@ public class SignUpActivity extends BaseActivity {
     private List<String> cities = new ArrayList<>();
     private RadioButton mShipperRadioBtn, mBrokerRadioBtn;
     private String USERTYPE = "SHIPPER";
-    private EditText mFirstNameET, mLastNameET, mPasswordET, mCnfrmPasswordET, mPhoneNumberET, mCompanyNameET, mAddressET, mPinCodeET;
+    private EditText mFirstNameET, mLastNameET, mPasswordET, mCnfrmPasswordET, mPhoneNumberET, mCompanyNameET, mAddressET, mPinCodeET, mEmailET;
 
 
     @Override
@@ -96,6 +97,7 @@ public class SignUpActivity extends BaseActivity {
         mAddressET = (EditText) findViewById(R.id.addressET);
         mPinCodeET = (EditText) findViewById(R.id.zipCodeET);
         mCnfrmPasswordET = (EditText) findViewById(R.id.cnfrmPasswordET);
+        mEmailET = (EditText) findViewById(R.id.emailET);
     }
 
     private void initializeListener() {
@@ -112,6 +114,7 @@ public class SignUpActivity extends BaseActivity {
                 if (position != 0) {
                     mTypeCompanyTxtView.setText(mPartnerList.get(position).getPartnershipName());
                     mTypeCompanyTxtView.setTextColor(getResources().getColor(android.R.color.black));
+                    mTypeCompanyTxtView.setError(null);
                 } else {
                     mTypeCompanyTxtView.setText(getResources().getString(R.string.typecompany));
                     mTypeCompanyTxtView.setTextColor(getResources().getColor(R.color.gray_text));
@@ -130,6 +133,7 @@ public class SignUpActivity extends BaseActivity {
                 if (position != 0) {
                     mStateTxtView.setText(states.get(position));
                     mStateTxtView.setTextColor(getResources().getColor(android.R.color.black));
+                    mStateTxtView.setError(null);
                     mCountryTxtView.setText(COUNTRYNAME);
                     mCountryTxtView.setTextColor(getResources().getColor(android.R.color.black));
                 } else {
@@ -152,6 +156,7 @@ public class SignUpActivity extends BaseActivity {
                 if (position != 0) {
                     mCityTxtView.setText(states.get(position));
                     mCityTxtView.setTextColor(getResources().getColor(android.R.color.black));
+                    mCityTxtView.setError(null);
                 } else {
                     mCityTxtView.setText(getResources().getString(R.string.city));
                     mCityTxtView.setTextColor(getResources().getColor(R.color.gray_text));
@@ -185,6 +190,16 @@ public class SignUpActivity extends BaseActivity {
 
             }
         });
+
+        findViewById(R.id.submitBtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isFieldFilled()){
+                    Toast.makeText(SignUpActivity.this, "Field Filled", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
     }
 
     public String loadJSONFromAsset() {
@@ -302,10 +317,48 @@ public class SignUpActivity extends BaseActivity {
     }
 
 
-    private boolean isFieldFilled(){
+    private boolean isFieldFilled() {
 
-
+        if (checkETEmpty(mFirstNameET))
+            return false;
+        else if (checkETEmpty(mLastNameET))
+            return false;
+        else if (checkETEmpty(mEmailET))
+            return false;
+        else if (checkETEmpty(mCompanyNameET))
+            return false;
+        else if (mTypeCompanyTxtView.getText().toString().equalsIgnoreCase(getResources().getString(R.string.typecompany))) {
+            mTypeCompanyTxtView.setError(getResources().getString(R.string.select_value));
+            mTypeCompanyTxtView.requestFocus();
+            return false;
+        } else if (checkETEmpty(mPasswordET))
+            return false;
+        else if (checkETEmpty(mCnfrmPasswordET))
+            return false;
+        else if (checkETEmpty(mPhoneNumberET))
+            return false;
+        else if (checkETEmpty(mAddressET))
+            return false;
+        else if (mStateTxtView.getText().toString().equalsIgnoreCase(getResources().getString(R.string.state))) {
+            mStateTxtView.setError(getResources().getString(R.string.select_value));
+            mStateTxtView.requestFocus();
+            return false;
+        } else if (mCityTxtView.getText().toString().equalsIgnoreCase(getResources().getString(R.string.city))) {
+            mCityTxtView.setError(getResources().getString(R.string.select_value));
+            mCityTxtView.requestFocus();
+            return false;
+        } else if (checkETEmpty(mPinCodeET))
+            return false;
 
         return true;
+    }
+
+    private boolean checkETEmpty(EditText mEditText) {
+        if (mEditText.getText().toString().trim().isEmpty()) {
+            mEditText.setError(getResources().getString(R.string.fieldnotempty));
+            mEditText.requestFocus();
+            return true;
+        }
+        return false;
     }
 }
