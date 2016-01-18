@@ -12,6 +12,7 @@ import retrofit.http.Part;
 import retrofit.http.Path;
 import retrofit.http.Query;
 import retrofit.mime.TypedFile;
+import retrofit.mime.TypedString;
 
 /**
  * Created by Sunny on 11/3/15.
@@ -75,9 +76,8 @@ public interface ApiService {
     @GET("/api/v1/partnership")
     void getPartnerShip(Callback<String> callback);
 
-
-    @FormUrlEncoded
+    @Multipart
     @POST("/api/v1/shipper")
-    public void register(@Field("userType") String userType, @Field("email") String email, @Field("firstName") String firstName, @Field("lastName") String lastName, @Field("password") String password, @Field("phoneNumber") String phoneNumber, @Field("companyName") String companyName, @Field("partnership") String partnership, @Field("address") String address, @Field("city") String city, @Field("state") String state, @Field("pinCode") String pinCode, @Field("country") String country, @Field("deviceType") String deviceType, @Field("deviceName") String deviceName, @Field("deviceToken") String deviceToken, Callback<String> callback);
+    public void register(@Part("userType") TypedString userType, @Part("email") TypedString email, @Part("firstName") TypedString firstName, @Part("lastName") TypedString lastName, @Part("password") TypedString password, @Part("phoneNumber") TypedString phoneNumber, @Part("companyName") TypedString companyName, @Part("partnership") TypedString partnership, @Part("address") TypedString address, @Part("city") TypedString city, @Part("state") TypedString state, @Part("pinCode") TypedString pinCode, @Part("country") TypedString country, @Part("deviceType") TypedString deviceType, @Part("deviceName") TypedString deviceName, @Part("deviceToken") TypedString deviceToken, Callback<String> callback);
 
 }

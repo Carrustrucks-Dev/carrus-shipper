@@ -112,6 +112,7 @@
     <string name="consignmntnotfound">No consignment note found</string>
     <string name="fieldnotempty">Field cann\'t be empty</string>
     <string name="select_value">Please select one value</string>
+    <string name="passwdnotmacth">Password not matched</string>
     <string name="noupcmingfound">No upcoming booking found</string>
     <string name="nopastfound">No past booking found</string>
 

@@ -1,5 +1,6 @@
 package com.carrus.carrusshipper.activity;
 
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 
 import com.carrus.carrusshipper.BuildConfig;
 import com.carrus.carrusshipper.R;
+import com.carrus.carrusshipper.gcm.DeviceTokenFetcher;
 import com.carrus.carrusshipper.model.PartnerModel;
 import com.carrus.carrusshipper.model.PartnerShip;
 import com.carrus.carrusshipper.model.StateCityInfo;
@@ -23,6 +25,7 @@ import com.carrus.carrusshipper.model.StateCityModel;
 import com.carrus.carrusshipper.retrofit.RestClient;
 import com.carrus.carrusshipper.utils.ApiResponseFlags;
 import com.carrus.carrusshipper.utils.CommonNoInternetDialog;
+import com.carrus.carrusshipper.utils.SessionManager;
 import com.carrus.carrusshipper.utils.Utils;
 import com.google.gson.Gson;
 
@@ -42,8 +45,11 @@ import java.util.Set;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import retrofit.mime.TypedString;
 
 import static com.carrus.carrusshipper.utils.Constants.COUNTRYNAME;
+import static com.carrus.carrusshipper.utils.Constants.DEVICE_TYPE;
+import static com.carrus.carrusshipper.utils.Constants.SENDER_ID;
 
 /**
  * Created by Sunny on 1/15/16 for Fleet Owner.
@@ -57,17 +63,20 @@ public class SignUpActivity extends BaseActivity {
     private List<PartnerShip> mPartnerList;
     private boolean isParntrClick = false;
     private StateCityModel mStateCityModel;
-    private List<String> states = new ArrayList<>();
-    private List<String> cities = new ArrayList<>();
+    private List<String> states;
+    private List<String> cities;
     private RadioButton mShipperRadioBtn, mBrokerRadioBtn;
     private String USERTYPE = "SHIPPER";
     private EditText mFirstNameET, mLastNameET, mPasswordET, mCnfrmPasswordET, mPhoneNumberET, mCompanyNameET, mAddressET, mPinCodeET, mEmailET;
+    private SessionManager sessionManager;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
+        sessionManager = new SessionManager(this);
+        getDeviceToken();
         initView();
         initializeListener();
         parseStates();
@@ -136,6 +145,7 @@ public class SignUpActivity extends BaseActivity {
                     mStateTxtView.setError(null);
                     mCountryTxtView.setText(COUNTRYNAME);
                     mCountryTxtView.setTextColor(getResources().getColor(android.R.color.black));
+                    getCities();
                 } else {
                     mStateTxtView.setText(getResources().getString(R.string.state));
                     mStateTxtView.setTextColor(getResources().getColor(R.color.gray_text));
@@ -154,7 +164,7 @@ public class SignUpActivity extends BaseActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position != 0) {
-                    mCityTxtView.setText(states.get(position));
+                    mCityTxtView.setText(cities.get(position));
                     mCityTxtView.setTextColor(getResources().getColor(android.R.color.black));
                     mCityTxtView.setError(null);
                 } else {
@@ -194,8 +204,9 @@ public class SignUpActivity extends BaseActivity {
         findViewById(R.id.submitBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isFieldFilled()){
-                    Toast.makeText(SignUpActivity.this, "Field Filled", Toast.LENGTH_SHORT).show();
+                if (isFieldFilled()) {
+//                    Toast.makeText(SignUpActivity.this, "Field Filled", Toast.LENGTH_SHORT).show();
+                    register();
                 }
             }
         });
@@ -225,7 +236,35 @@ public class SignUpActivity extends BaseActivity {
     }
 
 
+    private void getCities() {
+        cities = new ArrayList<>();
+        Gson gson = new Gson();
+        states.add("");
+        mStateCityModel = gson.fromJson(loadJSONFromAsset(), StateCityModel.class);
+        for (StateCityInfo mStateCityInfo : mStateCityModel.data) {
+            if (mStateTxtView.getText().toString().trim().equalsIgnoreCase(mStateCityInfo.state))
+                cities.add(mStateCityInfo.name);
+        }
+        Set<String> uniqueList = new HashSet<String>(cities);
+        cities = new ArrayList<>(uniqueList); //let GC will doing free memory
+
+        //Sorting
+        Collections.sort(cities, new Comparator<String>() {
+            @Override
+            public int compare(String obj1, String obj2) {
+
+                return obj1.compareTo(obj2);
+            }
+        });
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(SignUpActivity.this,
+                android.R.layout.simple_spinner_item, cities);
+        citySpinner.setAdapter(adapter);
+    }
+
+
     private void parseStates() {
+        states = new ArrayList<>();
         Gson gson = new Gson();
         states.add("");
         mStateCityModel = gson.fromJson(loadJSONFromAsset(), StateCityModel.class);
@@ -318,6 +357,9 @@ public class SignUpActivity extends BaseActivity {
 
 
     private boolean isFieldFilled() {
+        if (sessionManager.getDeviceToken().isEmpty()) {
+            getDeviceToken();
+        }
 
         if (checkETEmpty(mFirstNameET))
             return false;
@@ -349,6 +391,16 @@ public class SignUpActivity extends BaseActivity {
             return false;
         } else if (checkETEmpty(mPinCodeET))
             return false;
+        else if (!mPasswordET.getText().toString().trim().equalsIgnoreCase(mCnfrmPasswordET.getText().toString().trim())) {
+            mCnfrmPasswordET.setError(getResources().getString(R.string.passwdnotmacth));
+            mCnfrmPasswordET.requestFocus();
+            return false;
+        } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(mEmailET.getText().toString().trim()).matches()) {
+            mEmailET.setError(getResources().getString(R.string.validemail_required));
+            mEmailET.requestFocus();
+            return false;
+        }
+
 
         return true;
     }
@@ -360,5 +412,67 @@ public class SignUpActivity extends BaseActivity {
             return true;
         }
         return false;
+    }
+
+    private void register() {
+        Utils.loading_box(SignUpActivity.this);
+        RestClient.getApiService().register(new TypedString(USERTYPE), new TypedString(mEmailET.getText().toString().trim()), new TypedString(mFirstNameET.getText().toString().trim()), mLastNameET.getText().toString().trim(), mPasswordET.getText().toString().trim(), mPhoneNumberET.getText().toString().trim(), mCompanyNameET.getText().toString().trim(), mTypeCompanyTxtView.getText().toString().trim(), mAddressET.getText().toString().trim(), mCityTxtView.getText().toString().trim(), mStateTxtView.getText().toString().trim(), mPinCodeET.getText().toString().trim(), mCountryTxtView.getText().toString().trim(), DEVICE_TYPE, Utils.getDeviceName(), sessionManager.getDeviceToken(), new Callback<String>() {
+            @Override
+            public void success(String s, Response response) {
+                Log.v("" + getClass().getSimpleName(), "Response> " + s);
+                try {
+                    JSONObject mObject = new JSONObject(s);
+
+                    int status = mObject.getInt("statusCode");
+
+                    if (ApiResponseFlags.OK.getOrdinal() == status) {
+
+
+                        JSONObject mDataobject = mObject.getJSONObject("data");
+                        sessionManager.saveUserInfo(mDataobject.getString("accessToken"), mDataobject.getString("userType"), mDataobject.getString("email"), mDataobject.getString("firstName") + " " + mDataobject.getString("lastName"), mDataobject.getString("companyName"), mDataobject.getJSONObject("addressDetails").getString("address"), "", mDataobject.getString("phoneNumber"), mDataobject.getString("rating"), mDataobject.getJSONObject("profilePicture").getString("original"));
+                        Toast.makeText(SignUpActivity.this, mObject.getString("message"), Toast.LENGTH_SHORT).show();
+                        startActivityForResult(new Intent(SignUpActivity.this, MainActivity.class), 500);
+                        finish();
+
+                    } else {
+                        Toast.makeText(SignUpActivity.this, mObject.getString("message"), Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                Utils.loading_box_stop();
+
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Utils.loading_box_stop();
+                try {
+                    Log.v("error.getKind() >> " + error.getKind(), " MSg >> " + error.getResponse().getReason());
+
+                    if (error.getKind().equals(RetrofitError.Kind.NETWORK)) {
+                        Toast.makeText(SignUpActivity.this, getResources().getString(R.string.nointernetconnection), Toast.LENGTH_SHORT).show();
+                    } else if (error.getResponse().getStatus() == ApiResponseFlags.Unauthorized.getOrdinal()) {
+                        Utils.shopAlterDialog(SignUpActivity.this, Utils.getErrorMsg(error), false);
+                    } else if (error.getResponse().getStatus() == ApiResponseFlags.Not_Found.getOrdinal()) {
+                        Toast.makeText(SignUpActivity.this, Utils.getErrorMsg(error), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception ex) {
+                    Toast.makeText(SignUpActivity.this, getResources().getString(R.string.nointernetconnection), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void getDeviceToken() {
+        new DeviceTokenFetcher(this, new DeviceTokenFetcher.Listener() {
+            @Override
+            public void onDeviceTokenReceived(String deviceToken) {
+                Log.e("Device Token", deviceToken + "");
+                sessionManager.saveDeviceToken(deviceToken);
+            }
+        }).execute(SENDER_ID);
     }
 }
