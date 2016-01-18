@@ -21,6 +21,7 @@ public interface ApiService {
     String FORGETPASSWORD_URL = "/api/v1/shipper/forgotPassword";
 
     String AUTHORIZATION = "authorization";
+
     @GET("/maps/api/directions/xml")
     public void getDriections(@Query("origin") String origin, @Query("destination") String destination, @Query("sensor") String sensor, @Query("units") String units, @Query("mode") String mode, Callback<String> callback);
 
@@ -49,26 +50,34 @@ public interface ApiService {
     public void forgotPassword(@Field("email") String body, Callback<String> callback);
 
     @GET("/api/v1/shipper/getOnGoingBookingTrack")
-    public void getAllOnGoingBookingTrack(@Header(AUTHORIZATION) String authorization,  @Query("limit") Integer limit, @Query("skip") Integer skip, @Query("sort") String sort, Callback<String> callback);
+    public void getAllOnGoingBookingTrack(@Header(AUTHORIZATION) String authorization, @Query("limit") Integer limit, @Query("skip") Integer skip, @Query("sort") String sort, Callback<String> callback);
 
 
     @GET("/api/v1/shipper/getOnGoingBookingTrack")
-    public void getSingleOnGoingBookingTrack(@Header(AUTHORIZATION) String authorization,  @Query("bookingId") String bookingId, @Query("limit") Integer limit, @Query("skip") Integer skip, @Query("sort") String sort, Callback<String> callback);
+    public void getSingleOnGoingBookingTrack(@Header(AUTHORIZATION) String authorization, @Query("bookingId") String bookingId, @Query("limit") Integer limit, @Query("skip") Integer skip, @Query("sort") String sort, Callback<String> callback);
 
 
     @FormUrlEncoded
     @PUT("/api/v1/shipper/addRating")
-    public void setRating(@Header(AUTHORIZATION) String authorization, @Field("bookingId") String bookingId,@Field("rating") String rating,@Field("comment") String comment, Callback<String> callback);
+    public void setRating(@Header(AUTHORIZATION) String authorization, @Field("bookingId") String bookingId, @Field("rating") String rating, @Field("comment") String comment, Callback<String> callback);
 
     @FormUrlEncoded
     @PUT("/api/v1/shipper/cancelBooking/{bookingId}")
-    public void cancelBooking(@Header(AUTHORIZATION) String authorization, @Field("bookingStatus") String bookingStatus, @Path("bookingId") String bookingId,Callback<String> callback);
+    public void cancelBooking(@Header(AUTHORIZATION) String authorization, @Field("bookingStatus") String bookingStatus, @Path("bookingId") String bookingId, Callback<String> callback);
 
     @Multipart
     @PUT("/api/v1/shipper/uploadProfilePic")
-    public void uploadProfilePic(@Header(AUTHORIZATION) String authorization,@Part("image") TypedFile body, Callback<String> callback);
+    public void uploadProfilePic(@Header(AUTHORIZATION) String authorization, @Part("image") TypedFile body, Callback<String> callback);
 
     @GET("/api/v1/appVersion")
     void getAppVersion(@Query("appType") String appType, Callback<String> callback);
+
+    @GET("/api/v1/partnership")
+    void getPartnerShip(Callback<String> callback);
+
+
+    @FormUrlEncoded
+    @POST("/api/v1/shipper")
+    public void register(@Field("userType") String userType, @Field("email") String email, @Field("firstName") String firstName, @Field("lastName") String lastName, @Field("password") String password, @Field("phoneNumber") String phoneNumber, @Field("companyName") String companyName, @Field("partnership") String partnership, @Field("address") String address, @Field("city") String city, @Field("state") String state, @Field("pinCode") String pinCode, @Field("country") String country, @Field("deviceType") String deviceType, @Field("deviceName") String deviceName, @Field("deviceToken") String deviceToken, Callback<String> callback);
 
 }

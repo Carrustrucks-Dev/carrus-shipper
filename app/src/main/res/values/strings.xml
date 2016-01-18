@@ -11,6 +11,7 @@
     <string name="my_bookings">My Bookings</string>
     <string name="payments">Payments</string>
     <string name="contact">Contact Carrus</string>
+    <string name="signup_header">Sign Up</string>
     <string name="signout">Sign Out</string>
     <string name="trackshipment">Track Shipment</string>
     <string name="send">SEND</string>
@@ -38,6 +39,8 @@
     <!-- My booking screen text-->
     <string name="upcming">Upcoming</string>
     <string name="past">Past</string>
+    <string name="tryagain">Try again</string>
+    <string name="exit">Exit</string>
 
     <!-- Login Screen Text-->
     <string name="email">E-mail</string>
@@ -45,6 +48,7 @@
     <string name="submit">SUBMIT</string>
     <string name="forgotpasswd">FORGOT PASSWORD ?</string>
     <string name="rememberme">&#160;&#160;Remember me</string>
+    <string name="signup">NOT A MEMBER YET? SIGN UP</string>
 
 
 
@@ -114,4 +118,21 @@
 
     <!--text-->
     <string name="forgetpasswddetails">Enter email address and link would be sent to you to reset your password</string>
+
+    <!--Sign up screen text-->
+    <string name="firstname">First Name</string>
+    <string name="lastname">Last Name</string>
+    <string name="emailid">Email ID</string>
+    <string name="cnfrmpassword">Confirm Password</string>
+    <string name="companyname">Company Name</string>
+    <string name="typecompany">Type of Company</string>
+    <string name="phonenumber">Mobile Number</string>
+    <string name="address">Address</string>
+    <string name="state">State</string>
+    <string name="city">City</string>
+    <string name="country">Country</string>
+    <string name="zipcode">Zip Code</string>
+    <string name="shipper">SHIPPER</string>
+    <string name="broker">BROKER</string>
+
 </resources>

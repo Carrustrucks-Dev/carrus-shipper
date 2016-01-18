@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/container_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:ignore="UnusedIds">
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar"
+            tools:ignore="UnusedIds" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/ten">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5">
+
+                    <RadioButton
+                        android:id="@+id/shipperRadioBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:textColor="@android:color/black"
+                        android:checked="true"
+                        android:gravity="center"
+                        android:text="@string/shipper" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5">
+
+                    <RadioButton
+                        android:id="@+id/brokerRadioBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/black"
+                        android:layout_centerInParent="true"
+                        android:gravity="center"
+                        android:text="@string/broker" />
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/firstnameET"
+                style="@style/App_EditTextStyle"
+                android:hint="@string/firstname"
+                android:inputType="text" />
+
+            <EditText
+                android:id="@+id/lastnameET"
+                style="@style/App_EditTextStyle"
+                android:hint="@string/lastname"
+                android:inputType="text" />
+
+            <EditText
+                android:id="@+id/emailET"
+                style="@style/App_EditTextStyle"
+                android:hint="@string/emailid"
+                android:inputType="textEmailAddress" />
+
+            <EditText
+                android:id="@+id/companyET"
+                style="@style/App_EditTextStyle"
+                android:hint="@string/companyname"
+                android:inputType="text" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <Spinner
+                    android:id="@+id/partnerSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_margin="@dimen/five">
+
+                </Spinner>
+
+                <TextView
+                    android:id="@+id/typeOfCompanyTV"
+                    style="@style/App_EditTextStyle"
+                    android:text="@string/typecompany"
+                    android:textColor="@color/gray_text" />
+
+            </RelativeLayout>
+
+            <EditText
+                android:id="@+id/passwordET"
+                style="@style/App_EditTextStyle"
+                android:hint="@string/password"
+                android:inputType="textPassword" />
+
+            <EditText
+                android:id="@+id/cnfrmPasswordET"
+                style="@style/App_EditTextStyle"
+                android:hint="@string/cnfrmpassword"
+                android:inputType="textPassword" />
+
+            <EditText
+                android:id="@+id/phoneNumberET"
+                style="@style/App_EditTextStyle"
+                android:hint="@string/phonenumber"
+                android:inputType="number" />
+
+            <EditText
+                android:id="@+id/addressET"
+                style="@style/App_EditTextStyle"
+                android:hint="@string/address"
+                android:inputType="number" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <Spinner
+                    android:id="@+id/stateSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_margin="@dimen/five">
+
+                </Spinner>
+
+                <TextView
+                    android:id="@+id/stateTV"
+                    style="@style/App_EditTextStyle"
+                    android:text="@string/state"
+                    android:textColor="@color/gray_text" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <Spinner
+                    android:id="@+id/citySpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="@dimen/five">
+
+                </Spinner>
+
+                <TextView
+                    android:id="@+id/cityTxtView"
+                    style="@style/App_EditTextStyle"
+                    android:text="@string/city"
+                    android:textColor="@color/gray_text" />
+
+            </RelativeLayout>
+
+            <EditText
+                android:id="@+id/zipCodeET"
+                style="@style/App_EditTextStyle"
+                android:hint="@string/zipcode"
+                android:inputType="number" />
+
+
+            <TextView
+                android:id="@+id/countryTxtView"
+                style="@style/App_EditTextStyle"
+                android:text="@string/country"
+                android:textColor="@color/gray_text" />
+
+
+            <Button
+                android:id="@+id/submitBtn"
+                style="@style/CustomTextAppearance.Bold"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:text="@string/submit"
+                android:textColor="@color/windowBackground" />
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

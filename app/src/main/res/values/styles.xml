@@ -56,4 +56,15 @@
         <item name="android:windowAnimationStyle">@android:style/Animation</item>
     </style>
 
+    <style name="App_EditTextStyle">
+        <item name="android:background">@color/edittxt_bg</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:padding">@dimen/ten</item>
+        <item name="android:textSize">@dimen/big_font</item>
+        <item name="android:textColorHint">@color/gray_text</item>
+        <item name="android:layout_marginTop">@dimen/five</item>
+    </style>
+
 </resources>
