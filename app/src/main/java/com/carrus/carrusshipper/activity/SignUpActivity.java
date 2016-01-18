@@ -29,6 +29,7 @@ import com.carrus.carrusshipper.utils.SessionManager;
 import com.carrus.carrusshipper.utils.Utils;
 import com.google.gson.Gson;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -415,8 +416,12 @@ public class SignUpActivity extends BaseActivity {
     }
 
     private void register() {
+
+        JSONArray mJsonArray=new JSONArray();
+        mJsonArray.put(mTypeCompanyTxtView.getText().toString().trim());
+        Log.v("VALUE", mJsonArray.toString());
         Utils.loading_box(SignUpActivity.this);
-        RestClient.getApiService().register(new TypedString(USERTYPE), new TypedString(mEmailET.getText().toString().trim()), new TypedString(mFirstNameET.getText().toString().trim()), mLastNameET.getText().toString().trim(), mPasswordET.getText().toString().trim(), mPhoneNumberET.getText().toString().trim(), mCompanyNameET.getText().toString().trim(), mTypeCompanyTxtView.getText().toString().trim(), mAddressET.getText().toString().trim(), mCityTxtView.getText().toString().trim(), mStateTxtView.getText().toString().trim(), mPinCodeET.getText().toString().trim(), mCountryTxtView.getText().toString().trim(), DEVICE_TYPE, Utils.getDeviceName(), sessionManager.getDeviceToken(), new Callback<String>() {
+        RestClient.getApiService().register(new TypedString(USERTYPE), new TypedString(mEmailET.getText().toString().trim()), new TypedString(mFirstNameET.getText().toString().trim()), new TypedString(mLastNameET.getText().toString().trim()), new TypedString(mPasswordET.getText().toString().trim()), new TypedString(mPhoneNumberET.getText().toString().trim()), new TypedString(mCompanyNameET.getText().toString().trim()), new TypedString(mJsonArray.toString()), new TypedString(mAddressET.getText().toString().trim()), new TypedString(mCityTxtView.getText().toString().trim()), new TypedString(mStateTxtView.getText().toString().trim()), new TypedString(mPinCodeET.getText().toString().trim()), new TypedString(mCountryTxtView.getText().toString().trim()), new TypedString(DEVICE_TYPE), new TypedString(Utils.getDeviceName()), new TypedString(sessionManager.getDeviceToken()), new Callback<String>() {
             @Override
             public void success(String s, Response response) {
                 Log.v("" + getClass().getSimpleName(), "Response> " + s);

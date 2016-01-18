@@ -130,6 +130,7 @@
                 android:id="@+id/phoneNumberET"
                 style="@style/App_EditTextStyle"
                 android:hint="@string/phonenumber"
+                android:maxLength="10"
                 android:inputType="number" />
 
             <EditText
