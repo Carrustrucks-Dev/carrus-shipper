@@ -461,9 +461,7 @@ public class SignUpActivity extends BaseActivity {
 
                     if (error.getKind().equals(RetrofitError.Kind.NETWORK)) {
                         Toast.makeText(SignUpActivity.this, getResources().getString(R.string.nointernetconnection), Toast.LENGTH_SHORT).show();
-                    } else if (error.getResponse().getStatus() == ApiResponseFlags.Unauthorized.getOrdinal()) {
-                        Utils.shopAlterDialog(SignUpActivity.this, Utils.getErrorMsg(error), false);
-                    } else if (error.getResponse().getStatus() == ApiResponseFlags.Not_Found.getOrdinal()) {
+                    } else {
                         Toast.makeText(SignUpActivity.this, Utils.getErrorMsg(error), Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception ex) {

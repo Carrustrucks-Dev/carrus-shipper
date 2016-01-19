@@ -73,7 +73,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/rememberme"
-
                 android:button="@drawable/customcheckbox"
                 android:textSize="@dimen/mid_fond"
                 android:textColor="@color/windowBackground"
@@ -86,7 +85,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_gravity="center"
-            android:padding="@dimen/ten"
+            android:padding="@dimen/five"
             android:text="@string/forgotpasswd"
             android:textColor="@color/windowBackground"/>
 
@@ -97,7 +96,9 @@
             android:gravity="center"
             android:layout_gravity="center"
             android:visibility="visible"
-            android:padding="@dimen/ten"
+            android:paddingRight="@dimen/five"
+            android:paddingLeft="@dimen/five"
+            android:paddingBottom="@dimen/five"
             android:text="@string/signup"
             android:textColor="@color/windowBackground"/>
 
