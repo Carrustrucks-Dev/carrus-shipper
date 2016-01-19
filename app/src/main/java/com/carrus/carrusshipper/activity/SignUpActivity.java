@@ -242,7 +242,7 @@ public class SignUpActivity extends BaseActivity {
     private void getCities() {
         cities = new ArrayList<>();
         Gson gson = new Gson();
-        states.add("");
+        cities.add("");
         mStateCityModel = gson.fromJson(loadJSONFromAsset(), StateCityModel.class);
         for (StateCityInfo mStateCityInfo : mStateCityModel.data) {
             if (mStateTxtView.getText().toString().trim().equalsIgnoreCase(mStateCityInfo.state))
