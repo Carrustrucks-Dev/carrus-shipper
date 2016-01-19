@@ -126,7 +126,7 @@ public class ProfileFragment extends Fragment implements
     }
 
     private void setData() {
-        if (mSessionManager.getProfilePic() != null)
+        if (mSessionManager.getProfilePic() != null && !mSessionManager.getProfilePic().isEmpty())
             Picasso.with(getActivity()).load(mSessionManager.getProfilePic()).placeholder(R.mipmap.icon_placeholder).skipMemoryCache().resize(300, 300).transform(new CircleTransform()).into(driverImage);
 
         cmpanyNameTxtView.setText(mSessionManager.getCompanyName());

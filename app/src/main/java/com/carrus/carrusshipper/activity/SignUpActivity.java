@@ -67,7 +67,7 @@ public class SignUpActivity extends BaseActivity {
     private List<String> states;
     private List<String> cities;
     private RadioButton mShipperRadioBtn, mBrokerRadioBtn;
-    private String USERTYPE = "SHIPPER";
+    private String USERTYPE = "SHIPPER", PARTNERSHIP_ID=null;
     private EditText mFirstNameET, mLastNameET, mPasswordET, mCnfrmPasswordET, mPhoneNumberET, mCompanyNameET, mAddressET, mPinCodeET, mEmailET;
     private SessionManager sessionManager;
 
@@ -122,10 +122,12 @@ public class SignUpActivity extends BaseActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position != 0) {
+                    PARTNERSHIP_ID=mPartnerList.get(position).getId();
                     mTypeCompanyTxtView.setText(mPartnerList.get(position).getPartnershipName());
                     mTypeCompanyTxtView.setTextColor(getResources().getColor(android.R.color.black));
                     mTypeCompanyTxtView.setError(null);
                 } else {
+                    PARTNERSHIP_ID=null;
                     mTypeCompanyTxtView.setText(getResources().getString(R.string.typecompany));
                     mTypeCompanyTxtView.setTextColor(getResources().getColor(R.color.gray_text));
                 }
@@ -418,7 +420,7 @@ public class SignUpActivity extends BaseActivity {
     private void register() {
 
         JSONArray mJsonArray=new JSONArray();
-        mJsonArray.put(mTypeCompanyTxtView.getText().toString().trim());
+        mJsonArray.put(PARTNERSHIP_ID);
         Log.v("VALUE", mJsonArray.toString());
         Utils.loading_box(SignUpActivity.this);
         RestClient.getApiService().register(new TypedString(USERTYPE), new TypedString(mEmailET.getText().toString().trim()), new TypedString(mFirstNameET.getText().toString().trim()), new TypedString(mLastNameET.getText().toString().trim()), new TypedString(mPasswordET.getText().toString().trim()), new TypedString(mPhoneNumberET.getText().toString().trim()), new TypedString(mCompanyNameET.getText().toString().trim()), new TypedString(mJsonArray.toString()), new TypedString(mAddressET.getText().toString().trim()), new TypedString(mCityTxtView.getText().toString().trim()), new TypedString(mStateTxtView.getText().toString().trim()), new TypedString(mPinCodeET.getText().toString().trim()), new TypedString(mCountryTxtView.getText().toString().trim()), new TypedString(DEVICE_TYPE), new TypedString(Utils.getDeviceName()), new TypedString(sessionManager.getDeviceToken()), new Callback<String>() {
@@ -430,11 +432,11 @@ public class SignUpActivity extends BaseActivity {
 
                     int status = mObject.getInt("statusCode");
 
-                    if (ApiResponseFlags.OK.getOrdinal() == status) {
+                    if (ApiResponseFlags.Created.getOrdinal() == status) {
 
 
                         JSONObject mDataobject = mObject.getJSONObject("data");
-                        sessionManager.saveUserInfo(mDataobject.getString("accessToken"), mDataobject.getString("userType"), mDataobject.getString("email"), mDataobject.getString("firstName") + " " + mDataobject.getString("lastName"), mDataobject.getString("companyName"), mDataobject.getJSONObject("addressDetails").getString("address"), "", mDataobject.getString("phoneNumber"), mDataobject.getString("rating"), mDataobject.getJSONObject("profilePicture").getString("original"));
+                        sessionManager.saveUserInfo(mDataobject.getString("accessToken"), mDataobject.getJSONObject("dataToSet").getString("userType"), mDataobject.getJSONObject("dataToSet").getString("email"), mDataobject.getJSONObject("dataToSet").getString("firstName") + " " + mDataobject.getJSONObject("dataToSet").getString("lastName"), mDataobject.getJSONObject("dataToSet").getString("companyName"), mDataobject.getJSONObject("dataToSet").getJSONObject("addressDetails").getString("address"), "", mDataobject.getJSONObject("dataToSet").getString("phoneNumber"), "0", null);
                         Toast.makeText(SignUpActivity.this, mObject.getString("message"), Toast.LENGTH_SHORT).show();
                         startActivityForResult(new Intent(SignUpActivity.this, MainActivity.class), 500);
                         finish();
