@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rv"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:splitMotionEvents="false"
+    tools:ignore="MergeRootFrame,UnusedIds">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="15dp"
+        android:background="@color/windowBackground"
+        android:splitMotionEvents="false"
+        tools:ignore="UselessParent">
+
+        <LinearLayout
+            android:id="@+id/rl1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="15dp"
+            android:paddingLeft="@dimen/ten"
+            android:paddingRight="@dimen/ten"
+            android:splitMotionEvents="false"
+            tools:ignore="UnusedIds">
+
+            <TextView
+                android:id="@+id/textHead"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="@string/enterotp"
+                android:textColor="@color/tabcolor_dark"
+                android:textSize="@dimen/large_font"
+                android:visibility="visible"
+                tools:ignore="UnusedIds" />
+
+            <View
+                android:layout_width="200dp"
+                android:layout_height="1dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:background="@color/windowBackground"
+                android:visibility="invisible" />
+
+            <EditText
+                android:id="@+id/otpET"
+                style="@style/App_EditTextStyle"
+                android:layout_marginTop="@dimen/ten"
+                android:hint="@string/enterotphere" />
+
+            <Button
+                android:id="@+id/submitBtn"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="right"
+                android:background="@color/colorPrimary"
+                android:layout_marginTop="@dimen/ten"
+                android:layout_marginBottom="@dimen/ten"
+                android:singleLine="true"
+                android:text="@string/submit"
+                android:textColor="@color/windowBackground"
+                android:textSize="@dimen/mid_fond" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/crossBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:padding="@dimen/five"
+            android:src="@mipmap/icon_cross" />
+    </RelativeLayout>
+
+</FrameLayout>

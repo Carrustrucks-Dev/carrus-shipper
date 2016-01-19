@@ -188,6 +188,7 @@
             <EditText
                 android:id="@+id/zipCodeET"
                 style="@style/App_EditTextStyle"
+                android:maxLength="6"
                 android:hint="@string/zipcode"
                 android:inputType="number" />
 

@@ -19,6 +19,6 @@
     <color name="blue_ongoing">#2058AB</color>
     <color name="gray_completed">#646464</color>
     <color name="edittxt_bg">#F1F1F1</color>
-
+    <color name="list_selected">#E0E0E0</color>
 
 </resources>

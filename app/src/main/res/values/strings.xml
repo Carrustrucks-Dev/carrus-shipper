@@ -113,6 +113,7 @@
      <string name="noupcmingfound">No upcoming booking found</string>
     <string name="nopastfound">No past booking found</string>
     <string name="fieldnotempty">Field can\'t be empty</string>
+    <string name="phonelimit">Phone number must be 10 digits</string>
     <string name="select_value">Please select one value</string>
     <string name="passwdnotmacth">Password not matched</string>
 
@@ -134,5 +135,7 @@
     <string name="zipcode">Zip Code</string>
     <string name="shipper">SHIPPER</string>
     <string name="broker">BROKER</string>
+    <string name="enterotp">Enter OTP here</string>
+    <string name="enterotphere">Enter your OTP</string>
 
 </resources>

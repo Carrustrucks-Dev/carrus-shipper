@@ -80,4 +80,12 @@ public interface ApiService {
     @POST("/api/v1/shipper")
     public void register(@Part("userType") TypedString userType, @Part("email") TypedString email, @Part("firstName") TypedString firstName, @Part("lastName") TypedString lastName, @Part("password") TypedString password, @Part("phoneNumber") TypedString phoneNumber, @Part("companyName") TypedString companyName, @Part("partnership") TypedString partnership, @Part("address") TypedString address, @Part("city") TypedString city, @Part("state") TypedString state, @Part("pinCode") TypedString pinCode, @Part("country") TypedString country, @Part("deviceType") TypedString deviceType, @Part("deviceName") TypedString deviceName, @Part("deviceToken") TypedString deviceToken, Callback<String> callback);
 
+    @FormUrlEncoded
+    @POST("/api/v1/phoneVerification/generate")
+    public void phoneVerificationGenerate(@Field("phoneNumber") String phoneNumber,@Field("email") String email,@Field("userType") String userType,@Field("duringRegister") String duringRegister,@Field("duringUpdate") String duringUpdate, Callback<String> callback);
+
+    @FormUrlEncoded
+    @POST("/api/v1/phoneVerification/verify")
+    public void phoneVerificationVerify(@Field("phoneNumber") String phoneNumber,@Field("OTP") String OTP,@Field("userType") String userType,@Field("duringRegister") String duringRegister, Callback<String> callback);
+
 }

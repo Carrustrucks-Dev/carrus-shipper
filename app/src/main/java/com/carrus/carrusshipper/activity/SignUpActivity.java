@@ -1,12 +1,16 @@
 package com.carrus.carrusshipper.activity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -209,7 +213,7 @@ public class SignUpActivity extends BaseActivity {
             public void onClick(View v) {
                 if (isFieldFilled()) {
 //                    Toast.makeText(SignUpActivity.this, "Field Filled", Toast.LENGTH_SHORT).show();
-                    register();
+                    genrateOTP();
                 }
             }
         });
@@ -402,6 +406,10 @@ public class SignUpActivity extends BaseActivity {
             mEmailET.setError(getResources().getString(R.string.validemail_required));
             mEmailET.requestFocus();
             return false;
+        }else if(mPhoneNumberET.getText().toString().trim().length()<10){
+            mPhoneNumberET.setError(getResources().getString(R.string.phonelimit));
+            mPhoneNumberET.requestFocus();
+            return false;
         }
 
 
@@ -479,5 +487,137 @@ public class SignUpActivity extends BaseActivity {
                 sessionManager.saveDeviceToken(deviceToken);
             }
         }).execute(SENDER_ID);
+    }
+
+    private void openOTPDialog(){
+        try {
+
+            final Dialog dialog = new Dialog(SignUpActivity.this,
+                    R.style.Theme_AppCompat_Translucent);
+            dialog.setContentView(R.layout.dialog_otp_verifier);
+            WindowManager.LayoutParams layoutParams = dialog.getWindow()
+                    .getAttributes();
+            layoutParams.dimAmount = 0.6f;
+            dialog.getWindow().addFlags(
+                    WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+            dialog.setCancelable(false);
+            dialog.setCanceledOnTouchOutside(false);
+           final EditText mEditText=(EditText) dialog.findViewById(R.id.otpET);
+            Button submitBtn = (Button) dialog.findViewById(R.id.submitBtn);
+
+            submitBtn.setOnClickListener(new View.OnClickListener() {
+
+
+                @Override
+                public void onClick(View view) {
+                    if(mEditText.getText().toString().trim().isEmpty()){
+                        mEditText.setError(getResources().getString(R.string.fieldnotempty));
+                        mEditText.requestFocus();
+                    }else {
+                        dialog.dismiss();
+                        verifyOTP(mEditText.getText().toString().trim());
+                    }
+                }
+
+            });
+            ImageView crossBtn=(ImageView) dialog.findViewById(R.id.crossBtn);
+            crossBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+
+
+            dialog.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void genrateOTP(){
+        Utils.loading_box(SignUpActivity.this);
+        RestClient.getApiService().phoneVerificationGenerate(mPhoneNumberET.getText().toString().trim(), mEmailET.getText().toString().trim(), USERTYPE, "true", "false", new Callback<String>() {
+            @Override
+            public void success(String s, Response response) {
+                Log.v("" + getClass().getSimpleName(), "Response> " + s);
+                try {
+                    JSONObject mObject = new JSONObject(s);
+
+                    int status = mObject.getInt("statusCode");
+
+                    if (ApiResponseFlags.OK.getOrdinal() == status) {
+
+                        openOTPDialog();
+                    } else {
+                        Toast.makeText(SignUpActivity.this, mObject.getString("message"), Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                Utils.loading_box_stop();
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Utils.loading_box_stop();
+                try {
+                    Log.v("error.getKind() >> " + error.getKind(), " MSg >> " + error.getResponse().getReason());
+
+                    if (error.getKind().equals(RetrofitError.Kind.NETWORK)) {
+                        Toast.makeText(SignUpActivity.this, getResources().getString(R.string.nointernetconnection), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(SignUpActivity.this, Utils.getErrorMsg(error), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception ex) {
+                    Toast.makeText(SignUpActivity.this, getResources().getString(R.string.nointernetconnection), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void verifyOTP(String otp){
+        Utils.loading_box(SignUpActivity.this);
+        RestClient.getApiService().phoneVerificationVerify(mPhoneNumberET.getText().toString().trim(), otp, USERTYPE, "true", new Callback<String>() {
+            @Override
+            public void success(String s, Response response) {
+                Log.v("" + getClass().getSimpleName(), "Response> " + s);
+                try {
+                    JSONObject mObject = new JSONObject(s);
+
+                    int status = mObject.getInt("statusCode");
+
+                    if (ApiResponseFlags.OK.getOrdinal() == status) {
+
+                        register();
+                    } else {
+                        Toast.makeText(SignUpActivity.this, mObject.getString("message"), Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                Utils.loading_box_stop();
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Utils.loading_box_stop();
+                try {
+                    Log.v("error.getKind() >> " + error.getKind(), " MSg >> " + error.getResponse().getReason());
+
+                    if (error.getKind().equals(RetrofitError.Kind.NETWORK)) {
+                        Toast.makeText(SignUpActivity.this, getResources().getString(R.string.nointernetconnection), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(SignUpActivity.this, Utils.getErrorMsg(error), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception ex) {
+                    Toast.makeText(SignUpActivity.this, getResources().getString(R.string.nointernetconnection), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 }
