@@ -110,11 +110,11 @@
     <string name="podnotfound">No POD found</string>
     <string name="invoicenotfound">No invoice found</string>
     <string name="consignmntnotfound">No consignment note found</string>
+     <string name="noupcmingfound">No upcoming booking found</string>
+    <string name="nopastfound">No past booking found</string>
     <string name="fieldnotempty">Field cann\'t be empty</string>
     <string name="select_value">Please select one value</string>
     <string name="passwdnotmacth">Password not matched</string>
-    <string name="noupcmingfound">No upcoming booking found</string>
-    <string name="nopastfound">No past booking found</string>
 
     <!--text-->
     <string name="forgetpasswddetails">Enter email address and link would be sent to you to reset your password</string>
