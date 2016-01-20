@@ -113,7 +113,7 @@
         <!-- Goolge API Key -->
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyDxVkcbTA4dCGwZJEA9Cy_9RLKj4iURm2s" />
+            android:value="@string/google_app_id" />
 
         <meta-data
             android:name="io.fabric.ApiKey"
