@@ -446,7 +446,13 @@ public class SignUpActivity extends BaseActivity {
                         JSONObject mDataobject = mObject.getJSONObject("data");
                         sessionManager.saveUserInfo(mDataobject.getString("accessToken"), mDataobject.getJSONObject("dataToSet").getString("userType"), mDataobject.getJSONObject("dataToSet").getString("email"), mDataobject.getJSONObject("dataToSet").getString("firstName") + " " + mDataobject.getJSONObject("dataToSet").getString("lastName"), mDataobject.getJSONObject("dataToSet").getString("companyName"), mDataobject.getJSONObject("dataToSet").getJSONObject("addressDetails").getString("address"), "", mDataobject.getJSONObject("dataToSet").getString("phoneNumber"), "0", null);
                         Toast.makeText(SignUpActivity.this, mObject.getString("message"), Toast.LENGTH_SHORT).show();
-                        startActivityForResult(new Intent(SignUpActivity.this, MainActivity.class), 500);
+                        Intent i=new Intent(SignUpActivity.this, MainActivity.class);
+                        // Closing all the Activities
+                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+                        // Add new Flag to start new Activity
+                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(i);
                         finish();
 
                     } else {
@@ -589,8 +595,8 @@ public class SignUpActivity extends BaseActivity {
 
                     int status = mObject.getInt("statusCode");
 
-                    if (ApiResponseFlags.OK.getOrdinal() == status) {
-
+                    if (ApiResponseFlags.Created.getOrdinal() == status) {
+                        Toast.makeText(SignUpActivity.this, mObject.getString("message"), Toast.LENGTH_SHORT).show();
                         register();
                     } else {
                         Toast.makeText(SignUpActivity.this, mObject.getString("message"), Toast.LENGTH_SHORT).show();

@@ -56,6 +56,8 @@
                 android:id="@+id/otpET"
                 style="@style/App_EditTextStyle"
                 android:layout_marginTop="@dimen/ten"
+                android:inputType="number"
+                android:imeOptions="actionDone"
                 android:hint="@string/enterotphere" />
 
             <Button
