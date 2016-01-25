@@ -12,7 +12,7 @@ import static com.carrus.carrusshipper.utils.Constants.MY_FLURRY_APIKEY;
 
 
 /**
- * Created by Muddassir on 6/10/15.
+ * Created by Muddassir on 6/10/15 for CarrusShipper.
  */
 public class Application extends android.app.Application {
     @Override

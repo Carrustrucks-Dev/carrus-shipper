@@ -58,7 +58,7 @@ import static com.carrus.carrusshipper.utils.Constants.MY_FLURRY_APIKEY;
 import static com.carrus.carrusshipper.utils.Constants.SENDER_ID;
 
 /**
- * Created by Sunny on 1/15/16 for Fleet Owner.
+ * Created by Sunny on 1/15/16 for Fleet Owner for CarrusShipper.
  */
 public class SignUpActivity extends BaseActivity {
 
@@ -221,7 +221,7 @@ public class SignUpActivity extends BaseActivity {
 
     }
 
-    public String loadJSONFromAsset() {
+    private String loadJSONFromAsset() {
         AssetManager assetManager = getResources().getAssets();
         StringBuffer sb = new StringBuffer();
         BufferedReader br = null;
@@ -235,6 +235,7 @@ public class SignUpActivity extends BaseActivity {
             e.printStackTrace();
         } finally {
             try {
+                assert br != null;
                 br.close(); // stop reading
             } catch (IOException e) {
                 e.printStackTrace();
@@ -375,30 +376,31 @@ public class SignUpActivity extends BaseActivity {
             return false;
         else if (checkETEmpty(mEmailET))
             return false;
-        else if (checkETEmpty(mCompanyNameET))
-            return false;
-        else if (mTypeCompanyTxtView.getText().toString().equalsIgnoreCase(getResources().getString(R.string.typecompany))) {
-            mTypeCompanyTxtView.setError(getResources().getString(R.string.select_value));
-            mTypeCompanyTxtView.requestFocus();
-            return false;
-        } else if (checkETEmpty(mPasswordET))
+//        else if (checkETEmpty(mCompanyNameET))
+//            return false;
+//        else if (mTypeCompanyTxtView.getText().toString().equalsIgnoreCase(getResources().getString(R.string.typecompany))) {
+//            mTypeCompanyTxtView.setError(getResources().getString(R.string.select_value));
+//            mTypeCompanyTxtView.requestFocus();
+//            return false;
+//        }
+        else if (checkETEmpty(mPasswordET))
             return false;
         else if (checkETEmpty(mCnfrmPasswordET))
             return false;
         else if (checkETEmpty(mPhoneNumberET))
             return false;
-        else if (checkETEmpty(mAddressET))
-            return false;
-        else if (mStateTxtView.getText().toString().equalsIgnoreCase(getResources().getString(R.string.state))) {
-            mStateTxtView.setError(getResources().getString(R.string.select_value));
-            mStateTxtView.requestFocus();
-            return false;
-        } else if (mCityTxtView.getText().toString().equalsIgnoreCase(getResources().getString(R.string.city))) {
-            mCityTxtView.setError(getResources().getString(R.string.select_value));
-            mCityTxtView.requestFocus();
-            return false;
-        } else if (checkETEmpty(mPinCodeET))
-            return false;
+//        else if (checkETEmpty(mAddressET))
+//            return false;
+//        else if (mStateTxtView.getText().toString().equalsIgnoreCase(getResources().getString(R.string.state))) {
+//            mStateTxtView.setError(getResources().getString(R.string.select_value));
+//            mStateTxtView.requestFocus();
+//            return false;
+//        } else if (mCityTxtView.getText().toString().equalsIgnoreCase(getResources().getString(R.string.city))) {
+//            mCityTxtView.setError(getResources().getString(R.string.select_value));
+//            mCityTxtView.requestFocus();
+//            return false;
+//        } else if (checkETEmpty(mPinCodeET))
+//            return false;
         else if (!mPasswordET.getText().toString().trim().equalsIgnoreCase(mCnfrmPasswordET.getText().toString().trim())) {
             mCnfrmPasswordET.setError(getResources().getString(R.string.passwdnotmacth));
             mCnfrmPasswordET.requestFocus();
@@ -458,7 +460,7 @@ public class SignUpActivity extends BaseActivity {
                     if (ApiResponseFlags.Created.getOrdinal() == status) {
 
                         JSONObject mDataobject = mObject.getJSONObject("data");
-                        sessionManager.saveUserInfo(mDataobject.getString("accessToken"), mDataobject.getJSONObject("dataToSet").getString("userType"), mDataobject.getJSONObject("dataToSet").getString("email"), mDataobject.getJSONObject("dataToSet").getString("firstName") + " " + mDataobject.getJSONObject("dataToSet").getString("lastName"), mDataobject.getJSONObject("dataToSet").getString("companyName"), mDataobject.getJSONObject("dataToSet").getJSONObject("addressDetails").getString("address"), "", mDataobject.getJSONObject("dataToSet").getString("phoneNumber"), "0", null);
+                        sessionManager.saveUserInfo(mDataobject.getString("accessToken"), mDataobject.getJSONObject("dataToSet").getString("userType"), mDataobject.getJSONObject("dataToSet").getString("email"), mDataobject.getJSONObject("dataToSet").getString("firstName") + " " + mDataobject.getJSONObject("dataToSet").getString("lastName"), (mDataobject.getJSONObject("dataToSet").has("companyName")? mDataobject.getJSONObject("dataToSet").getString("companyName"):""), (mDataobject.getJSONObject("dataToSet").has("addressDetails")?mDataobject.getJSONObject("dataToSet").getJSONObject("addressDetails").getString("address"):""), "", mDataobject.getJSONObject("dataToSet").getString("phoneNumber"), "0", null);
                         Toast.makeText(SignUpActivity.this, mObject.getString("message"), Toast.LENGTH_SHORT).show();
                         Intent i=new Intent(SignUpActivity.this, MainActivity.class);
                         // Closing all the Activities

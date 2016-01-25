@@ -44,7 +44,7 @@ import static com.carrus.carrusshipper.utils.Constants.MY_FLURRY_APIKEY;
 import static com.carrus.carrusshipper.utils.Constants.SORT;
 
 /**
- * Created by Sunny on 10/30/15.
+ * Created by Sunny on 10/30/15 for CarrusShipper.
  */
 public class UpComingFragment extends Fragment {
 

@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
 /**
- * Created by Sunny on 1/15/16 for Fleet Owner.
+ * Created by Sunny on 1/15/16 for Fleet Owner for CarrusShipper.
  */
 public class StateCityInfo implements Serializable {
 

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Sunny on 1/15/16 for Fleet Owner.
+ * Created by Sunny on 1/15/16 for Fleet Owner for CarrusShipper.
  */
 public class PartnerModel implements Serializable {
 

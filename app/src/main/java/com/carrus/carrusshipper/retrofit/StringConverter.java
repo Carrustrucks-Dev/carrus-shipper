@@ -11,7 +11,7 @@ import retrofit.converter.Converter;
 import retrofit.mime.TypedInput;
 import retrofit.mime.TypedOutput;
 
-public class StringConverter implements Converter {
+class StringConverter implements Converter {
 
     @Override
     public Object fromBody(TypedInput typedInput, Type type) throws ConversionException {
@@ -28,7 +28,7 @@ public class StringConverter implements Converter {
         return null;
     }
 
-    public static String fromStream(InputStream in) throws IOException {
+    private static String fromStream(InputStream in) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(in));
         StringBuilder out = new StringBuilder();
         String newLine = System.getProperty("line.separator");

@@ -29,7 +29,7 @@ public class MyService extends Service {
 
     private static String TAG = MyService.class.getSimpleName();
     private MyThread mythread;
-    public boolean isRunning = false;
+    private boolean isRunning = false;
     private String bookingId = null;
     private SessionManager mSessionManager;
     private Context mContext;
@@ -70,7 +70,7 @@ public class MyService extends Service {
         }
     }
 
-    public void readWebPage() {
+    private void readWebPage() {
         Log.d(TAG, "I AM EXCUTED");
 
         RestClient.getApiService().getSingleOnGoingBookingTrack(mSessionManager.getAccessToken(), bookingId, 100, 0, Constants.SORT, new Callback<String>() {

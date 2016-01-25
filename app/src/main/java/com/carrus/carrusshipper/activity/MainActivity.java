@@ -292,7 +292,9 @@ public class MainActivity extends BaseActivity implements FragmentDrawer.Fragmen
                         HomeFragment fragment = (HomeFragment) getSupportFragmentManager().findFragmentById(R.id.container_body);
                         if (fragment.mTrackermodel != null)
                             fragment.mTrackermodel.clear();
+                        assert fragment.mTrackermodel != null;
                         fragment.mTrackermodel.add(mMyBookingDataModel);
+                        assert mMyBookingDataModel != null;
                         if (mMyBookingDataModel.crruentTracking.size() != 0) {
                             onStopDrawerSwip();
                             fragment.getDriectionToDestination(new LatLng(mMyBookingDataModel.crruentTracking.get(0).lat, mMyBookingDataModel.crruentTracking.get(0).longg), mMyBookingDataModel.pickUp.coordinates.pickUpLat + ", " + mMyBookingDataModel.pickUp.coordinates.pickUpLong, mMyBookingDataModel.dropOff.coordinates.dropOffLat + ", " + mMyBookingDataModel.dropOff.coordinates.dropOffLong, GMapV2GetRouteDirection.MODE_DRIVING, 0);

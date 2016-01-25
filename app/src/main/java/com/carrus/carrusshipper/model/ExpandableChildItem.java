@@ -1,12 +1,12 @@
 package com.carrus.carrusshipper.model;
 
 /**
- * Created by Saurbhv on 10/31/15.
+ * Created by Saurbhv on 10/31/15 for CarrusShipper.
  */
 public class ExpandableChildItem {
-    String name;
-    String detail;
-    int type;
+    private String name;
+    private String detail;
+    private int type;
 
 
     public ExpandableChildItem(String name,String detail, int type) {

@@ -54,7 +54,7 @@ import retrofit.client.Response;
 import static com.carrus.carrusshipper.utils.Constants.MY_FLURRY_APIKEY;
 
 /**
- * Created by Sunny on 11/6/15.
+ * Created by Sunny on 11/6/15 for CarrusShipper.
  */
 public class BookingDetailsActivity extends BaseActivity {
 
@@ -188,7 +188,7 @@ public class BookingDetailsActivity extends BaseActivity {
         }
     }
 
-    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
 

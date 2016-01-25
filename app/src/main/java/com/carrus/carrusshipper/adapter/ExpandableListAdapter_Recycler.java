@@ -15,11 +15,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by anandbose on 09/06/15.
+ * Created by anandbose on 09/06/15 for CarrusShipper.
  */
 public class ExpandableListAdapter_Recycler extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    public static final int HEADER = 0;
-    public static final int CHILD = 1;
+    private static final int HEADER = 0;
+    private static final int CHILD = 1;
 
     private List<Item> data;
     private Activity mActivity;

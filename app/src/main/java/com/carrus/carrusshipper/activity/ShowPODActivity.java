@@ -10,11 +10,11 @@ import com.carrus.carrusshipper.R;
 import com.squareup.picasso.Picasso;
 
 /**
- * Created by Sunny on 11/17/15.
+ * Created by Sunny on 11/17/15 for CarrusShipper.
  */
 public class ShowPODActivity extends BaseActivity {
 
-    public ImageView closeButton;
+    private ImageView closeButton;
     private String url;
     private ImageView imageView;
     private WebView mWebView;

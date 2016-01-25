@@ -1,7 +1,7 @@
 package com.carrus.carrusshipper.activity;
 
 /**
- * Created by Ravi on 29/07/15.
+ * Created by Ravi on 29/07/15 for CarrusShipper.
  */
 
 import android.content.Context;
@@ -54,7 +54,7 @@ public class FragmentDrawer extends Fragment {
         this.drawerListener = listener;
     }
 
-    public List<NavDrawerItem> getData() {
+    private List<NavDrawerItem> getData() {
         List<NavDrawerItem> data = new ArrayList<>();
 
 

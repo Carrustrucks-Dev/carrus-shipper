@@ -1,11 +1,11 @@
 package com.carrus.carrusshipper.model;
 
 /**
- * Created by Sunny on 11/16/15.
+ * Created by Sunny on 11/16/15 for CarrusShipper.
  */
 public class Header {
-    String name;
-    boolean isVisible;
+    private String name;
+    private boolean isVisible;
 
     public Header(String name , boolean isVisible){
         this.name=name;

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Sunny on 11/7/15.
+ * Created by Sunny on 11/7/15 for CarrusShipper.
  */
 public class MyBookingModel   implements Serializable {
 

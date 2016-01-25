@@ -52,40 +52,40 @@
             android:name=".activity.LoginActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
 
         <activity
             android:name=".activity.SignUpActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
 
         <activity
             android:name=".activity.MainActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".activity.ForgotPasswordActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".activity.BookingDetailsActivity"
             android:label="@string/app_name"
             android:launchMode="singleInstance"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".activity.RatingDialogActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.UserDialog"></activity>
+            android:theme="@style/Theme.UserDialog"/>
 
         <activity
             android:name=".activity.ShowPODActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"/>
 
         <receiver
             android:name=".gcm.GcmBroadcastReceiver"
@@ -99,7 +99,7 @@
 
         <service android:name=".gcm.GcmMessageHandler" />
 
-        <service android:name=".services.MyService"></service>
+        <service android:name=".services.MyService"/>
 
         <!-- Goolge API Key -->
         <meta-data

@@ -73,7 +73,7 @@ import retrofit.client.Response;
 import static com.carrus.carrusshipper.utils.Constants.MY_FLURRY_APIKEY;
 
 /**
- * Created by Sunny on 10/29/15.
+ * Created by Sunny on 10/29/15 for CarrusShipper.
  */
 public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickListener {
 
@@ -456,6 +456,7 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
                 }
 
                 MarkerOptions markerOptions = new MarkerOptions();
+                assert mTrackingModel != null;
                 markerOptions.position(new LatLng(mTrackingModel.crruentTracking.get(0).lat, mTrackingModel.crruentTracking.get(0).longg));
                 markerOptions.icon(BitmapDescriptorFactory.fromResource(R.mipmap.icon_van));
                 now = googleMap.addMarker(markerOptions);

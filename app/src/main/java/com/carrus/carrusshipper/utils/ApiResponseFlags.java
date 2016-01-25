@@ -1,7 +1,7 @@
 package com.carrus.carrusshipper.utils;
 
 /**
- * Created by Sunny on 11/6/15.
+ * Created by Sunny on 11/6/15 for CarrusShipper.
  */
 public enum ApiResponseFlags {
 
@@ -14,7 +14,7 @@ public enum ApiResponseFlags {
     Already_Exists(409),
     Internal_Server_Error(500);
 
-    private int ordinal;
+    private final int ordinal;
 
     private ApiResponseFlags(int ordinal) {
         this.ordinal = ordinal;

@@ -34,7 +34,7 @@ import static com.carrus.carrusshipper.utils.Constants.SENDER_ID;
 import static com.carrus.carrusshipper.utils.Constants.USERNAME;
 
 /**
- * Created by Sunny on 11/5/15.
+ * Created by Sunny on 11/5/15 for CarrusShipper.
  */
 public class LoginActivity extends BaseActivity {
 

@@ -15,7 +15,7 @@ import retrofit.mime.TypedFile;
 import retrofit.mime.TypedString;
 
 /**
- * Created by Sunny on 11/3/15.
+ * Created by Sunny on 11/3/15 for CarrusShipper.
  */
 public interface ApiService {
     String LOGOUT_URL = "/api/v1/shipper/logout";

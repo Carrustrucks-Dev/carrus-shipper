@@ -1,7 +1,7 @@
 package com.carrus.carrusshipper.model;
 
 /**
- * Created by Ravi on 29/07/15.
+ * Created by Ravi on 29/07/15 for CarrusShipper.
  */
 public class NavDrawerItem {
     private boolean showNotify;

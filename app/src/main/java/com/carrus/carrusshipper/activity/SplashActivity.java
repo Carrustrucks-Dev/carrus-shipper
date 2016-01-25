@@ -26,7 +26,7 @@ import static com.carrus.carrusshipper.utils.Constants.APPTYPE;
 
 
 /**
- * Created by Sunny on 10/29/15.
+ * Created by Sunny on 10/29/15 for CarrusShipper.
  */
 public class SplashActivity extends BaseActivity {
 

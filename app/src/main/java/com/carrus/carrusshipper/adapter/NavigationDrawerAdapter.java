@@ -1,7 +1,7 @@
 package com.carrus.carrusshipper.adapter;
 
 /**
- * Created by Ravi on 29/07/15.
+ * Created by Ravi on 29/07/15 for CarrusShipper.
  */
 
 import android.content.Context;
@@ -19,7 +19,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDrawerAdapter.MyViewHolder> {
-    List<NavDrawerItem> data = Collections.emptyList();
+    private List<NavDrawerItem> data = Collections.emptyList();
     private LayoutInflater inflater;
     private Context context;
 
@@ -67,7 +67,7 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.title);
             icon =(ImageView) itemView.findViewById(R.id.icon);
-            lineView=(View) itemView.findViewById(R.id.lineView);
+            lineView= itemView.findViewById(R.id.lineView);
         }
     }
 }

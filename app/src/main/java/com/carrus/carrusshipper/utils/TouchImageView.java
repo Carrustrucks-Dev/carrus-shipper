@@ -1,7 +1,7 @@
 package com.carrus.carrusshipper.utils;
 
 /**
- * Created by Saurbhv on 10/13/15.
+ * Created by Saurbhv on 10/13/15 for CarrusShipper.
  */
 import android.content.Context;
 import android.graphics.Matrix;
@@ -17,26 +17,29 @@ import android.widget.ImageView;
 public class TouchImageView extends ImageView {
 
     // We can be in one of these 3 states
-    static final int NONE = 0;
-    static final int DRAG = 1;
-    static final int ZOOM = 2;
-    static final int CLICK = 3;
-    protected float origWidth, origHeight;
-    Matrix matrix;
-    int mode = NONE;
+    private static final int NONE = 0;
+    private static final int DRAG = 1;
+    private static final int ZOOM = 2;
+    private static final int CLICK = 3;
+    private float origWidth;
+    private float origHeight;
+    private Matrix matrix;
+    private int mode = NONE;
     // Remember some things for zooming
-    PointF last = new PointF();
-    PointF start = new PointF();
-    float minScale = 1f;
-    float maxScale = 3f;
-    float[] m;
-    int viewWidth, viewHeight;
-    float saveScale = 1f;
-    int oldMeasuredWidth, oldMeasuredHeight;
+    private PointF last = new PointF();
+    private PointF start = new PointF();
+    private float minScale = 1f;
+    private float maxScale = 3f;
+    private float[] m;
+    private int viewWidth;
+    private int viewHeight;
+    private float saveScale = 1f;
+    private int oldMeasuredWidth;
+    private int oldMeasuredHeight;
 
-    ScaleGestureDetector mScaleDetector;
+    private ScaleGestureDetector mScaleDetector;
 
-    Context context;
+    private Context context;
 
     public TouchImageView(Context context) {
         super(context);
@@ -110,7 +113,7 @@ public class TouchImageView extends ImageView {
         maxScale = x;
     }
 
-    void fixTrans() {
+    private void fixTrans() {
         matrix.getValues(m);
         float transX = m[Matrix.MTRANS_X];
         float transY = m[Matrix.MTRANS_Y];
@@ -123,7 +126,7 @@ public class TouchImageView extends ImageView {
             matrix.postTranslate(fixTransX, fixTransY);
     }
 
-    float getFixTrans(float trans, float viewSize, float contentSize) {
+    private float getFixTrans(float trans, float viewSize, float contentSize) {
         float minTrans, maxTrans;
 
         if (contentSize <= viewSize) {
@@ -141,7 +144,7 @@ public class TouchImageView extends ImageView {
         return 0;
     }
 
-    float getFixDragTrans(float delta, float viewSize, float contentSize) {
+    private float getFixDragTrans(float delta, float viewSize, float contentSize) {
         if (contentSize <= viewSize) {
             return 0;
         }

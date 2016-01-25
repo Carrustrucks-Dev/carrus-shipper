@@ -16,7 +16,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 import static com.carrus.carrusshipper.utils.Constants.MY_FLURRY_APIKEY;
 
 /**
- * Created by Muddassir on 6/10/15.
+ * Created by Muddassir on 6/10/15 for CarrusShipper.
  */
 public abstract class BaseActivity extends FragmentActivity {
 
@@ -71,6 +71,7 @@ public abstract class BaseActivity extends FragmentActivity {
         if (view instanceof EditText) {
             View w = getCurrentFocus();
             int scrcoords[] = new int[2];
+            assert w != null;
             w.getLocationOnScreen(scrcoords);
             float x = event.getRawX() + w.getLeft() - scrcoords[0];
             float y = event.getRawY() + w.getTop() - scrcoords[1];

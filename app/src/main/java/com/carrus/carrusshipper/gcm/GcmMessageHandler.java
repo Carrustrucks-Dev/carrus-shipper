@@ -51,9 +51,9 @@ public class GcmMessageHandler extends IntentService {
 //            sendNotification(extras.getString("message").toString(), extras.getString("gcm.notification.title").toString());
             JSONObject myObject = new JSONObject(extras.getString("flag"));
             if (myObject.has("bookingStatus")) {
-                sendRatingNotification(extras.getString("message").toString(), extras.getString("brand_name").toString(), myObject.getString("bookingId"));
+                sendRatingNotification(extras.getString("message"), extras.getString("brand_name"), myObject.getString("bookingId"));
             } else
-                sendNotification(extras.getString("message").toString(), extras.getString("brand_name").toString(), myObject.getString("bookingId"));
+                sendNotification(extras.getString("message"), extras.getString("brand_name"), myObject.getString("bookingId"));
 
             Bundle bundle = new Bundle();
             // Storing data into bundle

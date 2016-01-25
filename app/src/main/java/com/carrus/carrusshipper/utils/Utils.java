@@ -28,7 +28,7 @@ import retrofit.RetrofitError;
 import retrofit.mime.TypedByteArray;
 
 /**
- * Created by Sunny on 11/6/15.
+ * Created by Sunny on 11/6/15 for CarrusShipper.
  */
 public class Utils {
 
@@ -239,9 +239,9 @@ measures height of recyclerview when placed inside scrollview
 //        InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
 //        inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
         try {
-            InputMethodManager imm = (InputMethodManager) activity.getSystemService(activity.INPUT_METHOD_SERVICE);
+            InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
         }
     }

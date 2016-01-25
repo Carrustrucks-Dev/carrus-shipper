@@ -25,7 +25,7 @@ import retrofit.client.Response;
 import static com.carrus.carrusshipper.utils.Constants.MY_FLURRY_APIKEY;
 
 /**
- * Created by Sunny on 11/19/15.
+ * Created by Sunny on 11/19/15 for CarrusShipper.
  */
 public class RatingDialogActivity extends BaseActivity {
 

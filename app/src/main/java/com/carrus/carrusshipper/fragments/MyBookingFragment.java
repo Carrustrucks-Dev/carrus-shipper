@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Sunny on 10/30/15.
+ * Created by Sunny on 10/30/15 for CarrusShipper.
  */
 public class MyBookingFragment extends Fragment {
 
