@@ -1,9 +1,13 @@
 package com.carrus.carrusshipper.fragments;
 
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -49,6 +53,7 @@ import static com.carrus.carrusshipper.utils.Constants.MY_FLURRY_APIKEY;
 public class ProfileFragment extends Fragment implements
         ImageChooserListener, View.OnClickListener {
 
+    private final String TAG = getClass().getSimpleName();
     private ImageView driverImage;
     private TextView driverName;
     private RatingBar driverRating;
@@ -115,17 +120,47 @@ public class ProfileFragment extends Fragment implements
 
     @Override
     public void onClick(View v) {
-        ImageChooserDialog.With(getActivity()).Show(getResources().getString(R.string.choose_image), new ImageChooserDialog.OnButtonClicked() {
-            @Override
-            public void onGaleryClicked() {
-                chooseImage();
-            }
+        if (isStoragePermissionGranted())
+            ImageChooserDialog.With(getActivity()).Show(getResources().getString(R.string.choose_image), new ImageChooserDialog.OnButtonClicked() {
+                @Override
+                public void onGaleryClicked() {
+                    chooseImage();
+                }
 
-            @Override
-            public void onCameraClicked() {
-                takePicture();
+                @Override
+                public void onCameraClicked() {
+                    takePicture();
+                }
+            });
+    }
+
+    private boolean isStoragePermissionGranted() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED) {
+                Log.v(TAG, "Permission is granted");
+                return true;
+            } else {
+
+                Log.v(TAG, "Permission is revoked");
+                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                return false;
             }
-        });
+        } else { //permission is automatically granted on sdk<23 upon installation
+            Log.v(TAG, "Permission is granted");
+            return true;
+        }
+
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(grantResults[0]== PackageManager.PERMISSION_GRANTED){
+            Log.v(TAG,"Permission: "+permissions[0]+ "was "+grantResults[0]);
+            //resume tasks needing this permission
+        }
     }
 
     private void setData() {

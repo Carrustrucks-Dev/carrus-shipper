@@ -129,7 +129,7 @@ measures height of recyclerview when placed inside scrollview
         return phrase;
     }
 
-    public final static boolean isValidEmail(String target) {
+    public static boolean isValidEmail(String target) {
         if (TextUtils.isEmpty(target)) {
             return false;
         } else {

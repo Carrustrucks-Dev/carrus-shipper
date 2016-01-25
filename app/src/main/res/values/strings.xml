@@ -23,8 +23,8 @@
     <string name="forgotpasswdlable">Forgot Password</string>
     <string name="bookingdetails">Booking Details</string>
     <string name="searchshipment">Track Your Shipment</string>
-    <string name="addfeedback">Add feedback here...</string>
-    <string name="choose_image">Choose image from...</string>
+    <string name="addfeedback">Add feedback here…</string>
+    <string name="choose_image">Choose image from…</string>
     <string name="update_message">Do you want to update the app?</string>
     <string name="critical_update_message">Critical update found, you have to update the app</string>
 
@@ -81,7 +81,7 @@
     <string name="typeofcargo">Type of Cargo</string>
     <string name="weight">Weight</string>
     <string name="crnsubject">CRN Number</string>
-    <string name="share_chooser_text">Share using...</string>
+    <string name="share_chooser_text">Share using…</string>
 
 
     <!-- navigation drawer item labels  -->
