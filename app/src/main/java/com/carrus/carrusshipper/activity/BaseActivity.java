@@ -9,7 +9,11 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import com.flurry.android.FlurryAgent;
+
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
+import static com.carrus.carrusshipper.utils.Constants.MY_FLURRY_APIKEY;
 
 /**
  * Created by Muddassir on 6/10/15.
@@ -40,6 +44,7 @@ public abstract class BaseActivity extends FragmentActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        FlurryAgent.onEndSession(this);
     }
 
     @Override
@@ -47,6 +52,11 @@ public abstract class BaseActivity extends FragmentActivity {
         super.onDestroy();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FlurryAgent.onStartSession(this, MY_FLURRY_APIKEY);
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

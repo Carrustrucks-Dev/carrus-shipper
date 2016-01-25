@@ -35,6 +35,7 @@ import com.carrus.carrusshipper.utils.ApiResponseFlags;
 import com.carrus.carrusshipper.utils.Constants;
 import com.carrus.carrusshipper.utils.SessionManager;
 import com.carrus.carrusshipper.utils.Utils;
+import com.flurry.android.FlurryAgent;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -49,6 +50,8 @@ import java.util.List;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+
+import static com.carrus.carrusshipper.utils.Constants.MY_FLURRY_APIKEY;
 
 /**
  * Created by Sunny on 11/6/15.
@@ -232,6 +235,7 @@ public class BookingDetailsActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 if (mMyBookingDataModel.doc.pod != null) {
+                    FlurryAgent.onEvent("User Profile Mode");
                     Intent mIntent = new Intent(BookingDetailsActivity.this, ShowPODActivity.class);
                     mIntent.putExtra("url", mMyBookingDataModel.doc.pod);
                     startActivity(mIntent);
@@ -356,8 +360,20 @@ public class BookingDetailsActivity extends BaseActivity {
 
     }
 
-    private void setValuesonViews() {
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FlurryAgent.onStartSession(this, MY_FLURRY_APIKEY);
+        FlurryAgent.onEvent("Booking Details Mode");
+    }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        FlurryAgent.onEndSession(this);
+    }
+
+    private void setValuesonViews() {
         nameDetailTxtView.setText(mMyBookingDataModel.shipper.firstName + " " + mMyBookingDataModel.shipper.lastName);
         typeDetailTxtView.setText(mMyBookingDataModel.truck.truckType.typeTruckName + ", " + mMyBookingDataModel.truck.truckNumber);
         locationDetailsTxtView.setText(mMyBookingDataModel.pickUp.city + " to " + mMyBookingDataModel.dropOff.city);

@@ -26,6 +26,7 @@ import com.carrus.carrusshipper.utils.ConnectionDetector;
 import com.carrus.carrusshipper.utils.Constants;
 import com.carrus.carrusshipper.utils.SessionManager;
 import com.carrus.carrusshipper.utils.Utils;
+import com.flurry.android.FlurryAgent;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -39,6 +40,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 import static com.carrus.carrusshipper.utils.Constants.LIMIT;
+import static com.carrus.carrusshipper.utils.Constants.MY_FLURRY_APIKEY;
 import static com.carrus.carrusshipper.utils.Constants.SORT;
 
 /**
@@ -137,6 +139,20 @@ public class UpComingFragment extends Fragment {
             getMyBooking();
         }
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        FlurryAgent.onStartSession(getActivity(), MY_FLURRY_APIKEY);
+        FlurryAgent.onEvent("Upcoming Booking Mode");
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        FlurryAgent.onEndSession(getActivity());
+    }
+
 
     private void getMyBooking() {
         mErrorLayout.setVisibility(View.GONE);

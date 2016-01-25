@@ -17,6 +17,7 @@ import com.carrus.carrusshipper.utils.ApiResponseFlags;
 import com.carrus.carrusshipper.utils.ConnectionDetector;
 import com.carrus.carrusshipper.utils.SessionManager;
 import com.carrus.carrusshipper.utils.Utils;
+import com.flurry.android.FlurryAgent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,6 +27,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 import static com.carrus.carrusshipper.utils.Constants.DEVICE_TYPE;
+import static com.carrus.carrusshipper.utils.Constants.MY_FLURRY_APIKEY;
 import static com.carrus.carrusshipper.utils.Constants.PASSWORD;
 import static com.carrus.carrusshipper.utils.Constants.REMEMBERME;
 import static com.carrus.carrusshipper.utils.Constants.SENDER_ID;
@@ -110,6 +112,19 @@ public class LoginActivity extends BaseActivity {
                 mSessionManager.saveDeviceToken(deviceToken);
             }
         }).execute(SENDER_ID);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FlurryAgent.onStartSession(this, MY_FLURRY_APIKEY);
+        FlurryAgent.onEvent("Login Mode");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        FlurryAgent.onEndSession(this);
     }
 
     private void verifyLoggedIn() {

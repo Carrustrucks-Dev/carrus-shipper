@@ -23,6 +23,7 @@ import com.carrus.carrusshipper.utils.CircleTransform;
 import com.carrus.carrusshipper.utils.ImageChooserDialog;
 import com.carrus.carrusshipper.utils.SessionManager;
 import com.carrus.carrusshipper.utils.Utils;
+import com.flurry.android.FlurryAgent;
 import com.kbeanie.imagechooser.api.ChooserType;
 import com.kbeanie.imagechooser.api.ChosenImage;
 import com.kbeanie.imagechooser.api.ImageChooserListener;
@@ -38,6 +39,8 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import retrofit.mime.TypedFile;
+
+import static com.carrus.carrusshipper.utils.Constants.MY_FLURRY_APIKEY;
 
 
 /**
@@ -138,6 +141,20 @@ public class ProfileFragment extends Fragment implements
         driverRating.setRating(Float.valueOf(mSessionManager.getRating()));
 
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        FlurryAgent.onStartSession(getActivity(), MY_FLURRY_APIKEY);
+        FlurryAgent.onEvent("User Profile Mode");
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        FlurryAgent.onEndSession(getActivity());
+    }
+
 
     private void takePicture() {
         chooserType = ChooserType.REQUEST_CAPTURE_PICTURE;

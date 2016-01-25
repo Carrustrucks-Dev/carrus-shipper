@@ -39,6 +39,7 @@ import com.carrus.carrusshipper.utils.Constants;
 import com.carrus.carrusshipper.utils.GMapV2GetRouteDirection;
 import com.carrus.carrusshipper.utils.SessionManager;
 import com.carrus.carrusshipper.utils.Utils;
+import com.flurry.android.FlurryAgent;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -68,6 +69,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+
+import static com.carrus.carrusshipper.utils.Constants.MY_FLURRY_APIKEY;
 
 /**
  * Created by Sunny on 10/29/15.
@@ -596,6 +599,20 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
             }
         });
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        FlurryAgent.onStartSession(getActivity(), MY_FLURRY_APIKEY);
+        FlurryAgent.onEvent("OnGoing Booking Mode");
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        FlurryAgent.onEndSession(getActivity());
+    }
+
 
     private void getOnGoingBookingTrack() {
         mErrorLayout.setVisibility(View.GONE);

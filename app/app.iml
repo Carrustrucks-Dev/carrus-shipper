@@ -134,6 +134,7 @@
     <orderEntry type="library" exported="" name="recyclerview-v7-22.0.0" level="project" />
     <orderEntry type="library" exported="" name="calligraphy-2.1.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-panorama-7.8.0" level="project" />
+    <orderEntry type="library" exported="" name="FlurryAnalytics-6.2.0" level="project" />
     <orderEntry type="library" exported="" name="mediarouter-v7-22.2.0" level="project" />
     <orderEntry type="library" exported="" name="image-chooser-library-1.5.2" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-22.2.0" level="project" />
