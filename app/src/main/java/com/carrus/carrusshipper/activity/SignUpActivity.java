@@ -528,8 +528,6 @@ public class SignUpActivity extends BaseActivity {
             Button submitBtn = (Button) dialog.findViewById(R.id.submitBtn);
 
             submitBtn.setOnClickListener(new View.OnClickListener() {
-
-
                 @Override
                 public void onClick(View view) {
                     if(mEditText.getText().toString().trim().isEmpty()){
