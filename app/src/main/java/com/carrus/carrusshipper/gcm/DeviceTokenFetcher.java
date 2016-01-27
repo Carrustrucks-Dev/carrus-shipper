@@ -64,6 +64,7 @@ public class DeviceTokenFetcher extends AsyncTask<String, Void, String> {
     protected String doInBackground(String... params) {
 
         try {
+            if(activity!=null)
             return GoogleCloudMessaging.getInstance(activity).register(params[0]);
         } catch (IOException e) {
             e.printStackTrace();
