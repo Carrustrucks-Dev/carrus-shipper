@@ -513,6 +513,7 @@ public class BookingDetailsActivity extends BaseActivity {
 
         } catch (Exception ex) {
             ex.printStackTrace();
+            finish();
         }
     }
 
