@@ -374,141 +374,146 @@ public class BookingDetailsActivity extends BaseActivity {
     }
 
     private void setValuesonViews() {
-        nameDetailTxtView.setText(mMyBookingDataModel.shipper.firstName + " " + mMyBookingDataModel.shipper.lastName);
-        typeDetailTxtView.setText(mMyBookingDataModel.truck.truckType.typeTruckName + ", " + mMyBookingDataModel.truck.truckNumber);
-        locationDetailsTxtView.setText(mMyBookingDataModel.pickUp.city + " to " + mMyBookingDataModel.dropOff.city);
-        if (mMyBookingDataModel.crn != null && !mMyBookingDataModel.crn.equalsIgnoreCase(""))
-            trackDetailsIdTxtView.setText("CRN - " + mMyBookingDataModel.crn);
-
-        statusTxtView.setText(mMyBookingDataModel.bookingStatus.replace("_", " "));
-        switch (mMyBookingDataModel.bookingStatus.toLowerCase()) {
-            case "on_going":
-            case "halt":
-            case "on_the_way":
-            case "reached_destination":
-                topView.setBackgroundColor(getResources().getColor(R.color.blue_ongoing));
-                cancelBtn.setVisibility(View.GONE);
-                viewPodBtn.setVisibility(View.GONE);
-                viewInVoiceBtn.setVisibility(View.GONE);
-                viewConsignmentBtn.setVisibility(View.GONE);
-                locationIV.setVisibility(View.VISIBLE);
-                break;
-
-            case "canceled":
-                topView.setBackgroundColor(getResources().getColor(R.color.red));
-                viewPodBtn.setVisibility(View.GONE);
-                viewInVoiceBtn.setVisibility(View.GONE);
-                viewConsignmentBtn.setVisibility(View.GONE);
-                cancelBtn.setVisibility(View.GONE);
-                break;
-
-            case "confirmed":
-                topView.setBackgroundColor(getResources().getColor(R.color.green));
-                cancelBtn.setVisibility(View.VISIBLE);
-                viewPodBtn.setVisibility(View.GONE);
-                viewInVoiceBtn.setVisibility(View.GONE);
-                viewConsignmentBtn.setVisibility(View.GONE);
-                break;
-
-            case "completed":
-                topView.setBackgroundColor(getResources().getColor(R.color.gray_completed));
-                cancelBtn.setVisibility(View.GONE);
-                viewPodBtn.setVisibility(View.VISIBLE);
-                viewInVoiceBtn.setVisibility(View.VISIBLE);
-                viewConsignmentBtn.setVisibility(View.VISIBLE);
-
-                if (mMyBookingDataModel.doc.pod != null) {
-                    viewPodBtn.setBackgroundColor(getResources().getColor(R.color.tabcolor_dark));
-                } else {
-                    viewPodBtn.setBackgroundColor(getResources().getColor(R.color.gray_completed));
-                }
-
-                if (mMyBookingDataModel.doc.invoice != null) {
-                    viewInVoiceBtn.setBackgroundColor(getResources().getColor(R.color.tabcolor_dark));
-                } else {
-                    viewInVoiceBtn.setBackgroundColor(getResources().getColor(R.color.gray_completed));
-                }
-
-                if (mMyBookingDataModel.doc.consigmentNote != null) {
-                    viewConsignmentBtn.setBackgroundColor(getResources().getColor(R.color.tabcolor_dark));
-                } else {
-                    viewConsignmentBtn.setBackgroundColor(getResources().getColor(R.color.gray_completed));
-                }
-
-                break;
-        }
-
-
-        switch (mMyBookingDataModel.bookingStatus.toUpperCase()) {
-            case "ACCEPTED":
-                cancelBtn.setVisibility(View.VISIBLE);
-                break;
-
-            case "PENDING":
-                cancelBtn.setVisibility(View.VISIBLE);
-                break;
-
-
-            case "CONFIRMED":
-                cancelBtn.setVisibility(View.VISIBLE);
-                break;
-        }
-
-
-        addresPickupTxtView.setText(mMyBookingDataModel.pickUp.address + ", " + mMyBookingDataModel.pickUp.city + ", " + mMyBookingDataModel.pickUp.state + ", " + mMyBookingDataModel.pickUp.zipCode);
-
         try {
-            datePickupTxtView.setText(Utils.getFullDateTime(mMyBookingDataModel.pickUp.date));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+            nameDetailTxtView.setText(mMyBookingDataModel.shipper.firstName + " " + mMyBookingDataModel.shipper.lastName);
+            typeDetailTxtView.setText(mMyBookingDataModel.truck.truckType.typeTruckName + ", " + mMyBookingDataModel.truck.truckNumber);
+            locationDetailsTxtView.setText(mMyBookingDataModel.pickUp.city + " to " + mMyBookingDataModel.dropOff.city);
+            if (mMyBookingDataModel.crn != null && !mMyBookingDataModel.crn.equalsIgnoreCase(""))
+                trackDetailsIdTxtView.setText("CRN - " + mMyBookingDataModel.crn);
 
-        timePickupTxtView.setText(mMyBookingDataModel.pickUp.time);
-        addressDropTxtView.setText(mMyBookingDataModel.dropOff.address + ", " + mMyBookingDataModel.dropOff.city + ", " + mMyBookingDataModel.dropOff.state + ", " + mMyBookingDataModel.dropOff.zipCode);
+            statusTxtView.setText(mMyBookingDataModel.bookingStatus.replace("_", " "));
+            switch (mMyBookingDataModel.bookingStatus.toLowerCase()) {
+                case "on_going":
+                case "halt":
+                case "on_the_way":
+                case "reached_destination":
+                    topView.setBackgroundColor(getResources().getColor(R.color.blue_ongoing));
+                    cancelBtn.setVisibility(View.GONE);
+                    viewPodBtn.setVisibility(View.GONE);
+                    viewInVoiceBtn.setVisibility(View.GONE);
+                    viewConsignmentBtn.setVisibility(View.GONE);
+                    locationIV.setVisibility(View.VISIBLE);
+                    break;
 
-        try {
-            dateDropTxtview.setText(Utils.getFullDateTime(mMyBookingDataModel.dropOff.date));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+                case "canceled":
+                    topView.setBackgroundColor(getResources().getColor(R.color.red));
+                    viewPodBtn.setVisibility(View.GONE);
+                    viewInVoiceBtn.setVisibility(View.GONE);
+                    viewConsignmentBtn.setVisibility(View.GONE);
+                    cancelBtn.setVisibility(View.GONE);
+                    break;
 
-        timeDropTxtView.setText(mMyBookingDataModel.dropOff.time);
-        paymentModeTxtView.setText(mMyBookingDataModel.paymentMode);
-        totalCostTxtView.setText("₹ " + NumberFormat.getInstance().format(Long.valueOf(mMyBookingDataModel.acceptPrice)));
-        namePickUpTxtView.setText(mMyBookingDataModel.pickUp.companyName);
-        phonePickUpTxtView.setText(mMyBookingDataModel.pickUp.contactNumber);
-        codePickUpTxtView.setText(mMyBookingDataModel.pickUp.tin);
-        nameDropofTxtView.setText(mMyBookingDataModel.dropOff.companyName);
-        phoneDropofTxtView.setText(mMyBookingDataModel.dropOff.contactNumber);
-        codeDropofTxtView.setText(mMyBookingDataModel.dropOff.tin);
+                case "confirmed":
+                    topView.setBackgroundColor(getResources().getColor(R.color.green));
+                    cancelBtn.setVisibility(View.VISIBLE);
+                    viewPodBtn.setVisibility(View.GONE);
+                    viewInVoiceBtn.setVisibility(View.GONE);
+                    viewConsignmentBtn.setVisibility(View.GONE);
+                    break;
 
-        // Adding child data
-        ArrayList<ExpandableChildItem> cargoDetails = new ArrayList<ExpandableChildItem>();
-        cargoDetails.add(new ExpandableChildItem(mMyBookingDataModel.cargo.cargoType.typeCargoName, mMyBookingDataModel.cargo.weight + "", 0));
+                case "completed":
+                    topView.setBackgroundColor(getResources().getColor(R.color.gray_completed));
+                    cancelBtn.setVisibility(View.GONE);
+                    viewPodBtn.setVisibility(View.VISIBLE);
+                    viewInVoiceBtn.setVisibility(View.VISIBLE);
+                    viewConsignmentBtn.setVisibility(View.VISIBLE);
 
-        // Adding child data
-        ArrayList<ExpandableChildItem> notes = new ArrayList<ExpandableChildItem>();
-        notes.add(new ExpandableChildItem("", mMyBookingDataModel.jobNote, 1));
+                    if (mMyBookingDataModel.doc.pod != null) {
+                        viewPodBtn.setBackgroundColor(getResources().getColor(R.color.tabcolor_dark));
+                    } else {
+                        viewPodBtn.setBackgroundColor(getResources().getColor(R.color.gray_completed));
+                    }
 
-        // Adding child data
-        ArrayList<ExpandableChildItem> fleetowner = new ArrayList<ExpandableChildItem>();
-        fleetowner.add(new ExpandableChildItem("", mMyBookingDataModel.quoteNote, 1));
+                    if (mMyBookingDataModel.doc.invoice != null) {
+                        viewInVoiceBtn.setBackgroundColor(getResources().getColor(R.color.tabcolor_dark));
+                    } else {
+                        viewInVoiceBtn.setBackgroundColor(getResources().getColor(R.color.gray_completed));
+                    }
 
-        listDataChild.put(listDataHeader.get(0), cargoDetails); // Header, Child data
-        listDataChild.put(listDataHeader.get(1), notes);
-        listDataChild.put(listDataHeader.get(2), fleetowner);
+                    if (mMyBookingDataModel.doc.consigmentNote != null) {
+                        viewConsignmentBtn.setBackgroundColor(getResources().getColor(R.color.tabcolor_dark));
+                    } else {
+                        viewConsignmentBtn.setBackgroundColor(getResources().getColor(R.color.gray_completed));
+                    }
 
-        listAdapter = new ExpandableListAdapter(BookingDetailsActivity.this, listDataHeader, listDataChild);
-        mExpandableListView.setAdapter(listAdapter);
-        setListViewHeight(mExpandableListView);
-//        chnageHieghtListView();
-        final ScrollView scrollview = (ScrollView) findViewById(R.id.mainscrollview);
-
-        scrollview.post(new Runnable() {
-            public void run() {
-                scrollview.scrollTo(0, 0);
+                    break;
             }
-        });
+
+
+            switch (mMyBookingDataModel.bookingStatus.toUpperCase()) {
+                case "ACCEPTED":
+                    cancelBtn.setVisibility(View.VISIBLE);
+                    break;
+
+                case "PENDING":
+                    cancelBtn.setVisibility(View.VISIBLE);
+                    break;
+
+
+                case "CONFIRMED":
+                    cancelBtn.setVisibility(View.VISIBLE);
+                    break;
+            }
+
+
+            addresPickupTxtView.setText(mMyBookingDataModel.pickUp.address + ", " + mMyBookingDataModel.pickUp.city + ", " + mMyBookingDataModel.pickUp.state + ", " + mMyBookingDataModel.pickUp.zipCode);
+
+            try {
+                datePickupTxtView.setText(Utils.getFullDateTime(mMyBookingDataModel.pickUp.date));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            timePickupTxtView.setText(mMyBookingDataModel.pickUp.time);
+            addressDropTxtView.setText(mMyBookingDataModel.dropOff.address + ", " + mMyBookingDataModel.dropOff.city + ", " + mMyBookingDataModel.dropOff.state + ", " + mMyBookingDataModel.dropOff.zipCode);
+
+            try {
+                dateDropTxtview.setText(Utils.getFullDateTime(mMyBookingDataModel.dropOff.date));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            timeDropTxtView.setText(mMyBookingDataModel.dropOff.time);
+            paymentModeTxtView.setText(mMyBookingDataModel.paymentMode);
+            totalCostTxtView.setText("₹ " + NumberFormat.getInstance().format(Long.valueOf(mMyBookingDataModel.acceptPrice)));
+            namePickUpTxtView.setText(mMyBookingDataModel.pickUp.companyName);
+            phonePickUpTxtView.setText(mMyBookingDataModel.pickUp.contactNumber);
+            codePickUpTxtView.setText(mMyBookingDataModel.pickUp.tin);
+            nameDropofTxtView.setText(mMyBookingDataModel.dropOff.companyName);
+            phoneDropofTxtView.setText(mMyBookingDataModel.dropOff.contactNumber);
+            codeDropofTxtView.setText(mMyBookingDataModel.dropOff.tin);
+
+            // Adding child data
+            ArrayList<ExpandableChildItem> cargoDetails = new ArrayList<ExpandableChildItem>();
+            cargoDetails.add(new ExpandableChildItem(mMyBookingDataModel.cargo.cargoType.typeCargoName, mMyBookingDataModel.cargo.weight + "", 0));
+
+            // Adding child data
+            ArrayList<ExpandableChildItem> notes = new ArrayList<ExpandableChildItem>();
+            notes.add(new ExpandableChildItem("", mMyBookingDataModel.jobNote, 1));
+
+            // Adding child data
+            ArrayList<ExpandableChildItem> fleetowner = new ArrayList<ExpandableChildItem>();
+            fleetowner.add(new ExpandableChildItem("", mMyBookingDataModel.quoteNote, 1));
+
+            listDataChild.put(listDataHeader.get(0), cargoDetails); // Header, Child data
+            listDataChild.put(listDataHeader.get(1), notes);
+            listDataChild.put(listDataHeader.get(2), fleetowner);
+
+            listAdapter = new ExpandableListAdapter(BookingDetailsActivity.this, listDataHeader, listDataChild);
+            mExpandableListView.setAdapter(listAdapter);
+            setListViewHeight(mExpandableListView);
+//        chnageHieghtListView();
+            final ScrollView scrollview = (ScrollView) findViewById(R.id.mainscrollview);
+
+            scrollview.post(new Runnable() {
+                public void run() {
+                    scrollview.scrollTo(0, 0);
+                }
+            });
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     private void getBookingDetails(String id) {
