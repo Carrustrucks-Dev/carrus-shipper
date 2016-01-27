@@ -212,11 +212,15 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
         mBottomView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("value", mTrackermodel.get(selectedPos));
-                Intent intent = new Intent(getActivity(), BookingDetailsActivity.class);
-                intent.putExtras(bundle);
-                startActivityForResult(intent, 600);
+                try {
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("value", mTrackermodel.get(selectedPos));
+                    Intent intent = new Intent(getActivity(), BookingDetailsActivity.class);
+                    intent.putExtras(bundle);
+                    startActivityForResult(intent, 600);
+                }catch (ArrayIndexOutOfBoundsException ex){
+                    ex.printStackTrace();
+                }
             }
         });
     }
