@@ -162,8 +162,8 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
         locationTxtView = (TextView) view.findViewById(R.id.locationTxtView);
         statusTxtView = (TextView) view.findViewById(R.id.statusTxtView);
         mSearchEdtTxt = (EditText) view.findViewById(R.id.searchEdtTxt);
-        mErrorLayout=(LinearLayout) view.findViewById(R.id.errorLayout);
-        errorTxtView=(TextView) view.findViewById(R.id.errorTxtView);
+        mErrorLayout = (LinearLayout) view.findViewById(R.id.errorLayout);
+        errorTxtView = (TextView) view.findViewById(R.id.errorTxtView);
         mSearchEdtTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -446,24 +446,28 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            try {
+                if (intent.getAction().equals(mBroadcastUiAction)) {
+                    Bundle bundle = intent.getExtras();
 
-            if (intent.getAction().equals(mBroadcastUiAction)) {
-                Bundle bundle = intent.getExtras();
+                    MyBookingDataModel mTrackingModel = (MyBookingDataModel) bundle.getSerializable("data");
+                    if (now != null) {
+                        now.remove();
+                    }
 
-                MyBookingDataModel mTrackingModel = (MyBookingDataModel) bundle.getSerializable("data");
-                if (now != null) {
-                    now.remove();
+                    MarkerOptions markerOptions = new MarkerOptions();
+                    assert mTrackingModel != null;
+                    markerOptions.position(new LatLng(mTrackingModel.crruentTracking.get(0).lat, mTrackingModel.crruentTracking.get(0).longg));
+                    markerOptions.icon(BitmapDescriptorFactory.fromResource(R.mipmap.icon_van));
+                    now = googleMap.addMarker(markerOptions);
+
+                } else if (intent.getAction().equals(mBroadcastAction)) {
+                    Utils.shopAlterDialog(getActivity(), intent.getStringExtra("data"), true);
+                    mainActivity.stopService();
                 }
 
-                MarkerOptions markerOptions = new MarkerOptions();
-                assert mTrackingModel != null;
-                markerOptions.position(new LatLng(mTrackingModel.crruentTracking.get(0).lat, mTrackingModel.crruentTracking.get(0).longg));
-                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.mipmap.icon_van));
-                now = googleMap.addMarker(markerOptions);
-
-            } else if (intent.getAction().equals(mBroadcastAction)) {
-                Utils.shopAlterDialog(getActivity(), intent.getStringExtra("data"), true);
-                mainActivity.stopService();
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
         }
     };
