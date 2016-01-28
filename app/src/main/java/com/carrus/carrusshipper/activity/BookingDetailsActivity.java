@@ -81,7 +81,6 @@ public class BookingDetailsActivity extends BaseActivity {
         setContentView(R.layout.activity_bookingdetails);
         init();
         initializeClickListner();
-
     }
 
     private void init() {
@@ -441,6 +440,7 @@ public class BookingDetailsActivity extends BaseActivity {
 
 
             switch (mMyBookingDataModel.bookingStatus.toUpperCase()) {
+
                 case "ACCEPTED":
                     cancelBtn.setVisibility(View.VISIBLE);
                     break;
@@ -449,12 +449,11 @@ public class BookingDetailsActivity extends BaseActivity {
                     cancelBtn.setVisibility(View.VISIBLE);
                     break;
 
-
                 case "CONFIRMED":
                     cancelBtn.setVisibility(View.VISIBLE);
                     break;
-            }
 
+            }
 
             addresPickupTxtView.setText(mMyBookingDataModel.pickUp.address + ", " + mMyBookingDataModel.pickUp.city + ", " + mMyBookingDataModel.pickUp.state + ", " + mMyBookingDataModel.pickUp.zipCode);
 

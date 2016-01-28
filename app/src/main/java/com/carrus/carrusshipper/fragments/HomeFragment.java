@@ -198,7 +198,7 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
             public void onClick(View v) {
                 try {
                     if (selectedNumber != null) {
-                        Intent callIntent = new Intent(Intent.ACTION_CALL);
+                        Intent callIntent = new Intent(Intent.ACTION_DIAL);
                         callIntent.setData(Uri.parse("tel:" + selectedNumber));
                         startActivity(callIntent);
                     }
