@@ -166,7 +166,7 @@ public class ProfileFragment extends Fragment implements
 
     private void setData() {
         if (mSessionManager.getProfilePic() != null && !mSessionManager.getProfilePic().isEmpty())
-            Picasso.with(getActivity()).load(mSessionManager.getProfilePic()).placeholder(R.mipmap.icon_placeholder).skipMemoryCache().resize(300, 300).transform(new CircleTransform()).into(driverImage);
+            Picasso.with(getActivity()).load(mSessionManager.getProfilePic()).placeholder(R.mipmap.icon_placeholder).skipMemoryCache().resize((int)Utils.convertDpToPixel(120, getActivity()), (int)Utils.convertDpToPixel(120, getActivity())).transform(new CircleTransform()).into(driverImage);
 
         cmpanyNameTxtView.setText(mSessionManager.getCompanyName());
         driverName.setText(mSessionManager.getName());
@@ -292,7 +292,7 @@ public class ProfileFragment extends Fragment implements
                         Log.e("<<>>>>", ">> " + mSessionManager.getProfilePic());
                         driverImage.setBackgroundResource(0);
                         if (mSessionManager.getProfilePic() != null)
-                            Picasso.with(getActivity()).load(mSessionManager.getProfilePic()).placeholder(R.mipmap.icon_placeholder).skipMemoryCache().resize(300, 300).transform(new CircleTransform()).into(driverImage, new com.squareup.picasso.Callback() {
+                            Picasso.with(getActivity()).load(mSessionManager.getProfilePic()).placeholder(R.mipmap.icon_placeholder).skipMemoryCache().resize((int)Utils.convertDpToPixel(120, getActivity()), (int)Utils.convertDpToPixel(120, getActivity())).transform(new CircleTransform()).into(driverImage, new com.squareup.picasso.Callback() {
                                 @Override
                                 public void onSuccess() {
                                     Log.i("TAG", "Picasso Success Loading Thumbnail - " + path);

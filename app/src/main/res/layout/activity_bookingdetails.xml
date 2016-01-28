@@ -385,7 +385,7 @@
                     android:id="@+id/cancelBtn"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/gray_text"
+                    android:background="@drawable/button_effect_gray"
                     android:text="@string/cancel"
                     android:textColor="@color/windowBackground"
                     android:visibility="gone" />
@@ -394,7 +394,7 @@
                     android:id="@+id/viewPodBtn"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/tabcolor_dark"
+                    android:background="@drawable/button_effect"
                     android:text="@string/viewpod"
                     android:textColor="@color/windowBackground"
                     android:visibility="gone" />
@@ -409,7 +409,7 @@
                     android:id="@+id/viewInVoiceBtn"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/tabcolor_dark"
+                    android:background="@drawable/button_effect"
                     android:text="@string/viewinvoice"
                     android:textColor="@color/windowBackground"
                     android:visibility="gone" />
@@ -423,7 +423,7 @@
                     android:id="@+id/viewConsignmentBtn"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/tabcolor_dark"
+                    android:background="@drawable/button_effect"
                     android:text="@string/viewconsignment"
                     android:textColor="@color/windowBackground"
                     android:visibility="gone" />

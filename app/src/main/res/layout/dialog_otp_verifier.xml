@@ -65,7 +65,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_gravity="right"
-                android:background="@color/colorPrimary"
+                android:background="@drawable/button_effect_blue"
                 android:layout_marginTop="@dimen/ten"
                 android:layout_marginBottom="@dimen/ten"
                 android:singleLine="true"

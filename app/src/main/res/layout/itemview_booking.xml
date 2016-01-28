@@ -5,6 +5,7 @@
     android:gravity="center_vertical"
     android:paddingTop="@dimen/ten"
     android:paddingBottom="@dimen/ten"
+    android:background="@drawable/selector_row"
     android:orientation="horizontal"
     android:weightSum="1">
 

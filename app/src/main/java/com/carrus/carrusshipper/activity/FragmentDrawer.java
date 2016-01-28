@@ -26,6 +26,7 @@ import com.carrus.carrusshipper.adapter.NavigationDrawerAdapter;
 import com.carrus.carrusshipper.model.NavDrawerItem;
 import com.carrus.carrusshipper.utils.CircleTransform;
 import com.carrus.carrusshipper.utils.SessionManager;
+import com.carrus.carrusshipper.utils.Utils;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -99,8 +100,9 @@ public class FragmentDrawer extends Fragment {
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), recyclerView, new ClickListener() {
             @Override
             public void onClick(View view, int position) {
-                drawerListener.onDrawerItemSelected(view, position);
                 mDrawerLayout.closeDrawer(containerView);
+                drawerListener.onDrawerItemSelected(view, position);
+
             }
 
             @Override
@@ -126,7 +128,7 @@ public class FragmentDrawer extends Fragment {
 
         try {
             if (mProfileIV != null && getActivity() != null && mSessionManager.getProfilePic() != null && !mSessionManager.getProfilePic().isEmpty())
-                Picasso.with(getActivity()).load(mSessionManager.getProfilePic()).placeholder(R.mipmap.icon_placeholder).skipMemoryCache().resize(300, 300).transform(new CircleTransform()).into(mProfileIV);
+                Picasso.with(getActivity()).load(mSessionManager.getProfilePic()).placeholder(R.mipmap.icon_placeholder).skipMemoryCache().resize((int) Utils.convertDpToPixel(70, getActivity()), (int)Utils.convertDpToPixel(70, getActivity())).transform(new CircleTransform()).into(mProfileIV);
         } catch (Exception e) {
             e.printStackTrace();
         }

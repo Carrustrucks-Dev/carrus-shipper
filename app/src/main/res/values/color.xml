@@ -2,6 +2,7 @@
 <resources>
     <!--<color name="colorPrimary">#1F58B9</color>-->
     <color name="colorPrimary">#2362C0</color>
+    <color name="colorPrimary_light">#AA2362C0</color>
     <color name="colorPrimaryDark">#2362C0</color>
     <color name="textColorPrimary">#FFFFFF</color>
     <color name="windowBackground">#FFFFFF</color>
@@ -10,6 +11,7 @@
     <color name="drawer_primary">#1E2C45</color>
     <color name="drawer_Dark">#14233C</color>
     <color name="tabcolor_dark">#F78C16</color>
+    <color name="tabcolor">#AAF78C16</color>
     <color name="tabcolor_light">#FFBE71</color>
     <color name="transparent">#00000000</color>
     <color name="gray">#f0f0f0</color>

@@ -58,7 +58,7 @@
             android:text="@string/submit"
             style="@style/CustomTextAppearance.Bold"
             android:textColor="@color/windowBackground"
-            android:background="@color/colorPrimary"
+            android:background="@drawable/button_effect_blue"
             />
 
         <LinearLayout
