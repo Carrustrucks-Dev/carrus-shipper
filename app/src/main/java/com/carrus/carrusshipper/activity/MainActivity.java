@@ -22,6 +22,7 @@ import com.carrus.carrusshipper.R;
 import com.carrus.carrusshipper.fragments.HomeFragment;
 import com.carrus.carrusshipper.fragments.MyBookingFragment;
 import com.carrus.carrusshipper.fragments.ProfileFragment;
+import com.carrus.carrusshipper.gcm.GcmMessageHandler;
 import com.carrus.carrusshipper.model.MyBookingDataModel;
 import com.carrus.carrusshipper.retrofit.RestClient;
 import com.carrus.carrusshipper.services.MyService;
@@ -250,6 +251,7 @@ public class MainActivity extends BaseActivity implements FragmentDrawer.Fragmen
 
                     if (ApiResponseFlags.OK.getOrdinal() == status) {
                         new SessionManager(MainActivity.this).logoutUser();
+                        GcmMessageHandler.ClearNotification(MainActivity.this);
                     } else {
                         Toast.makeText(MainActivity.this, mObject.getString("message"), Toast.LENGTH_SHORT).show();
                     }
