@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.carrus.carrusshipper.R;
 import com.carrus.carrusshipper.adapter.DividerItemDecoration;
+import com.carrus.carrusshipper.adapter.PastBookingAdapter;
 import com.carrus.carrusshipper.adapter.UpComingBookingAdapter;
 import com.carrus.carrusshipper.interfaces.OnLoadMoreListener;
 import com.carrus.carrusshipper.model.MyBookingDataModel;
@@ -237,6 +238,8 @@ public class UpComingFragment extends Fragment {
                         Utils.shopAlterDialog(getActivity(), Utils.getErrorMsg(error), true);
                     } else if (error.getResponse().getStatus() == ApiResponseFlags.Not_Found.getOrdinal()) {
                         //Utils.shopAlterDialog(getActivity(), Utils.getErrorMsg(error), false);
+                        mAdapter = new UpComingBookingAdapter(getActivity(), bookingList, mRecyclerView);
+                        mRecyclerView.setAdapter(mAdapter);
                         mErrorTxtView.setText(getResources().getString(R.string.noupcmingfound));
                         mErrorLayout.setVisibility(View.VISIBLE);
                     }else if (error.getResponse().getStatus() == ApiResponseFlags.Not_MORE_RESULT.getOrdinal()) {

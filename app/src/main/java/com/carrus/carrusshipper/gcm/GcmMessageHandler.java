@@ -71,7 +71,7 @@ public class GcmMessageHandler extends IntentService {
         GcmBroadcastReceiver.completeWakefulIntent(intent);
     }
 
-    private void sendRatingNotification(String msg, String title, String id) {
+    private void sendNotification(String msg, String title, String id) {
         mNotificationManager = (NotificationManager)
                 this.getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -100,7 +100,7 @@ public class GcmMessageHandler extends IntentService {
         mNotificationManager.notify(MESSAGE_NOTIFICATION_ID, mBuilder.build());
     }
 
-    private void sendNotification(String msg, String title, String id) {
+    private void sendRatingNotification(String msg, String title, String id) {
         mNotificationManager = (NotificationManager)
                 this.getSystemService(Context.NOTIFICATION_SERVICE);
 

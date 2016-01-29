@@ -24,7 +24,7 @@ public interface ApiService {
     String AUTHORIZATION = "authorization";
 
     @GET("/maps/api/directions/xml")
-    public void getDriections(@Query("origin") String origin, @Query("destination") String destination, @Query("sensor") String sensor, @Query("units") String units, @Query("mode") String mode, Callback<String> callback);
+    void getDriections(@Query("origin") String origin, @Query("destination") String destination, @Query("sensor") String sensor, @Query("units") String units, @Query("mode") String mode, Callback<String> callback);
 
     /**
      * @param email
@@ -35,40 +35,40 @@ public interface ApiService {
      */
     @FormUrlEncoded
     @POST("/api/v1/shipper/login")
-    public void login(@Field("email") String email, @Field("password") String password, @Field("deviceType") String deviceType, @Field("deviceName") String deviceName, @Field("deviceToken") String deviceToken, Callback<String> callback);
+    void login(@Field("email") String email, @Field("password") String password, @Field("deviceType") String deviceType, @Field("deviceName") String deviceName, @Field("deviceToken") String deviceToken, Callback<String> callback);
 
     @GET("/api/v1/shipper/getUpComingApp")
-    public void getOnGoing(@Header(AUTHORIZATION) String authorization, @Query("limit") String limit, @Query("skip") String skip, @Query("sort") String sort, Callback<String> callback);
+    void getOnGoing(@Header(AUTHORIZATION) String authorization, @Query("limit") String limit, @Query("skip") String skip, @Query("sort") String sort, Callback<String> callback);
 
     @GET("/api/v1/shipper/getPast")
-    public void getPast(@Header(AUTHORIZATION) String authorization, @Query("limit") String limit, @Query("skip") String skip, @Query("sort") String sort, Callback<String> callback);
+    void getPast(@Header(AUTHORIZATION) String authorization, @Query("limit") String limit, @Query("skip") String skip, @Query("sort") String sort, Callback<String> callback);
 
     @PUT(LOGOUT_URL)
-    public void logout(@Header(AUTHORIZATION) String authorization, Callback<String> callback);
+    void logout(@Header(AUTHORIZATION) String authorization, Callback<String> callback);
 
     @FormUrlEncoded
     @PUT(FORGETPASSWORD_URL)
-    public void forgotPassword(@Field("email") String body, Callback<String> callback);
+    void forgotPassword(@Field("email") String body, Callback<String> callback);
 
     @GET("/api/v1/shipper/getOnGoingBookingTrack")
-    public void getAllOnGoingBookingTrack(@Header(AUTHORIZATION) String authorization, @Query("limit") Integer limit, @Query("skip") Integer skip, @Query("sort") String sort, Callback<String> callback);
+    void getAllOnGoingBookingTrack(@Header(AUTHORIZATION) String authorization, @Query("limit") Integer limit, @Query("skip") Integer skip, @Query("sort") String sort, Callback<String> callback);
 
 
     @GET("/api/v1/shipper/getOnGoingBookingTrack")
-    public void getSingleOnGoingBookingTrack(@Header(AUTHORIZATION) String authorization, @Query("bookingId") String bookingId, @Query("limit") Integer limit, @Query("skip") Integer skip, @Query("sort") String sort, Callback<String> callback);
+    void getSingleOnGoingBookingTrack(@Header(AUTHORIZATION) String authorization, @Query("bookingId") String bookingId, @Query("limit") Integer limit, @Query("skip") Integer skip, @Query("sort") String sort, Callback<String> callback);
 
 
     @FormUrlEncoded
     @PUT("/api/v1/shipper/addRating")
-    public void setRating(@Header(AUTHORIZATION) String authorization, @Field("bookingId") String bookingId, @Field("rating") String rating, @Field("comment") String comment, Callback<String> callback);
+    void setRating(@Header(AUTHORIZATION) String authorization, @Field("bookingId") String bookingId, @Field("rating") String rating, @Field("comment") String comment, Callback<String> callback);
 
     @FormUrlEncoded
     @PUT("/api/v1/shipper/cancelBooking/{bookingId}")
-    public void cancelBooking(@Header(AUTHORIZATION) String authorization, @Field("bookingStatus") String bookingStatus, @Path("bookingId") String bookingId, Callback<String> callback);
+    void cancelBooking(@Header(AUTHORIZATION) String authorization, @Field("bookingStatus") String bookingStatus, @Path("bookingId") String bookingId, Callback<String> callback);
 
     @Multipart
     @PUT("/api/v1/shipper/uploadProfilePic")
-    public void uploadProfilePic(@Header(AUTHORIZATION) String authorization, @Part("image") TypedFile body, Callback<String> callback);
+    void uploadProfilePic(@Header(AUTHORIZATION) String authorization, @Part("image") TypedFile body, Callback<String> callback);
 
     @GET("/api/v1/appVersion")
     void getAppVersion(@Query("appType") String appType, Callback<String> callback);
@@ -78,14 +78,14 @@ public interface ApiService {
 
     @Multipart
     @POST("/api/v1/shipper")
-    public void register(@Part("userType") TypedString userType, @Part("email") TypedString email, @Part("firstName") TypedString firstName, @Part("lastName") TypedString lastName, @Part("password") TypedString password, @Part("phoneNumber") TypedString phoneNumber, @Part("companyName") TypedString companyName, @Part("partnership") TypedString partnership, @Part("address") TypedString address, @Part("city") TypedString city, @Part("state") TypedString state, @Part("pinCode") TypedString pinCode, @Part("country") TypedString country, @Part("deviceType") TypedString deviceType, @Part("deviceName") TypedString deviceName, @Part("deviceToken") TypedString deviceToken, Callback<String> callback);
+    void register(@Part("userType") TypedString userType, @Part("email") TypedString email, @Part("firstName") TypedString firstName, @Part("lastName") TypedString lastName, @Part("password") TypedString password, @Part("phoneNumber") TypedString phoneNumber, @Part("companyName") TypedString companyName, @Part("partnership") TypedString partnership, @Part("address") TypedString address, @Part("city") TypedString city, @Part("state") TypedString state, @Part("pinCode") TypedString pinCode, @Part("country") TypedString country, @Part("deviceType") TypedString deviceType, @Part("deviceName") TypedString deviceName, @Part("deviceToken") TypedString deviceToken, Callback<String> callback);
 
     @FormUrlEncoded
     @POST("/api/v1/phoneVerification/generate")
-    public void phoneVerificationGenerate(@Field("phoneNumber") String phoneNumber,@Field("email") String email,@Field("userType") String userType,@Field("duringRegister") String duringRegister,@Field("duringUpdate") String duringUpdate, Callback<String> callback);
+    void phoneVerificationGenerate(@Field("phoneNumber") String phoneNumber, @Field("email") String email, @Field("userType") String userType, @Field("duringRegister") String duringRegister, @Field("duringUpdate") String duringUpdate, Callback<String> callback);
 
     @FormUrlEncoded
     @POST("/api/v1/phoneVerification/verify")
-    public void phoneVerificationVerify(@Field("phoneNumber") String phoneNumber,@Field("OTP") String OTP,@Field("userType") String userType,@Field("duringRegister") String duringRegister, Callback<String> callback);
+    void phoneVerificationVerify(@Field("phoneNumber") String phoneNumber, @Field("OTP") String OTP, @Field("userType") String userType, @Field("duringRegister") String duringRegister, Callback<String> callback);
 
 }

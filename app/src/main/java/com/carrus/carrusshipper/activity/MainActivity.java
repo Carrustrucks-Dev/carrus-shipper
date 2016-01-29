@@ -27,6 +27,7 @@ import com.carrus.carrusshipper.model.MyBookingDataModel;
 import com.carrus.carrusshipper.retrofit.RestClient;
 import com.carrus.carrusshipper.services.MyService;
 import com.carrus.carrusshipper.utils.ApiResponseFlags;
+import com.carrus.carrusshipper.utils.CommonNoInternetDialog;
 import com.carrus.carrusshipper.utils.Constants;
 import com.carrus.carrusshipper.utils.GMapV2GetRouteDirection;
 import com.carrus.carrusshipper.utils.SessionManager;
@@ -267,12 +268,14 @@ public class MainActivity extends BaseActivity implements FragmentDrawer.Fragmen
                 try {
                     Utils.loading_box_stop();
                     if (error.getKind().equals(RetrofitError.Kind.NETWORK)) {
-                        Toast.makeText(MainActivity.this, getResources().getString(R.string.nointernetconnection), Toast.LENGTH_SHORT).show();
+                        noInternetDialog();
+//                        Toast.makeText(MainActivity.this, getResources().getString(R.string.nointernetconnection), Toast.LENGTH_SHORT).show();
                     } else if (error.getResponse().getStatus() == ApiResponseFlags.Unauthorized.getOrdinal()) {
                         Utils.shopAlterDialog(MainActivity.this, Utils.getErrorMsg(error), true);
                     }
                 } catch (Exception ex) {
-                    Toast.makeText(MainActivity.this, getResources().getString(R.string.nointernetconnection), Toast.LENGTH_SHORT).show();
+                    noInternetDialog();
+//                    Toast.makeText(MainActivity.this, getResources().getString(R.string.nointernetconnection), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -313,5 +316,19 @@ public class MainActivity extends BaseActivity implements FragmentDrawer.Fragmen
             }
         }
 
+    }
+
+    private void noInternetDialog() {
+        CommonNoInternetDialog.WithActivity(MainActivity.this).Show(getResources().getString(R.string.nointernetconnection), getResources().getString(R.string.tryagain), getResources().getString(R.string.exit), new CommonNoInternetDialog.ConfirmationDialogEventsListener() {
+            @Override
+            public void OnOkButtonPressed() {
+                logout();
+            }
+
+            @Override
+            public void OnCancelButtonPressed() {
+                finish();
+            }
+        });
     }
 }

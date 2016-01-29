@@ -236,6 +236,8 @@ public class PastFragment extends Fragment {
                         Utils.shopAlterDialog(getActivity(), Utils.getErrorMsg(error), true);
                     } else if (error.getResponse().getStatus() == ApiResponseFlags.Not_Found.getOrdinal()) {
                         //Utils.shopAlterDialog(getActivity(), Utils.getErrorMsg(error), false);
+                        mAdapter = new PastBookingAdapter(getActivity(), bookingList, mRecyclerView);
+                        mRecyclerView.setAdapter(mAdapter);
                         mErrorTxtView.setText(getResources().getString(R.string.nopastfound));
                         mErrorLayout.setVisibility(View.VISIBLE);
                     } else if (error.getResponse().getStatus() == ApiResponseFlags.Not_MORE_RESULT.getOrdinal()) {
