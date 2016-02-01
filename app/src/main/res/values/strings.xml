@@ -1,10 +1,10 @@
 <resources>
     <string name="app_name">Carrus Shipper</string>
     <!--Debug Google api key-->
-    <string name="google_app_id">AIzaSyDxVkcbTA4dCGwZJEA9Cy_9RLKj4iURm2s</string>
+    <!--<string name="google_app_id">AIzaSyDxVkcbTA4dCGwZJEA9Cy_9RLKj4iURm2s</string> -->
 
     <!--Released Google api key-->
-    <!--<string name="google_app_id">AIzaSyCHLcN4FVT29tkXZcOSfNRL9C9CKar6d_g</string>-->
+    <string name="google_app_id">AIzaSyCHLcN4FVT29tkXZcOSfNRL9C9CKar6d_g</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
