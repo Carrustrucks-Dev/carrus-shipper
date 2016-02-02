@@ -1,6 +1,7 @@
 package com.carrus.carrusshipper.fragments;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,8 @@ import android.widget.TextView;
 
 import com.carrus.carrusshipper.R;
 import com.carrus.carrusshipper.activity.RatingDialogActivity;
+import com.carrus.carrusshipper.utils.CommonNoInternetDialog;
+import com.carrus.carrusshipper.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -127,5 +130,4 @@ public class MyBookingFragment extends Fragment {
         fragmentTransaction.commit();
 
     }
-
 }

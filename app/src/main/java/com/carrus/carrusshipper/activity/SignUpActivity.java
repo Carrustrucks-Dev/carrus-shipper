@@ -3,6 +3,7 @@ package com.carrus.carrusshipper.activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -28,6 +29,7 @@ import com.carrus.carrusshipper.model.StateCityModel;
 import com.carrus.carrusshipper.retrofit.RestClient;
 import com.carrus.carrusshipper.utils.ApiResponseFlags;
 import com.carrus.carrusshipper.utils.CommonNoInternetDialog;
+import com.carrus.carrusshipper.utils.Constants;
 import com.carrus.carrusshipper.utils.SessionManager;
 import com.carrus.carrusshipper.utils.Utils;
 import com.flurry.android.FlurryAgent;
@@ -72,9 +74,10 @@ public class SignUpActivity extends BaseActivity {
     private List<String> states;
     private List<String> cities;
     private RadioButton mShipperRadioBtn, mBrokerRadioBtn;
-    private String USERTYPE = "SHIPPER", PARTNERSHIP_ID=null;
+    private String USERTYPE = "SHIPPER", PARTNERSHIP_ID = null;
     private EditText mFirstNameET, mLastNameET, mPasswordET, mCnfrmPasswordET, mPhoneNumberET, mCompanyNameET, mAddressET, mPinCodeET, mEmailET;
     private SessionManager sessionManager;
+    private boolean isGetPartnerCalled = false;
 
 
     @Override
@@ -127,12 +130,12 @@ public class SignUpActivity extends BaseActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position != 0) {
-                    PARTNERSHIP_ID=mPartnerList.get(position).getId();
+                    PARTNERSHIP_ID = mPartnerList.get(position).getId();
                     mTypeCompanyTxtView.setText(mPartnerList.get(position).getPartnershipName());
                     mTypeCompanyTxtView.setTextColor(getResources().getColor(android.R.color.black));
                     mTypeCompanyTxtView.setError(null);
                 } else {
-                    PARTNERSHIP_ID=null;
+                    PARTNERSHIP_ID = null;
                     mTypeCompanyTxtView.setText(getResources().getString(R.string.typecompany));
                     mTypeCompanyTxtView.setTextColor(getResources().getColor(R.color.gray_text));
                 }
@@ -214,7 +217,7 @@ public class SignUpActivity extends BaseActivity {
             public void onClick(View v) {
                 if (isFieldFilled()) {
 //                    Toast.makeText(SignUpActivity.this, "Field Filled", Toast.LENGTH_SHORT).show();
-                    genrateOTP();
+                    generateOTP();
                 }
             }
         });
@@ -298,10 +301,12 @@ public class SignUpActivity extends BaseActivity {
     }
 
     private void getPartnerShip() {
+        isGetPartnerCalled = true;
         Utils.loading_box(SignUpActivity.this);
         RestClient.getApiService().getPartnerShip(new Callback<String>() {
             @Override
             public void success(String s, Response response) {
+                isGetPartnerCalled = false;
                 if (BuildConfig.DEBUG)
                     Log.v("" + getClass().getSimpleName(), "Response> " + s);
                 try {
@@ -351,15 +356,29 @@ public class SignUpActivity extends BaseActivity {
     }
 
     private void noInternetDialog() {
-        CommonNoInternetDialog.WithActivity(SignUpActivity.this).Show(getResources().getString(R.string.nointernetconnection), getResources().getString(R.string.tryagain), getResources().getString(R.string.exit), new CommonNoInternetDialog.ConfirmationDialogEventsListener() {
+        CommonNoInternetDialog.WithActivity(SignUpActivity.this).Show(getResources().getString(R.string.nointernetconnection), getResources().getString(R.string.tryagain), getResources().getString(R.string.exit), getResources().getString(R.string.callcarrus), new CommonNoInternetDialog.ConfirmationDialogEventsListener() {
             @Override
             public void OnOkButtonPressed() {
-                getPartnerShip();
+                if (isGetPartnerCalled)
+                    getPartnerShip();
+                else
+                    generateOTP();
             }
 
             @Override
             public void OnCancelButtonPressed() {
                 finish();
+            }
+
+            @Override
+            public void OnNeutralButtonPressed() {
+                try {
+                    Intent callIntent = new Intent(Intent.ACTION_DIAL);
+                    callIntent.setData(Uri.parse("tel:" + Constants.CONTACT_CARRUS));
+                    startActivity(callIntent);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
         });
     }
@@ -409,7 +428,7 @@ public class SignUpActivity extends BaseActivity {
             mEmailET.setError(getResources().getString(R.string.validemail_required));
             mEmailET.requestFocus();
             return false;
-        }else if(mPhoneNumberET.getText().toString().trim().length()<10){
+        } else if (mPhoneNumberET.getText().toString().trim().length() < 10) {
             mPhoneNumberET.setError(getResources().getString(R.string.phonelimit));
             mPhoneNumberET.requestFocus();
             return false;
@@ -443,12 +462,11 @@ public class SignUpActivity extends BaseActivity {
 
 
     private void register() {
-
-        JSONArray mJsonArray=new JSONArray();
+        JSONArray mJsonArray = new JSONArray();
         mJsonArray.put(PARTNERSHIP_ID);
         Log.v("VALUE", mJsonArray.toString());
         Utils.loading_box(SignUpActivity.this);
-        RestClient.getApiService().register(new TypedString(USERTYPE), new TypedString(mEmailET.getText().toString().trim()), new TypedString(mFirstNameET.getText().toString().trim()), new TypedString(mLastNameET.getText().toString().trim()), new TypedString(mPasswordET.getText().toString().trim()), new TypedString(mPhoneNumberET.getText().toString().trim()), new TypedString(mCompanyNameET.getText().toString().trim()), new TypedString(mJsonArray.toString()), new TypedString(mAddressET.getText().toString().trim()), new TypedString(((mCityTxtView.getText().toString().equalsIgnoreCase(getResources().getString(R.string.city)))?"":mCityTxtView.getText().toString().trim())), new TypedString(((mStateTxtView.getText().toString().equalsIgnoreCase(getResources().getString(R.string.state)))?"":mStateTxtView.getText().toString().trim())), new TypedString(mPinCodeET.getText().toString().trim()), new TypedString(((mCountryTxtView.getText().toString().equalsIgnoreCase(getResources().getString(R.string.country)))?"":mCountryTxtView.getText().toString().trim())), new TypedString(DEVICE_TYPE), new TypedString(Utils.getDeviceName()), new TypedString(sessionManager.getDeviceToken()), new Callback<String>() {
+        RestClient.getApiService().register(new TypedString(USERTYPE), new TypedString(mEmailET.getText().toString().trim()), new TypedString(mFirstNameET.getText().toString().trim()), new TypedString(mLastNameET.getText().toString().trim()), new TypedString(mPasswordET.getText().toString().trim()), new TypedString(mPhoneNumberET.getText().toString().trim()), new TypedString(mCompanyNameET.getText().toString().trim()), new TypedString(mJsonArray.toString()), new TypedString(mAddressET.getText().toString().trim()), new TypedString(((mCityTxtView.getText().toString().equalsIgnoreCase(getResources().getString(R.string.city))) ? "" : mCityTxtView.getText().toString().trim())), new TypedString(((mStateTxtView.getText().toString().equalsIgnoreCase(getResources().getString(R.string.state))) ? "" : mStateTxtView.getText().toString().trim())), new TypedString(mPinCodeET.getText().toString().trim()), new TypedString(((mCountryTxtView.getText().toString().equalsIgnoreCase(getResources().getString(R.string.country))) ? "" : mCountryTxtView.getText().toString().trim())), new TypedString(DEVICE_TYPE), new TypedString(Utils.getDeviceName()), new TypedString(sessionManager.getDeviceToken()), new Callback<String>() {
             @Override
             public void success(String s, Response response) {
                 Log.v("" + getClass().getSimpleName(), "Response> " + s);
@@ -460,9 +478,9 @@ public class SignUpActivity extends BaseActivity {
                     if (ApiResponseFlags.Created.getOrdinal() == status) {
 
                         JSONObject mDataobject = mObject.getJSONObject("data");
-                        sessionManager.saveUserInfo(mDataobject.getString("accessToken"), mDataobject.getJSONObject("dataToSet").getString("userType"), mDataobject.getJSONObject("dataToSet").getString("email"), mDataobject.getJSONObject("dataToSet").getString("firstName") + " " + mDataobject.getJSONObject("dataToSet").getString("lastName"), (mDataobject.getJSONObject("dataToSet").has("companyName")? mDataobject.getJSONObject("dataToSet").getString("companyName"):""), (mDataobject.getJSONObject("dataToSet").getJSONObject("addressDetails").has("address")?mDataobject.getJSONObject("dataToSet").getJSONObject("addressDetails").getString("address"):""), "", mDataobject.getJSONObject("dataToSet").getString("phoneNumber"), "0", null);
+                        sessionManager.saveUserInfo(mDataobject.getString("accessToken"), mDataobject.getJSONObject("dataToSet").getString("userType"), mDataobject.getJSONObject("dataToSet").getString("email"), mDataobject.getJSONObject("dataToSet").getString("firstName") + " " + mDataobject.getJSONObject("dataToSet").getString("lastName"), (mDataobject.getJSONObject("dataToSet").has("companyName") ? mDataobject.getJSONObject("dataToSet").getString("companyName") : ""), (mDataobject.getJSONObject("dataToSet").getJSONObject("addressDetails").has("address") ? mDataobject.getJSONObject("dataToSet").getJSONObject("addressDetails").getString("address") : ""), "", mDataobject.getJSONObject("dataToSet").getString("phoneNumber"), "0", null);
                         Toast.makeText(SignUpActivity.this, mObject.getString("message"), Toast.LENGTH_SHORT).show();
-                        Intent i=new Intent(SignUpActivity.this, MainActivity.class);
+                        Intent i = new Intent(SignUpActivity.this, MainActivity.class);
                         // Closing all the Activities
                         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
@@ -490,12 +508,14 @@ public class SignUpActivity extends BaseActivity {
                     Log.v("error.getKind() >> " + error.getKind(), " MSg >> " + error.getResponse().getReason());
 
                     if (error.getKind().equals(RetrofitError.Kind.NETWORK)) {
-                        Toast.makeText(SignUpActivity.this, getResources().getString(R.string.nointernetconnection), Toast.LENGTH_SHORT).show();
+                        noInternetDialog();
+// Toast.makeText(SignUpActivity.this, getResources().getString(R.string.nointernetconnection), Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(SignUpActivity.this, Utils.getErrorMsg(error), Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception ex) {
-                    Toast.makeText(SignUpActivity.this, getResources().getString(R.string.nointernetconnection), Toast.LENGTH_SHORT).show();
+                    noInternetDialog();
+//                    Toast.makeText(SignUpActivity.this, getResources().getString(R.string.nointernetconnection), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -511,7 +531,7 @@ public class SignUpActivity extends BaseActivity {
         }).execute(SENDER_ID);
     }
 
-    private void openOTPDialog(){
+    private void openOTPDialog() {
         try {
 
             final Dialog dialog = new Dialog(SignUpActivity.this,
@@ -524,23 +544,23 @@ public class SignUpActivity extends BaseActivity {
                     WindowManager.LayoutParams.FLAG_DIM_BEHIND);
             dialog.setCancelable(false);
             dialog.setCanceledOnTouchOutside(false);
-           final EditText mEditText=(EditText) dialog.findViewById(R.id.otpET);
+            final EditText mEditText = (EditText) dialog.findViewById(R.id.otpET);
             Button submitBtn = (Button) dialog.findViewById(R.id.submitBtn);
 
             submitBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(mEditText.getText().toString().trim().isEmpty()){
+                    if (mEditText.getText().toString().trim().isEmpty()) {
                         mEditText.setError(getResources().getString(R.string.fieldnotempty));
                         mEditText.requestFocus();
-                    }else {
+                    } else {
                         dialog.dismiss();
                         verifyOTP(mEditText.getText().toString().trim());
                     }
                 }
 
             });
-            ImageView crossBtn=(ImageView) dialog.findViewById(R.id.crossBtn);
+            ImageView crossBtn = (ImageView) dialog.findViewById(R.id.crossBtn);
             crossBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -555,7 +575,7 @@ public class SignUpActivity extends BaseActivity {
         }
     }
 
-    private void genrateOTP(){
+    private void generateOTP() {
         Utils.loading_box(SignUpActivity.this);
         RestClient.getApiService().phoneVerificationGenerate(mPhoneNumberET.getText().toString().trim(), mEmailET.getText().toString().trim(), USERTYPE, "true", "false", new Callback<String>() {
             @Override
@@ -587,18 +607,20 @@ public class SignUpActivity extends BaseActivity {
                     Log.v("error.getKind() >> " + error.getKind(), " MSg >> " + error.getResponse().getReason());
 
                     if (error.getKind().equals(RetrofitError.Kind.NETWORK)) {
-                        Toast.makeText(SignUpActivity.this, getResources().getString(R.string.nointernetconnection), Toast.LENGTH_SHORT).show();
+                        noInternetDialog();
+                        //Toast.makeText(SignUpActivity.this, getResources().getString(R.string.nointernetconnection), Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(SignUpActivity.this, Utils.getErrorMsg(error), Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception ex) {
-                    Toast.makeText(SignUpActivity.this, getResources().getString(R.string.nointernetconnection), Toast.LENGTH_SHORT).show();
+                    noInternetDialog();
+//                    Toast.makeText(SignUpActivity.this, getResources().getString(R.string.nointernetconnection), Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
 
-    private void verifyOTP(String otp){
+    private void verifyOTP(String otp) {
         Utils.loading_box(SignUpActivity.this);
         RestClient.getApiService().phoneVerificationVerify(mPhoneNumberET.getText().toString().trim(), otp, USERTYPE, "true", new Callback<String>() {
             @Override
@@ -632,12 +654,14 @@ public class SignUpActivity extends BaseActivity {
                     Log.v("error.getKind() >> " + error.getKind(), " MSg >> " + error.getResponse().getReason());
 
                     if (error.getKind().equals(RetrofitError.Kind.NETWORK)) {
-                        Toast.makeText(SignUpActivity.this, getResources().getString(R.string.nointernetconnection), Toast.LENGTH_SHORT).show();
+                        noInternetDialog();
+//                        Toast.makeText(SignUpActivity.this, getResources().getString(R.string.nointernetconnection), Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(SignUpActivity.this, Utils.getErrorMsg(error), Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception ex) {
-                    Toast.makeText(SignUpActivity.this, getResources().getString(R.string.nointernetconnection), Toast.LENGTH_SHORT).show();
+                    noInternetDialog();
+//                    Toast.makeText(SignUpActivity.this, getResources().getString(R.string.nointernetconnection), Toast.LENGTH_SHORT).show();
                 }
             }
         });

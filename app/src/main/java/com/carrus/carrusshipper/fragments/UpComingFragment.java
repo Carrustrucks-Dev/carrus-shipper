@@ -1,5 +1,7 @@
 package com.carrus.carrusshipper.fragments;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -23,6 +25,7 @@ import com.carrus.carrusshipper.model.MyBookingDataModel;
 import com.carrus.carrusshipper.model.MyBookingModel;
 import com.carrus.carrusshipper.retrofit.RestClient;
 import com.carrus.carrusshipper.utils.ApiResponseFlags;
+import com.carrus.carrusshipper.utils.CommonNoInternetDialog;
 import com.carrus.carrusshipper.utils.ConnectionDetector;
 import com.carrus.carrusshipper.utils.Constants;
 import com.carrus.carrusshipper.utils.SessionManager;
@@ -185,7 +188,7 @@ public class UpComingFragment extends Fragment {
                             mAdapter = new UpComingBookingAdapter(getActivity(), bookingList, mRecyclerView);
                             mRecyclerView.setAdapter(mAdapter);
                             if (mMyBookingModel.mData.size() == LIMIT)
-                            setonScrollListener();
+                                setonScrollListener();
                         } else {
                             bookingList.remove(bookingList.size() - 1);
                             mAdapter.notifyItemRemoved(bookingList.size());
@@ -217,7 +220,7 @@ public class UpComingFragment extends Fragment {
                 }
 
                 Utils.loading_box_stop();
-                isRefreshView=false;
+                isRefreshView = false;
                 swipeRefreshLayout.setRefreshing(false);
             }
 
@@ -230,10 +233,9 @@ public class UpComingFragment extends Fragment {
 
                     if (error.getKind().equals(RetrofitError.Kind.NETWORK)) {
 //                        Utils.shopAlterDialog(getActivity(), getResources().getString(R.string.nointernetconnection), false);
+                        noInternetDialog();
                         mAdapter = new UpComingBookingAdapter(getActivity(), bookingList, mRecyclerView);
                         mRecyclerView.setAdapter(mAdapter);
-                        mErrorTxtView.setText(getResources().getString(R.string.nointernetconnection));
-                        mErrorLayout.setVisibility(View.VISIBLE);
                     } else if (error.getResponse().getStatus() == ApiResponseFlags.Unauthorized.getOrdinal()) {
                         Utils.shopAlterDialog(getActivity(), Utils.getErrorMsg(error), true);
                     } else if (error.getResponse().getStatus() == ApiResponseFlags.Not_Found.getOrdinal()) {
@@ -242,7 +244,7 @@ public class UpComingFragment extends Fragment {
                         mRecyclerView.setAdapter(mAdapter);
                         mErrorTxtView.setText(getResources().getString(R.string.noupcmingfound));
                         mErrorLayout.setVisibility(View.VISIBLE);
-                    }else if (error.getResponse().getStatus() == ApiResponseFlags.Not_MORE_RESULT.getOrdinal()) {
+                    } else if (error.getResponse().getStatus() == ApiResponseFlags.Not_MORE_RESULT.getOrdinal()) {
                         Toast.makeText(getActivity(), Utils.getErrorMsg(error), Toast.LENGTH_SHORT).show();
                         try {
                             bookingList.remove(bookingList.size() - 1);
@@ -254,10 +256,9 @@ public class UpComingFragment extends Fragment {
                     }
 
                 } catch (Exception ex) {
+                    noInternetDialog();
                     mAdapter = new UpComingBookingAdapter(getActivity(), bookingList, mRecyclerView);
                     mRecyclerView.setAdapter(mAdapter);
-                    mErrorTxtView.setText(getResources().getString(R.string.nointernetconnection));
-                    mErrorLayout.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -279,6 +280,32 @@ public class UpComingFragment extends Fragment {
                 }
 
 
+            }
+        });
+    }
+
+    private void noInternetDialog() {
+        CommonNoInternetDialog.WithActivity(getActivity()).Show(getResources().getString(R.string.nointernetconnection), getResources().getString(R.string.tryagain), getResources().getString(R.string.exit), getResources().getString(R.string.callcarrus), new CommonNoInternetDialog.ConfirmationDialogEventsListener() {
+            @Override
+            public void OnOkButtonPressed() {
+                isRefreshView = true;
+                getMyBooking();
+            }
+
+            @Override
+            public void OnCancelButtonPressed() {
+                getActivity().finish();
+            }
+
+            @Override
+            public void OnNeutralButtonPressed() {
+                try {
+                    Intent callIntent = new Intent(Intent.ACTION_DIAL);
+                    callIntent.setData(Uri.parse("tel:" + Constants.CONTACT_CARRUS));
+                    startActivity(callIntent);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
         });
     }

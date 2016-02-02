@@ -45,6 +45,7 @@
     <string name="past">Past</string>
     <string name="tryagain">Try again</string>
     <string name="exit">Exit</string>
+    <string name="callcarrus">Call Carrus</string>
 
     <!-- Login Screen Text-->
     <string name="email">E-mail</string>

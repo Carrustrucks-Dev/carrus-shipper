@@ -319,7 +319,7 @@ public class MainActivity extends BaseActivity implements FragmentDrawer.Fragmen
     }
 
     private void noInternetDialog() {
-        CommonNoInternetDialog.WithActivity(MainActivity.this).Show(getResources().getString(R.string.nointernetconnection), getResources().getString(R.string.tryagain), getResources().getString(R.string.exit), new CommonNoInternetDialog.ConfirmationDialogEventsListener() {
+        CommonNoInternetDialog.WithActivity(MainActivity.this).Show(getResources().getString(R.string.nointernetconnection), getResources().getString(R.string.tryagain), getResources().getString(R.string.exit),getResources().getString(R.string.callcarrus), new CommonNoInternetDialog.ConfirmationDialogEventsListener() {
             @Override
             public void OnOkButtonPressed() {
                 logout();
@@ -328,6 +328,17 @@ public class MainActivity extends BaseActivity implements FragmentDrawer.Fragmen
             @Override
             public void OnCancelButtonPressed() {
                 finish();
+            }
+
+            @Override
+            public void OnNeutralButtonPressed() {
+                try {
+                    Intent callIntent = new Intent(Intent.ACTION_DIAL);
+                    callIntent.setData(Uri.parse("tel:" + Constants.CONTACT_CARRUS));
+                    startActivity(callIntent);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
         });
     }
