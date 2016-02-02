@@ -269,7 +269,7 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
         mainActivity = (MainActivity) getActivity();
 
         if (!mConnectionDetector.isConnectingToInternet()) {
-            Utils.shopAlterDialog(getActivity(), getResources().getString(R.string.nointernetconnection), false);
+            noInternetDialog();
             return;
         }
 
