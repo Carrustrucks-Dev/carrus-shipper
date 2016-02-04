@@ -1,12 +1,17 @@
 package com.carrus.carrusshipper.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.ImageView;
 
 import com.carrus.carrusshipper.R;
+import com.carrus.carrusshipper.utils.CommonNoInternetDialog;
+import com.carrus.carrusshipper.utils.ConnectionDetector;
+import com.carrus.carrusshipper.utils.Constants;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -14,30 +19,30 @@ import com.squareup.picasso.Picasso;
  */
 public class ShowPODActivity extends BaseActivity {
 
-    private ImageView closeButton;
-    private String url;
-    private ImageView imageView;
-    private WebView mWebView;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_pod);
 
-        init();
+        if (new ConnectionDetector(ShowPODActivity.this).isConnectingToInternet())
+            init();
+        else
+            noInternetDialog();
+
         initializeClickListner();
 
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     private void init() {
-        closeButton = (ImageView) findViewById(R.id.imageView_close);
-        imageView = (ImageView) findViewById(R.id.image);
-        mWebView = (WebView) findViewById(R.id.webView);
+//        ImageView closeButton = (ImageView) findViewById(R.id.imageView_close);
+        ImageView imageView = (ImageView) findViewById(R.id.image);
+        WebView mWebView = (WebView) findViewById(R.id.webView);
         mWebView.getSettings().setJavaScriptEnabled(true);
 //        mWebView.getSettings().setPluginsEnabled(true);
 
         Intent intent = getIntent();
-        url = intent.getStringExtra("url");
+        String url = intent.getStringExtra("url");
 
 
         String extension = url.substring(url.lastIndexOf("."));
@@ -77,5 +82,33 @@ public class ShowPODActivity extends BaseActivity {
     public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(0, 0);
+    }
+
+    private void noInternetDialog(){
+            CommonNoInternetDialog.WithActivity(ShowPODActivity.this).Show(getResources().getString(R.string.nointernetconnection), getResources().getString(R.string.tryagain), getResources().getString(R.string.exit),getResources().getString(R.string.callcarrus), new CommonNoInternetDialog.ConfirmationDialogEventsListener() {
+                @Override
+                public void OnOkButtonPressed() {
+                    if (new ConnectionDetector(ShowPODActivity.this).isConnectingToInternet())
+                        init();
+                    else
+                        noInternetDialog();
+                }
+
+                @Override
+                public void OnCancelButtonPressed() {
+                    finish();
+                }
+
+                @Override
+                public void OnNeutralButtonPressed() {
+                    try {
+                        Intent callIntent = new Intent(Intent.ACTION_DIAL);
+                        callIntent.setData(Uri.parse("tel:" + Constants.CONTACT_CARRUS));
+                        startActivity(callIntent);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            });
     }
 }
