@@ -97,7 +97,7 @@ public class PastFragment extends Fragment {
         if (mConnectionDetector.isConnectingToInternet())
             getPastBookings();
         else {
-            Utils.shopAlterDialog(getActivity(), getResources().getString(R.string.nointernetconnection), false);
+            noInternetDialog();
         }
     }
 

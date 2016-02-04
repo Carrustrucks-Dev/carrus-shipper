@@ -98,7 +98,7 @@ public class UpComingFragment extends Fragment {
         if (mConnectionDetector.isConnectingToInternet())
             getMyBooking();
         else {
-            Utils.shopAlterDialog(getActivity(), getResources().getString(R.string.nointernetconnection), false);
+            noInternetDialog();
         }
     }
 

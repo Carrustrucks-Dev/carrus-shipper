@@ -305,6 +305,13 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
 
     //Add marker function on google map
     public void addmarkers() {
+
+        // check if map is created successfully or not
+        if (googleMap == null) {
+            initilizeMap();
+            return;
+        }
+
         selectedNumber = null;
         hideProfile();
         googleMap.clear();
@@ -597,14 +604,14 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
                     Log.v("error.getKind() >> " + error.getKind(), " MSg >> " + error.getResponse().getStatus());
 
                     if (error.getKind().equals(RetrofitError.Kind.NETWORK)) {
-                        Toast.makeText(getActivity(), getResources().getString(R.string.nointernetconnection), Toast.LENGTH_SHORT).show();
+                        noInternetDialog();
                     } else if (error.getResponse().getStatus() == ApiResponseFlags.Unauthorized.getOrdinal()) {
                         Utils.shopAlterDialog(getActivity(), Utils.getErrorMsg(error), true);
                     } else if (error.getResponse().getStatus() == ApiResponseFlags.Not_Found.getOrdinal()) {
                         Toast.makeText(getActivity(), Utils.getErrorMsg(error), Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception ex) {
-                    Toast.makeText(getActivity(), getResources().getString(R.string.nointernetconnection), Toast.LENGTH_SHORT).show();
+                    noInternetDialog();
                 }
             }
         });
@@ -680,22 +687,27 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
 //     * shows login layout
 //     */
     private void showProfile() {
-        final Animation animationFadeIn = AnimationUtils.loadAnimation(getActivity(), R.anim.fadein);
-        mBottomView.setAnimation(animationFadeIn);
-        mBottomView.setVisibility(View.VISIBLE);
+        if(getActivity()!=null) {
+            final Animation animationFadeIn = AnimationUtils.loadAnimation(getActivity(), R.anim.fadein);
+            mBottomView.setAnimation(animationFadeIn);
+            mBottomView.setVisibility(View.VISIBLE);
+        }
     }
 
     //    /***
 //     * hides login layout
 //     */
     private void hideProfile() {
-        final Animation animationFadeOut = AnimationUtils.loadAnimation(getActivity(), R.anim.fadeout);
-        mBottomView.setAnimation(animationFadeOut);
-        mBottomView.setVisibility(View.GONE);
+        if(getActivity()!=null) {
+            final Animation animationFadeOut = AnimationUtils.loadAnimation(getActivity(), R.anim.fadeout);
+            mBottomView.setAnimation(animationFadeOut);
+            mBottomView.setVisibility(View.GONE);
+        }
     }
     private void noInternetDialog() {
         if(getActivity()!=null && isAdded())
         CommonNoInternetDialog.WithActivity(getActivity()).Show(getResources().getString(R.string.nointernetconnection), getResources().getString(R.string.tryagain), getResources().getString(R.string.exit), getResources().getString(R.string.callcarrus), new CommonNoInternetDialog.ConfirmationDialogEventsListener() {
+
             @Override
             public void OnOkButtonPressed() {
                 getOnGoingBookingTrack();

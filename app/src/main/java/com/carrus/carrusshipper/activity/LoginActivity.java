@@ -87,7 +87,7 @@ public class LoginActivity extends BaseActivity {
                     if (mConnectionDetector.isConnectingToInternet())
                         verifyLoggedIn();
                     else
-                        Utils.shopAlterDialog(LoginActivity.this, getResources().getString(R.string.nointernetconnection), false);
+                        noInternetDialog();
                 }
             }
         });
