@@ -343,6 +343,7 @@ public class ProfileFragment extends Fragment implements
     }
 
     private void noInternetDialog() {
+        if(getActivity()!=null && isAdded())
         CommonNoInternetDialog.WithActivity(getActivity()).Show(getResources().getString(R.string.nointernetconnection), getResources().getString(R.string.tryagain), getResources().getString(R.string.exit), getResources().getString(R.string.callcarrus), new CommonNoInternetDialog.ConfirmationDialogEventsListener() {
             @Override
             public void OnOkButtonPressed() {
