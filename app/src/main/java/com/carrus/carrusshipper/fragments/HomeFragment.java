@@ -698,10 +698,14 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
 //     * hides login layout
 //     */
     private void hideProfile() {
-        if(getActivity()!=null) {
-            final Animation animationFadeOut = AnimationUtils.loadAnimation(getActivity(), R.anim.fadeout);
-            mBottomView.setAnimation(animationFadeOut);
-            mBottomView.setVisibility(View.GONE);
+        try {
+            if (getActivity() != null) {
+                final Animation animationFadeOut = AnimationUtils.loadAnimation(getActivity(), R.anim.fadeout);
+                mBottomView.setAnimation(animationFadeOut);
+                mBottomView.setVisibility(View.GONE);
+            }
+        }catch (Exception ex){
+            ex.printStackTrace();
         }
     }
     private void noInternetDialog() {

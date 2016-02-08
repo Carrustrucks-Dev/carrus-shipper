@@ -51,6 +51,7 @@ public class RatingDialogActivity extends BaseActivity {
     }
 
     private void init() {
+
         bookingId = getIntent().getStringExtra("bookingid");
         ratingStars = (RatingBar) findViewById(R.id.ratingStars);
         feedbackEdtxt = (EditText) findViewById(R.id.feedbackEdtxt);

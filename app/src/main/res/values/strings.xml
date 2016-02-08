@@ -43,7 +43,7 @@
     <!-- My booking screen text-->
     <string name="upcming">Upcoming</string>
     <string name="past">Past</string>
-    <string name="tryagain">Try again</string>
+    <string name="tryagain">Retry</string>
     <string name="exit">Exit</string>
     <string name="callcarrus">Call Carrus</string>
 
