@@ -164,6 +164,8 @@ public class RatingDialogActivity extends BaseActivity {
             }
         });
     }
+
+
     private void noInternetDialog() {
         CommonNoInternetDialog.WithActivity(RatingDialogActivity.this).Show(getResources().getString(R.string.nointernetconnection), getResources().getString(R.string.tryagain), getResources().getString(R.string.exit), getResources().getString(R.string.callcarrus), new CommonNoInternetDialog.ConfirmationDialogEventsListener() {
             @Override
