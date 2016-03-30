@@ -127,13 +127,14 @@
     <string name="forgetpasswddetails">Enter email address and link would be sent to you to reset your password</string>
 
     <!--Sign up screen text-->
-    <string name="firstname">First Name</string>
-    <string name="lastname">Last Name</string>
-    <string name="emailid">Email ID</string>
-    <string name="cnfrmpassword">Confirm Password</string>
-    <string name="companyname">Company Name</string>
+    <string name="firstname">First Name*</string>
+    <string name="lastname">Last Name*</string>
+    <string name="emailid">Email ID*</string>
+    <string name="password_">Password*</string>
+    <string name="cnfrmpassword">Confirm Password*</string>
+    <string name="companyname">Company Name*</string>
     <string name="typecompany">Type of Company</string>
-    <string name="phonenumber">Mobile Number</string>
+    <string name="phonenumber">Mobile Number*</string>
     <string name="address">Address</string>
     <string name="state">State</string>
     <string name="city">City</string>

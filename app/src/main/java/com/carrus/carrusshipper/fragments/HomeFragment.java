@@ -141,6 +141,12 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
     }
 
     @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        System.gc();
+    }
+
+    @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
     }

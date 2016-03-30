@@ -117,7 +117,7 @@
             <EditText
                 android:id="@+id/passwordET"
                 style="@style/App_EditTextStyle"
-                android:hint="@string/password"
+                android:hint="@string/password_"
                 android:inputType="textPassword" />
 
             <EditText
