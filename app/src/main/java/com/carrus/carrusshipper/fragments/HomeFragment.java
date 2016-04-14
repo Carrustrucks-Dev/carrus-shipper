@@ -34,6 +34,7 @@ import com.carrus.carrusshipper.model.MyBookingModel;
 import com.carrus.carrusshipper.retrofit.RestClient;
 import com.carrus.carrusshipper.services.MyService;
 import com.carrus.carrusshipper.utils.ApiResponseFlags;
+import com.carrus.carrusshipper.utils.Application;
 import com.carrus.carrusshipper.utils.CommonNoInternetDialog;
 import com.carrus.carrusshipper.utils.ConnectionDetector;
 import com.carrus.carrusshipper.utils.Constants;
@@ -41,6 +42,8 @@ import com.carrus.carrusshipper.utils.GMapV2GetRouteDirection;
 import com.carrus.carrusshipper.utils.SessionManager;
 import com.carrus.carrusshipper.utils.Utils;
 import com.flurry.android.FlurryAgent;
+import com.fugu.Fugu;
+import com.fugu.model.ActivityDetails;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -62,6 +65,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -205,6 +209,10 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
             public void onClick(View v) {
                 try {
                     if (selectedNumber != null) {
+                        ActivityDetails mActivityDetails = new ActivityDetails();
+                        mActivityDetails.setEvent("Call Action");
+
+                        Fugu.eventTrack(mActivityDetails, null);
                         Intent callIntent = new Intent(Intent.ACTION_DIAL);
                         callIntent.setData(Uri.parse("tel:" + selectedNumber));
                         startActivity(callIntent);

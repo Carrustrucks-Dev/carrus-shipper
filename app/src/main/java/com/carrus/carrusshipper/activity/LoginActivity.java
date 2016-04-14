@@ -15,15 +15,22 @@ import com.carrus.carrusshipper.R;
 import com.carrus.carrusshipper.gcm.DeviceTokenFetcher;
 import com.carrus.carrusshipper.retrofit.RestClient;
 import com.carrus.carrusshipper.utils.ApiResponseFlags;
+import com.carrus.carrusshipper.utils.Application;
 import com.carrus.carrusshipper.utils.CommonNoInternetDialog;
 import com.carrus.carrusshipper.utils.ConnectionDetector;
 import com.carrus.carrusshipper.utils.Constants;
 import com.carrus.carrusshipper.utils.SessionManager;
 import com.carrus.carrusshipper.utils.Utils;
 import com.flurry.android.FlurryAgent;
+import com.fugu.Fugu;
+import com.fugu.interfaces.CallBack;
+import com.fugu.model.UserDetails;
+import com.google.gson.JsonObject;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -150,6 +157,42 @@ public class LoginActivity extends BaseActivity {
                         JSONObject mDataobject = mObject.getJSONObject("data");
                         mSessionManager.saveUserInfo(mDataobject.getString("accessToken"), mDataobject.getString("userType"), mDataobject.getString("email"), mDataobject.getString("firstName") + " " + mDataobject.getString("lastName"), mDataobject.getString("companyName"), mDataobject.getJSONObject("addressDetails").getString("address"), "", mDataobject.getString("phoneNumber"), mDataobject.getString("rating"), mDataobject.getJSONObject("profilePicture").getString("original"));
                         Toast.makeText(LoginActivity.this, mObject.getString("message"), Toast.LENGTH_SHORT).show();
+                        UserDetails mUserDetails=new UserDetails();
+
+                        mUserDetails.setEmail(mDataobject.getString("email"));
+                        mUserDetails.setFirst_name(mDataobject.getString("firstName"));
+                        mUserDetails.setLast_name(mDataobject.getString("lastName"));
+                        mUserDetails.setDeviceToken(mSessionManager.getDeviceToken());
+
+
+                        JsonObject mProperties = null;
+                        JsonObject mContacts = null;
+                        try {
+                            mProperties = new JsonObject();
+                            mContacts = new JsonObject();
+
+                            mProperties.addProperty("deviceToken", mSessionManager.getDeviceToken());
+//                            mProperties.put("prop_name2", "val2");
+
+                            mContacts.addProperty("contact_number", mDataobject.getString("phoneNumber"));
+                            mProperties.addProperty("comapny_name", mDataobject.getString("companyName"));
+
+                            mUserDetails.setProperties(mProperties);
+                            mUserDetails.setContacts(mContacts);
+//                            mContacts.put("contact_value", "contact_value");
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        Fugu.updateUser(mUserDetails, new CallBack() {
+                            @Override
+                            public void onSuccess(String s) {
+                            }
+
+                            @Override
+                            public void onFailure(String s) {
+
+                            }
+                        });
                         startActivityForResult(new Intent(LoginActivity.this, MainActivity.class), 500);
                         finish();
 

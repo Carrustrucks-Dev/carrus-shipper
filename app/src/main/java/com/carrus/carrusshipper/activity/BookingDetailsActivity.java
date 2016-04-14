@@ -32,11 +32,14 @@ import com.carrus.carrusshipper.model.MyBookingDataModel;
 import com.carrus.carrusshipper.model.MyBookingModel;
 import com.carrus.carrusshipper.retrofit.RestClient;
 import com.carrus.carrusshipper.utils.ApiResponseFlags;
+import com.carrus.carrusshipper.utils.Application;
 import com.carrus.carrusshipper.utils.CommonNoInternetDialog;
 import com.carrus.carrusshipper.utils.Constants;
 import com.carrus.carrusshipper.utils.SessionManager;
 import com.carrus.carrusshipper.utils.Utils;
 import com.flurry.android.FlurryAgent;
+import com.fugu.Fugu;
+import com.fugu.model.ActivityDetails;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -278,6 +281,10 @@ public class BookingDetailsActivity extends BaseActivity {
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ActivityDetails mActivityDetails = new ActivityDetails();
+                mActivityDetails.setEvent("Cancel Booking");
+
+                Fugu.eventTrack(mActivityDetails, null);
                 performCancelAction();
             }
         });
@@ -286,6 +293,10 @@ public class BookingDetailsActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 try {
+                    ActivityDetails mActivityDetails = new ActivityDetails();
+                    mActivityDetails.setEvent("Call Action");
+
+                    Fugu.eventTrack(mActivityDetails, null);
                     Intent callIntent = new Intent(Intent.ACTION_DIAL);
                     callIntent.setData(Uri.parse("tel:" + mMyBookingDataModel.shipper.phoneNumber));
                     startActivity(callIntent);

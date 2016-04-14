@@ -28,12 +28,17 @@ import com.carrus.carrusshipper.model.StateCityInfo;
 import com.carrus.carrusshipper.model.StateCityModel;
 import com.carrus.carrusshipper.retrofit.RestClient;
 import com.carrus.carrusshipper.utils.ApiResponseFlags;
+import com.carrus.carrusshipper.utils.Application;
 import com.carrus.carrusshipper.utils.CommonNoInternetDialog;
 import com.carrus.carrusshipper.utils.Constants;
 import com.carrus.carrusshipper.utils.SessionManager;
 import com.carrus.carrusshipper.utils.Utils;
 import com.flurry.android.FlurryAgent;
+import com.fugu.Fugu;
+import com.fugu.interfaces.CallBack;
+import com.fugu.model.UserDetails;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,6 +50,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -480,6 +486,43 @@ public class SignUpActivity extends BaseActivity {
                         JSONObject mDataobject = mObject.getJSONObject("data");
                         sessionManager.saveUserInfo(mDataobject.getString("accessToken"), mDataobject.getJSONObject("dataToSet").getString("userType"), mDataobject.getJSONObject("dataToSet").getString("email"), mDataobject.getJSONObject("dataToSet").getString("firstName") + " " + mDataobject.getJSONObject("dataToSet").getString("lastName"), (mDataobject.getJSONObject("dataToSet").has("companyName") ? mDataobject.getJSONObject("dataToSet").getString("companyName") : ""), (mDataobject.getJSONObject("dataToSet").getJSONObject("addressDetails").has("address") ? mDataobject.getJSONObject("dataToSet").getJSONObject("addressDetails").getString("address") : ""), "", mDataobject.getJSONObject("dataToSet").getString("phoneNumber"), "0", null);
                         Toast.makeText(SignUpActivity.this, mObject.getString("message"), Toast.LENGTH_SHORT).show();
+
+                        UserDetails mUserDetails=new UserDetails();
+
+                        mUserDetails.setEmail(mDataobject.getJSONObject("dataToSet").getString("email"));
+                        mUserDetails.setFirst_name(mDataobject.getJSONObject("dataToSet").getString("firstName"));
+                        mUserDetails.setLast_name(mDataobject.getJSONObject("dataToSet").getString("lastName"));
+                        mUserDetails.setDeviceToken(sessionManager.getDeviceToken());
+
+                        JsonObject mProperties = null;
+                        JsonObject mContacts = null;
+                        try {
+                            mProperties = new JsonObject();
+                            mContacts = new JsonObject();
+
+                            mProperties.addProperty("deviceToken", sessionManager.getDeviceToken());
+//                            mProperties.put("prop_name2", "val2");
+
+                            mContacts.addProperty("contact_number", mDataobject.getJSONObject("dataToSet").getString("phoneNumber"));
+                            mProperties.addProperty("comapny_name", mDataobject.getJSONObject("dataToSet").getString("companyName"));
+
+                            mUserDetails.setProperties(mProperties);
+                            mUserDetails.setContacts(mContacts);
+//                            mContacts.put("contact_value", "contact_value");
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        Fugu.updateUser(mUserDetails, new CallBack() {
+                            @Override
+                            public void onSuccess(String s) {
+
+                            }
+
+                            @Override
+                            public void onFailure(String s) {
+
+                            }
+                        });
                         Intent i = new Intent(SignUpActivity.this, MainActivity.class);
                         // Closing all the Activities
                         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

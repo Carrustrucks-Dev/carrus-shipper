@@ -14,10 +14,14 @@ import android.widget.TextView;
 
 import com.carrus.carrusshipper.R;
 import com.carrus.carrusshipper.activity.RatingDialogActivity;
+import com.carrus.carrusshipper.utils.Application;
 import com.carrus.carrusshipper.utils.CommonNoInternetDialog;
 import com.carrus.carrusshipper.utils.Constants;
+import com.fugu.Fugu;
+import com.fugu.model.ActivityDetails;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -88,6 +92,10 @@ public class MyBookingFragment extends Fragment {
     }
 
     private void setSelectionUpcoming(int button_id) {
+        ActivityDetails mActivityDetails = new ActivityDetails();
+        mActivityDetails.setEvent("Upcoming Bookings");
+
+        Fugu.eventTrack(mActivityDetails, null);
         selectedFlag = 0;
         mUpComingTextView.setBackgroundResource(R.drawable.tab_background);
         mPastTextView.setBackgroundResource(R.drawable.tab_past_background_white);
@@ -98,7 +106,10 @@ public class MyBookingFragment extends Fragment {
     }
 
     private void setSeclectionPast(int button_id) {
+        ActivityDetails mActivityDetails = new ActivityDetails();
+        mActivityDetails.setEvent("Past Bookings");
 
+        Fugu.eventTrack(mActivityDetails, null);
         selectedFlag = 1;
         mUpComingTextView.setBackgroundResource(R.drawable.tab_upcming_background_white);
         mPastTextView.setBackgroundResource(R.drawable.tab_background);

@@ -25,6 +25,7 @@ import com.carrus.carrusshipper.R;
 import com.carrus.carrusshipper.activity.MainActivity;
 import com.carrus.carrusshipper.retrofit.RestClient;
 import com.carrus.carrusshipper.utils.ApiResponseFlags;
+import com.carrus.carrusshipper.utils.Application;
 import com.carrus.carrusshipper.utils.CircleTransform;
 import com.carrus.carrusshipper.utils.CommonNoInternetDialog;
 import com.carrus.carrusshipper.utils.Constants;
@@ -32,6 +33,8 @@ import com.carrus.carrusshipper.utils.ImageChooserDialog;
 import com.carrus.carrusshipper.utils.SessionManager;
 import com.carrus.carrusshipper.utils.Utils;
 import com.flurry.android.FlurryAgent;
+import com.fugu.Fugu;
+import com.fugu.model.ActivityDetails;
 import com.kbeanie.imagechooser.api.ChooserType;
 import com.kbeanie.imagechooser.api.ChosenImage;
 import com.kbeanie.imagechooser.api.ImageChooserListener;
@@ -124,7 +127,11 @@ public class ProfileFragment extends Fragment implements
 
     @Override
     public void onClick(View v) {
-        if (isStoragePermissionGranted())
+        if (isStoragePermissionGranted()){
+            ActivityDetails mActivityDetails = new ActivityDetails();
+            mActivityDetails.setEvent("Change Profile pic Action");
+
+            Fugu.eventTrack(mActivityDetails, null);
             ImageChooserDialog.With(getActivity()).Show(getResources().getString(R.string.choose_image), new ImageChooserDialog.OnButtonClicked() {
                 @Override
                 public void onGaleryClicked() {
@@ -135,7 +142,7 @@ public class ProfileFragment extends Fragment implements
                 public void onCameraClicked() {
                     takePicture();
                 }
-            });
+            });}
     }
 
     private boolean isStoragePermissionGranted() {
@@ -306,6 +313,10 @@ public class ProfileFragment extends Fragment implements
                                     Log.i("TAG", "Picasso Error Loading Thumbnail Small - " + path);
                                 }
                             });
+                        ActivityDetails mActivityDetails = new ActivityDetails();
+                        mActivityDetails.setEvent("Profile pic chnaged");
+
+                        Fugu.eventTrack(mActivityDetails, null);
                         ((MainActivity) getActivity()).onRefreshImageView();
                     } else {
                         Utils.shopAlterDialog(getActivity(), mObject.getString("message"), false);

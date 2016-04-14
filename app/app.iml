@@ -108,9 +108,10 @@
     <orderEntry type="library" exported="" name="crashlytics-core-2.3.6" level="project" />
     <orderEntry type="library" exported="" name="okhttp-urlconnection-2.0.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-base-8.4.0" level="project" />
-    <orderEntry type="library" exported="" name="crashlytics-2.5.3" level="project" />
     <orderEntry type="library" exported="" name="answers-1.3.4" level="project" />
+    <orderEntry type="library" exported="" name="crashlytics-2.5.3" level="project" />
     <orderEntry type="library" exported="" name="design-23.1.1" level="project" />
+    <orderEntry type="library" exported="" name="fugu_sdk" level="project" />
     <orderEntry type="library" exported="" name="okio-1.0.0" level="project" />
     <orderEntry type="library" exported="" name="picasso-2.3.2" level="project" />
     <orderEntry type="library" exported="" name="circularprogressview-2.2.1" level="project" />

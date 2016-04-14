@@ -15,9 +15,14 @@ import com.carrus.carrusshipper.R;
 import com.carrus.carrusshipper.activity.BookingDetailsActivity;
 import com.carrus.carrusshipper.interfaces.OnLoadMoreListener;
 import com.carrus.carrusshipper.model.MyBookingDataModel;
+import com.carrus.carrusshipper.utils.Application;
 import com.carrus.carrusshipper.utils.Utils;
+import com.fugu.Fugu;
+import com.fugu.model.ActivityDetails;
+import com.google.gson.JsonObject;
 
 import java.text.ParseException;
+import java.util.HashMap;
 import java.util.List;
 
 public class UpComingBookingAdapter extends RecyclerView.Adapter {
@@ -179,6 +184,11 @@ public class UpComingBookingAdapter extends RecyclerView.Adapter {
             ((ViewHolder) holder).itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+                    ActivityDetails mActivityDetails=new ActivityDetails();
+                    mActivityDetails.setEvent("Booking Details");
+
+                    Fugu.eventTrack(mActivityDetails, null);
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("value", myList.get(position));
                     Intent intent = new Intent(mActivity, BookingDetailsActivity.class);
