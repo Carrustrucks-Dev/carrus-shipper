@@ -27,20 +27,6 @@ public class Application extends android.app.Application {
         // configure Flurry
         FlurryAgent.setLogEnabled(true);
 
-        //configure Fugu
-        Fugu.init(this, "njd9wng4d0ycwnn3g4d1jm30yig4d27iom5lg4d3", new CallBack() {
-            @Override
-            public void onSuccess(String s) {
-
-            }
-
-            @Override
-            public void onFailure(String s) {
-
-            }
-        });
-
-
         // init Flurry
         FlurryAgent.init(this, MY_FLURRY_APIKEY);
 

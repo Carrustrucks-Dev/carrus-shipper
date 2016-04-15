@@ -71,11 +71,6 @@ public class GcmMessageHandler extends IntentService {
                 broadcastIntent.setAction(BookingDetailsActivity.mBroadcastAction);
                 broadcastIntent.putExtras(bundle);
                 sendBroadcast(broadcastIntent);
-            } else {
-//                sendNotification(extras.getString("gcm.notification.title").toString(), extras.getString("gcm.notification.body").toString(), extras.getString("gcm.notification.imageUrl").toString());
-                Runnable myRunnable = createRunnable(extras);
-                new Thread(myRunnable).start();
-
             }
         } catch (Exception e) {
             sendNotification("", "Carrus Shipper", "");
@@ -85,16 +80,7 @@ public class GcmMessageHandler extends IntentService {
         GcmBroadcastReceiver.completeWakefulIntent(intent);
     }
 
-    Runnable createRunnable(final Bundle extras) {
 
-        Runnable r = new Runnable() {
-            @Override
-            public void run() {
-                new BigImageNotifAsync(extras.getString("gcm.notification.title").toString(), extras.getString("gcm.notification.body").toString(), extras.getString("gcm.notification.imageUrl").toString(), "", 1).execute();
-            }
-        };
-        return r;
-    }
 
     private void sendNotification(String msg, String title, String id) {
         mNotificationManager = (NotificationManager)
@@ -159,102 +145,5 @@ public class GcmMessageHandler extends IntentService {
         boolean whiteIcon = (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP);
         return whiteIcon ? R.mipmap.notification_icon : R.mipmap.ic_launcher;
     }
-
-    private class BigImageNotifAsync extends AsyncTask<String, String, Bitmap> {
-
-        private Bitmap bitmap = null;
-        private String title, message, picture, url;
-        private int playSound;
-
-        public BigImageNotifAsync(String title, String message, String picture, String url, int playSound) {
-            this.picture = picture;
-            this.title = title;
-            this.message = message;
-            this.url = url;
-            this.playSound = playSound;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            // Things to be done before execution of long running operation. For
-            // example showing ProgessDialog
-        }
-
-        @Override
-        protected Bitmap doInBackground(String... params) {
-            try {
-                URL url = new URL(picture);
-                bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            return bitmap;
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap result) {
-            // execution of result of Long time consuming operation
-            try {
-                int MESSAGE_NOTIFICATION_ID = (int) System.currentTimeMillis();
-                notificationManagerCustomIDWithBitmap(GcmMessageHandler.this, title, message, MESSAGE_NOTIFICATION_ID,
-                        result, url, playSound);
-//                if(EventsHolder.displayPushHandler != null){ EventsHolder.displayPushHandler.onDisplayMessagePushReceived(); }
-            } catch (Exception e) {
-                e.printStackTrace();
-//                notificationManagerCustomID(GCMIntentService.this, title, message, PROMOTION_NOTIFICATION_ID, deepindex,
-//                        url, playSound);
-            }
-        }
-
-    }
-
-    private void notificationManagerCustomIDWithBitmap(Context context, String title, String message, int notificationId,
-                                                       Bitmap bitmap, String url, int playSound) {
-        try {
-            long when = System.currentTimeMillis();
-
-            mNotificationManager = (NotificationManager)
-                    this.getSystemService(Context.NOTIFICATION_SERVICE);
-
-            final Intent notificationIntent = new Intent(this, SplashActivity.class);
-            notificationIntent.setAction(Intent.ACTION_MAIN);
-            notificationIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-            PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-                    notificationIntent, 0);
-
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
-            builder.setAutoCancel(true);
-            builder.setContentTitle(title);
-            builder.setStyle(new NotificationCompat.BigTextStyle().bigText(message));
-//            setPlaySound(builder, playSound);
-            builder.setWhen(when);
-            builder.setLargeIcon(BitmapFactory.decodeResource(getResources(), getNotificationIcon()));
-            builder.setSmallIcon(getNotificationIcon());
-            builder.setContentIntent(contentIntent);
-            builder.setStyle(new NotificationCompat.BigPictureStyle().bigPicture(bitmap).setBigContentTitle(title).setSummaryText(message));
-            builder.setContentText(message);
-            builder.setTicker(message);
-            Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-            builder.setSound(uri);
-            builder.setVibrate(new long[]{1000, 1000});
-            builder.setLights(Color.BLUE, 300, 300);
-            if (Build.VERSION.SDK_INT >= 16) {
-                builder.setPriority(Notification.PRIORITY_HIGH);
-            }
-
-            Notification notification = builder.build();
-            mNotificationManager.notify(notificationId, notification);
-
-            PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-            PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "TAG");
-            wl.acquire(15000);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-
 
 }

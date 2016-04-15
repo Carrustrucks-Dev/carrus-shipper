@@ -99,7 +99,20 @@
 
         <service android:name=".gcm.GcmMessageHandler" />
 
+
         <service android:name=".services.MyService"/>
+
+        <receiver
+            android:name="com.fugu.gcm.GcmFuguBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+
+                <category android:name="com.carrus.carrusshipper" />
+            </intent-filter>
+        </receiver>
+
+        <service android:name="com.fugu.gcm.GcmFuguMessageHandler" />
 
         <!-- Goolge API Key -->
         <meta-data

@@ -36,6 +36,7 @@ import com.carrus.carrusshipper.utils.Utils;
 import com.flurry.android.FlurryAgent;
 import com.fugu.Fugu;
 import com.fugu.interfaces.CallBack;
+import com.fugu.model.ActivityDetails;
 import com.fugu.model.UserDetails;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -487,7 +488,7 @@ public class SignUpActivity extends BaseActivity {
                         sessionManager.saveUserInfo(mDataobject.getString("accessToken"), mDataobject.getJSONObject("dataToSet").getString("userType"), mDataobject.getJSONObject("dataToSet").getString("email"), mDataobject.getJSONObject("dataToSet").getString("firstName") + " " + mDataobject.getJSONObject("dataToSet").getString("lastName"), (mDataobject.getJSONObject("dataToSet").has("companyName") ? mDataobject.getJSONObject("dataToSet").getString("companyName") : ""), (mDataobject.getJSONObject("dataToSet").getJSONObject("addressDetails").has("address") ? mDataobject.getJSONObject("dataToSet").getJSONObject("addressDetails").getString("address") : ""), "", mDataobject.getJSONObject("dataToSet").getString("phoneNumber"), "0", null);
                         Toast.makeText(SignUpActivity.this, mObject.getString("message"), Toast.LENGTH_SHORT).show();
 
-                        UserDetails mUserDetails=new UserDetails();
+                        UserDetails mUserDetails = new UserDetails();
 
                         mUserDetails.setEmail(mDataobject.getJSONObject("dataToSet").getString("email"));
                         mUserDetails.setFirst_name(mDataobject.getJSONObject("dataToSet").getString("firstName"));
@@ -515,7 +516,7 @@ public class SignUpActivity extends BaseActivity {
                         Fugu.updateUser(mUserDetails, new CallBack() {
                             @Override
                             public void onSuccess(String s) {
-
+                               // trackEvent();
                             }
 
                             @Override
@@ -562,6 +563,14 @@ public class SignUpActivity extends BaseActivity {
                 }
             }
         });
+    }
+
+
+    private void trackEvent(){
+        ActivityDetails mActivityDetails = new ActivityDetails();
+        mActivityDetails.setEvent("Signup Event");
+
+        Fugu.eventTrack(mActivityDetails, null);
     }
 
     private void getDeviceToken() {

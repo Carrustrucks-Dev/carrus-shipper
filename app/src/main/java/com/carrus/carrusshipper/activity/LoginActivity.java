@@ -24,6 +24,7 @@ import com.carrus.carrusshipper.utils.Utils;
 import com.flurry.android.FlurryAgent;
 import com.fugu.Fugu;
 import com.fugu.interfaces.CallBack;
+import com.fugu.model.ActivityDetails;
 import com.fugu.model.UserDetails;
 import com.google.gson.JsonObject;
 
@@ -131,6 +132,13 @@ public class LoginActivity extends BaseActivity {
         FlurryAgent.onEvent("Login Mode");
     }
 
+    private void trackEvent(){
+        ActivityDetails mActivityDetails = new ActivityDetails();
+        mActivityDetails.setEvent("Login Event");
+
+        Fugu.eventTrack(mActivityDetails, null);
+    }
+
     @Override
     protected void onStop() {
         super.onStop();
@@ -186,6 +194,7 @@ public class LoginActivity extends BaseActivity {
                         Fugu.updateUser(mUserDetails, new CallBack() {
                             @Override
                             public void onSuccess(String s) {
+                                //trackEvent();
                             }
 
                             @Override

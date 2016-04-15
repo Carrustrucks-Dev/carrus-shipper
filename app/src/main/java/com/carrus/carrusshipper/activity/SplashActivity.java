@@ -15,6 +15,8 @@ import com.carrus.carrusshipper.R;
 import com.carrus.carrusshipper.retrofit.RestClient;
 import com.carrus.carrusshipper.utils.ApiResponseFlags;
 import com.carrus.carrusshipper.utils.SessionManager;
+import com.fugu.Fugu;
+import com.fugu.interfaces.CallBack;
 
 import org.json.JSONObject;
 
@@ -36,6 +38,19 @@ public class SplashActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+        //configure Fugu
+        Fugu.init(this, "njd9wng4d0ycwnn3g4d1jm30yig4d27iom5lg4d3", new CallBack() {
+            @Override
+            public void onSuccess(String s) {
+
+            }
+
+            @Override
+            public void onFailure(String s) {
+
+            }
+        });
         mSessionManager = new SessionManager(this);
         checkVersion();
         //force crash for cashlytics.....for testing purpose
