@@ -137,10 +137,8 @@ public class MainActivity extends BaseActivity implements FragmentDrawer.Fragmen
     @Override
     public void onHeaderSelected() {
         selectedPos = -1;
-        ActivityDetails mActivityDetails = new ActivityDetails();
-        mActivityDetails.setEvent("View Profile Action");
 
-        Fugu.eventTrack(mActivityDetails, null);
+        Fugu.eventTrack("View Profile Action", null);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.container_body, new ProfileFragment());
@@ -174,10 +172,7 @@ public class MainActivity extends BaseActivity implements FragmentDrawer.Fragmen
             case 2:
                 if (selectedPos != 2) {
 //                    selectedPos = 2;
-                    ActivityDetails mActivityDetails=new ActivityDetails();
-                    mActivityDetails.setEvent("Call Action");
-
-                    Fugu.eventTrack(mActivityDetails, null);
+                    Fugu.eventTrack("Call Action", null);
                     Intent callIntent = new Intent(Intent.ACTION_DIAL);
                     callIntent.setData(Uri.parse("tel:" + Constants.CONTACT_CARRUS));
                     startActivity(callIntent);
@@ -274,6 +269,7 @@ public class MainActivity extends BaseActivity implements FragmentDrawer.Fragmen
                 }
 
                 Utils.loading_box_stop();
+                Fugu.eventTrack("SingOut", null);
             }
 
             @Override

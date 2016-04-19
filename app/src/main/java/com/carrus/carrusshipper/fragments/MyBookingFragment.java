@@ -92,10 +92,7 @@ public class MyBookingFragment extends Fragment {
     }
 
     private void setSelectionUpcoming(int button_id) {
-        ActivityDetails mActivityDetails = new ActivityDetails();
-        mActivityDetails.setEvent("Upcoming Bookings");
-
-        Fugu.eventTrack(mActivityDetails, null);
+        Fugu.eventTrack("Upcoming Bookings", null);
         selectedFlag = 0;
         mUpComingTextView.setBackgroundResource(R.drawable.tab_background);
         mPastTextView.setBackgroundResource(R.drawable.tab_past_background_white);
@@ -106,10 +103,8 @@ public class MyBookingFragment extends Fragment {
     }
 
     private void setSeclectionPast(int button_id) {
-        ActivityDetails mActivityDetails = new ActivityDetails();
-        mActivityDetails.setEvent("Past Bookings");
 
-        Fugu.eventTrack(mActivityDetails, null);
+        Fugu.eventTrack("Past Bookings", null);
         selectedFlag = 1;
         mUpComingTextView.setBackgroundResource(R.drawable.tab_upcming_background_white);
         mPastTextView.setBackgroundResource(R.drawable.tab_background);

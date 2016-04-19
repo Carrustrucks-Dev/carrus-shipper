@@ -54,6 +54,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import retrofit.Callback;
@@ -488,35 +489,29 @@ public class SignUpActivity extends BaseActivity {
                         sessionManager.saveUserInfo(mDataobject.getString("accessToken"), mDataobject.getJSONObject("dataToSet").getString("userType"), mDataobject.getJSONObject("dataToSet").getString("email"), mDataobject.getJSONObject("dataToSet").getString("firstName") + " " + mDataobject.getJSONObject("dataToSet").getString("lastName"), (mDataobject.getJSONObject("dataToSet").has("companyName") ? mDataobject.getJSONObject("dataToSet").getString("companyName") : ""), (mDataobject.getJSONObject("dataToSet").getJSONObject("addressDetails").has("address") ? mDataobject.getJSONObject("dataToSet").getJSONObject("addressDetails").getString("address") : ""), "", mDataobject.getJSONObject("dataToSet").getString("phoneNumber"), "0", null);
                         Toast.makeText(SignUpActivity.this, mObject.getString("message"), Toast.LENGTH_SHORT).show();
 
-                        UserDetails mUserDetails = new UserDetails();
 
-                        mUserDetails.setEmail(mDataobject.getJSONObject("dataToSet").getString("email"));
-                        mUserDetails.setFirst_name(mDataobject.getJSONObject("dataToSet").getString("firstName"));
-                        mUserDetails.setLast_name(mDataobject.getJSONObject("dataToSet").getString("lastName"));
-                        mUserDetails.setDeviceToken(sessionManager.getDeviceToken());
+                        Map<String, String> mProperties = new HashMap<String, String>();
+                        Map<String, String> mContacts = new HashMap<String, String>();
 
-                        JsonObject mProperties = null;
-                        JsonObject mContacts = null;
-                        try {
-                            mProperties = new JsonObject();
-                            mContacts = new JsonObject();
-
-                            mProperties.addProperty("deviceToken", sessionManager.getDeviceToken());
+                        mProperties.put("deviceToken", sessionManager.getDeviceToken());
 //                            mProperties.put("prop_name2", "val2");
 
-                            mContacts.addProperty("contact_number", mDataobject.getJSONObject("dataToSet").getString("phoneNumber"));
-                            mProperties.addProperty("comapny_name", mDataobject.getJSONObject("dataToSet").getString("companyName"));
+                        mContacts.put("contact_number", mDataobject.getJSONObject("dataToSet").getString("phoneNumber"));
+                        mProperties.put("comapny_name", mDataobject.getJSONObject("dataToSet").getString("companyName"));
 
-                            mUserDetails.setProperties(mProperties);
-                            mUserDetails.setContacts(mContacts);
-//                            mContacts.put("contact_value", "contact_value");
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                        UserDetails mUserDetails = new UserDetails()
+                                .setEmail(mDataobject.getJSONObject("dataToSet").getString("email"))
+                                .setFirst_name(mDataobject.getJSONObject("dataToSet").getString("firstName"))
+                                .setLast_name(mDataobject.getJSONObject("dataToSet").getString("lastName"))
+                                .setDeviceToken(sessionManager.getDeviceToken())
+                                .addProperties(mProperties)
+                                .addContact(mContacts);
+
+
                         Fugu.updateUser(mUserDetails, new CallBack() {
                             @Override
                             public void onSuccess(String s) {
-                               // trackEvent();
+                                //trackEvent();
                             }
 
                             @Override
@@ -567,10 +562,8 @@ public class SignUpActivity extends BaseActivity {
 
 
     private void trackEvent(){
-        ActivityDetails mActivityDetails = new ActivityDetails();
-        mActivityDetails.setEvent("Signup Event");
 
-        Fugu.eventTrack(mActivityDetails, null);
+        Fugu.eventTrack("Signup Event", null);
     }
 
     private void getDeviceToken() {

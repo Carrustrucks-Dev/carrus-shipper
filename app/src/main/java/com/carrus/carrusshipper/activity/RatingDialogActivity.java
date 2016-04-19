@@ -18,6 +18,7 @@ import com.carrus.carrusshipper.utils.Constants;
 import com.carrus.carrusshipper.utils.SessionManager;
 import com.carrus.carrusshipper.utils.Utils;
 import com.flurry.android.FlurryAgent;
+import com.fugu.Fugu;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -141,6 +142,7 @@ public class RatingDialogActivity extends BaseActivity {
                     e.printStackTrace();
                 }
                 Utils.loading_box_stop();
+                Fugu.eventTrack("Rating Action", null);
             }
 
             @Override

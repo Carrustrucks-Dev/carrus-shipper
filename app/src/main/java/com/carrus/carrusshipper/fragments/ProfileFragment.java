@@ -128,10 +128,8 @@ public class ProfileFragment extends Fragment implements
     @Override
     public void onClick(View v) {
         if (isStoragePermissionGranted()){
-            ActivityDetails mActivityDetails = new ActivityDetails();
-            mActivityDetails.setEvent("Change Profile pic Action");
 
-            Fugu.eventTrack(mActivityDetails, null);
+            Fugu.eventTrack("Change Profile pic Action", null);
             ImageChooserDialog.With(getActivity()).Show(getResources().getString(R.string.choose_image), new ImageChooserDialog.OnButtonClicked() {
                 @Override
                 public void onGaleryClicked() {
@@ -296,7 +294,7 @@ public class ProfileFragment extends Fragment implements
                     int status = mObject.getInt("statusCode");
 
                     if (ApiResponseFlags.OK.getOrdinal() == status) {
-                        Log.e("<<>>>>",">> "+mSessionManager.getProfilePic());
+                        Log.e("<<>>>>", ">> " + mSessionManager.getProfilePic());
                         Toast.makeText(getActivity(), mObject.getString("message"), Toast.LENGTH_SHORT).show();
                         mSessionManager.setProfilePic(mObject.getJSONObject("data").getJSONObject("profilePicture").getString("original"));
                         Log.e("<<>>>>", ">> " + mSessionManager.getProfilePic());
@@ -313,10 +311,8 @@ public class ProfileFragment extends Fragment implements
                                     Log.i("TAG", "Picasso Error Loading Thumbnail Small - " + path);
                                 }
                             });
-                        ActivityDetails mActivityDetails = new ActivityDetails();
-                        mActivityDetails.setEvent("Profile pic chnaged");
 
-                        Fugu.eventTrack(mActivityDetails, null);
+                        Fugu.eventTrack("Profile pic chnaged", null);
                         ((MainActivity) getActivity()).onRefreshImageView();
                     } else {
                         Utils.shopAlterDialog(getActivity(), mObject.getString("message"), false);

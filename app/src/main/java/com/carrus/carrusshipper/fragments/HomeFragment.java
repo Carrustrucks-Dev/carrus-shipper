@@ -209,10 +209,7 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMarkerClickLis
             public void onClick(View v) {
                 try {
                     if (selectedNumber != null) {
-                        ActivityDetails mActivityDetails = new ActivityDetails();
-                        mActivityDetails.setEvent("Call Action");
-
-                        Fugu.eventTrack(mActivityDetails, null);
+                        Fugu.eventTrack("Call Action", null);
                         Intent callIntent = new Intent(Intent.ACTION_DIAL);
                         callIntent.setData(Uri.parse("tel:" + selectedNumber));
                         startActivity(callIntent);

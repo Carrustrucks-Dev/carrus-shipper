@@ -281,10 +281,8 @@ public class BookingDetailsActivity extends BaseActivity {
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ActivityDetails mActivityDetails = new ActivityDetails();
-                mActivityDetails.setEvent("Cancel Booking");
 
-                Fugu.eventTrack(mActivityDetails, null);
+                Fugu.eventTrack("Cancel Booking", null);
                 performCancelAction();
             }
         });
@@ -293,10 +291,7 @@ public class BookingDetailsActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 try {
-                    ActivityDetails mActivityDetails = new ActivityDetails();
-                    mActivityDetails.setEvent("Call Action");
-
-                    Fugu.eventTrack(mActivityDetails, null);
+                    Fugu.eventTrack("Call Action", null);
                     Intent callIntent = new Intent(Intent.ACTION_DIAL);
                     callIntent.setData(Uri.parse("tel:" + mMyBookingDataModel.shipper.phoneNumber));
                     startActivity(callIntent);

@@ -194,10 +194,7 @@ public class PastBookingAdapter extends RecyclerView.Adapter {
             ((ViewHolder) holder).itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ActivityDetails mActivityDetails=new ActivityDetails();
-                    mActivityDetails.setEvent("Booking Details");
-
-                    Fugu.eventTrack(mActivityDetails, null);
+                    Fugu.eventTrack("Booking Details", null);
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("value", myList.get(position));
                     Intent intent = new Intent(mActivity, BookingDetailsActivity.class);

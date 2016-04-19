@@ -17,6 +17,7 @@ import com.carrus.carrusshipper.utils.CommonNoInternetDialog;
 import com.carrus.carrusshipper.utils.ConnectionDetector;
 import com.carrus.carrusshipper.utils.Constants;
 import com.carrus.carrusshipper.utils.Utils;
+import com.fugu.Fugu;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -107,6 +108,7 @@ public class ForgotPasswordActivity extends BaseActivity {
                 }
 
                 Utils.loading_box_stop();
+                Fugu.eventTrack("Forgot Password", null);
             }
 
             @Override
