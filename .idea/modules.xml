@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/CarrusShipper.iml" filepath="$PROJECT_DIR$/CarrusShipper.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/carrus-shipper-app.iml" filepath="$PROJECT_DIR$/carrus-shipper-app.iml" />
     </modules>
   </component>
 </project>
